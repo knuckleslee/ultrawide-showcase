@@ -824,12 +824,15 @@
 .pp-program.pp-is-playing .pp-picking-arm-b{animation-duration:.29s}
 @media(prefers-reduced-motion:reduce){.pp-program.pp-is-playing .pp-shot-svg,.pp-program.pp-is-playing .pp-head-one,.pp-program.pp-is-playing .pp-head-two{animation:none}}
 
-/* Keep AI AGENT's typing composer well above the bottom edge.
-   The spacious bottom band is intentional: the composer cannot be clipped. */
-.agent-shell{min-height:0}
-.agent-shell .agent-input{height:auto;min-height:45px;padding:10px 12px;margin:9px 12px 6px;flex-shrink:0}
-.agent-shell .agent-bottom-bar{height:104px;min-height:104px;flex:0 0 104px;align-items:flex-end;padding:0 14px 13px;box-sizing:border-box}
-@container (max-width:410px){.agent-shell .agent-bottom-bar{height:94px;min-height:94px;flex-basis:94px;padding:0 10px 10px}}
+/* Reserve four to five visible code lines below the VS Code typing position.
+   Unlike the AI AGENT input, the editor typing area is what needs lifting. */
+.coding-editor .agent-code-changes{
+  padding-bottom:112px;
+  box-sizing:border-box;
+  scroll-margin-bottom:112px;
+}
+.coding-editor .editor-scroll{scroll-padding-bottom:112px}
+
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -1472,6 +1475,10 @@ async function runCodingAuto(id){
   const line=document.createElement('span');line.className='line-num';line.textContent='+';
   const body=document.createElement('span');body.className='line-text';
   row.append(line,body);changes.append(row);
+  // Bring the newly inserted editor line into view BEFORE typing begins.
+  // Extra trailing space keeps the text several lines above the bottom frame.
+  codingScrollTo('#codingScroll',scroll.scrollHeight);
+  if(!await delay(490,id))return false;
   const snippet=AGENT_EDITS[i].code;
   for(let k=0;k<=snippet.length;k+=4){
    if(!await delay(30,id))return false;
