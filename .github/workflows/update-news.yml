@@ -10,6 +10,7 @@ on:
       - demo-editing.svg
       - news.json
       - scripts/fetch_news.py
+      - scripts/smoke_desktop.py
       - .github/workflows/update-news.yml
   schedule:
     - cron: '17 0,12 * * *' # 08:17 and 20:17 Asia/Taipei (UTC+8)
@@ -52,6 +53,9 @@ jobs:
           else
             echo 'No changes to news.json'
           fi
+
+      - name: Verify desktop windows in headless Chrome
+        run: python3 scripts/smoke_desktop.py
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
