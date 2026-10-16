@@ -50,6 +50,12 @@ class DesktopParser(HTMLParser):
         self.cursor_tip_pulses = 0
         self.interactive_check = ""
         self.game_sources: list[str] = []
+        self.game_poster_sources: list[str] = []
+        self.game_poster_buttons = 0
+        self.game_player_slots = 0
+        self.game_start_seconds = ""
+        self.game_video_id = ""
+        self.game_interactive_check = ""
         self.github_font_modes: set[str] = set()
         self.coding_features: set[str] = set()
 
@@ -58,6 +64,16 @@ class DesktopParser(HTMLParser):
         classes = set((data.get("class") or "").split())
         if tag == "html":
             self.interactive_check = data.get("data-interactive-check") or ""
+            self.game_interactive_check = data.get("data-game-interactive-check") or ""
+        if data.get("id") == "gamingVideoHost":
+            self.game_start_seconds = data.get("data-start-seconds") or ""
+            self.game_video_id = data.get("data-video-id") or ""
+        if data.get("id") == "gamingPlayer":
+            self.game_player_slots += 1
+        if tag == "button" and data.get("id") == "gameResumeButton":
+            self.game_poster_buttons += 1
+        if tag == "img" and "game-poster-image" in classes:
+            self.game_poster_sources.append(data.get("src") or "")
         if "pp-actor-one" in classes or "pp-actor-two" in classes:
             self.actor_classes.update(c for c in ("pp-actor-one", "pp-actor-two") if c in classes)
         if "pp-demo-play" in classes:
@@ -236,11 +252,73 @@ def main() -> int:
             if not required_features.issubset(scene_parser.coding_features):
                 problems.append("Coding AI AGENT/editor/live GitHub components missing")
         else:
-            if len(scene_parser.game_sources) != 1:
-                problems.append("Gaming YouTube player missing")
-            elif ("1or3YILu28M" not in scene_parser.game_sources[0] or
-                  "start=87" not in scene_parser.game_sources[0]):
-                problems.append("Gaming video ID and 01:27 start parameter missing")
+            # No iframe is allowed before a Play request: thumbnail first, no loader.
+            if scene_parser.game_sources:
+                problems.append("Gaming player must be loaded lazily, not on entering scene")
+            if scene_parser.game_start_seconds != "87" or scene_parser.game_video_id != "1or3YILu28M":
+                problems.append("Gaming playback must start from 01:27 of the requested video")
+            if scene_parser.game_poster_buttons != 1 or scene_parser.game_player_slots != 1:
+                problems.append("Missing poster Play button or lazy YouTube player placeholder")
+            if len(scene_parser.game_poster_sources) != 1 or (
+                "i.ytimg.com/vi/1or3YILu28M/" not in scene_parser.game_poster_sources[0]
+            ):
+                problems.append("Original YouTube video thumbnail is not displayed")
+
+    # Functional probe with the official YT.Player interface mocked locally.
+    # This verifies thumbnail-first, Play from 87s, and restoring the poster,
+    # without depending on browser autoplay permission or network access.
+    game_probe_js = """
+    <script>
+    const poster=document.querySelector('#gameResumeButton');
+    const initiallyVisible=!!poster && !poster.hidden;
+    const lazyInitially=gameYTPlayer===null
+      && !document.querySelector('#gamingVideoHost iframe');
+    let videoId='',begin=0,seeked=0,destroyed=false;
+    window.YT={
+      PlayerState:{PLAYING:1,PAUSED:2,ENDED:0},
+      Player:function(slot,options){
+        videoId=options.videoId;
+        begin=options.playerVars.start;
+        const player={
+          mute(){},
+          seekTo(time){seeked=time},
+          playVideo(){options.events.onStateChange({data:1,target:player})},
+          destroy(){destroyed=true}
+        };
+        queueMicrotask(()=>options.events.onReady({target:player}));
+        return player;
+      }
+    };
+    poster?.click();
+    setTimeout(()=>{
+      const started=videoId==='1or3YILu28M'&&begin===87&&seeked===87
+        && !!poster.hidden && gameWantsPlaying;
+      resetGameVideo();
+      const restored=!poster.hidden&&!gameWantsPlaying&&destroyed
+        && !!document.querySelector('#gamingPlayer');
+      document.documentElement.setAttribute('data-game-interactive-check',
+        initiallyVisible&&lazyInitially&&started&&restored?'pass':
+        'fail:'+JSON.stringify({initiallyVisible,lazyInitially,started,restored,begin,seeked,videoId}));
+    },250);
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            probe_page = Path(temp_dir) / "index.html"
+            original = (ROOT / "index.html").read_text(encoding="utf-8")
+            probe_page.write_text(original.replace("</body>", game_probe_js + "</body>"), encoding="utf-8")
+            response = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=2400", probe_page.as_uri()+"?scene=gaming"],
+                text=True, capture_output=True, timeout=35,
+            )
+            game_parser = DesktopParser()
+            game_parser.feed(response.stdout)
+            if response.returncode != 0 or game_parser.game_interactive_check != "pass":
+                problems.append("Gaming thumbnail/playback browser probe: "
+                                + (game_parser.game_interactive_check or "no response"))
+                print("Gaming probe diagnostics:", response.stderr[-1500:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("Gaming thumbnail/playback browser probe timed out")
 
     # Functional browser probe: really click the Premiere transport button, let
     # the timecode progress, pause it, and verify the SVG arrow-tip coordinates.
