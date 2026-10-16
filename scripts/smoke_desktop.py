@@ -374,9 +374,9 @@ def main() -> int:
         && document.getElementById('gitLiveScroll').scrollTop>0
         && readme.children.length>=18;
       const isolatedFont=getComputedStyle(editor).fontSize===editorFont;
-      const agentLocalized=AGENT_PLAN.length===5
+      const agentLocalized=AGENT_PLAN.length===4
         && AGENT_PLAN.every(text=>/[\u4e00-\u9fff]/.test(text))
-        && AGENT_EDITS.length===5
+        && AGENT_EDITS.length===4
         && AGENT_EDITS.every(step=>/[\u4e00-\u9fff]/.test(step.title))
         && document.querySelector('#agentQuestion')?.textContent.includes('請問如何替 GitHub')
         && document.querySelector('#agentThinking')?.textContent.includes('正在分析')
@@ -421,12 +421,33 @@ def main() -> int:
       document.documentElement.setAttribute('data-default-layout-check',
         layoutsOkay?'pass':'fail:'+JSON.stringify({matchingSeams,withinScreen,
           sidesSafe,manualChange,resetRestores,mainRects}));
+      // Verify the last four simulated VS Code edit lines sit multiple
+      // rows ABOVE the editor's bottom edge, not against the status bar.
+      const editArea=document.getElementById('agentCodeChanges');
+      editArea.hidden=false;
+      editArea.replaceChildren();
+      for(let i=0;i<4;i++){
+        const row=document.createElement('div');
+        row.className='source-code-line demo-added';
+        row.textContent='// 人工輸入的第 '+(i+1)+' 段程式碼';
+        editArea.append(row);
+      }
+      const savedScrollBehavior=editor.style.scrollBehavior;
+      editor.style.scrollBehavior='auto';
+      editor.scrollTop=editor.scrollHeight;
+      const lastEdit=editArea.lastElementChild;
+      const typingClearance=(editor.getBoundingClientRect().bottom
+        -lastEdit.getBoundingClientRect().bottom)/desktopScale;
+      const editorTypingRaised=typingClearance>=80;
+      editor.style.scrollBehavior=savedScrollBehavior;
       const success=clearance>=31 && bannerSeparate && compactBanner
-        && readmeInScroll && isolatedFont && agentLocalized && meaningfulClicksOnly;
+        && readmeInScroll && isolatedFont && agentLocalized
+        && meaningfulClicksOnly && editorTypingRaised;
       document.documentElement.setAttribute('data-coding-ui-check',
         success?'pass':'fail:'+JSON.stringify({clearance,bannerSeparate,
          compactBanner,readmeInScroll,isolatedFont,agentLocalized,
-         meaningfulClicksOnly,statusHeight:source.offsetHeight}));
+         meaningfulClicksOnly,editorTypingRaised,typingClearance,
+         statusHeight:source.offsetHeight}));
     })();
     </script>
     """
