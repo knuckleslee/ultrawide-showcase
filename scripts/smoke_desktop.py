@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,10 +42,25 @@ class DesktopParser(HTMLParser):
         self.calendar_controls: set[str] = set()
         self.news_reader_present = False
         self.calendar_dates = 0
+        self.actor_classes: set[str] = set()
+        self.demo_play_buttons = 0
+        self.effect_dividers = 0
+        self.cursor_tip_pulses = 0
+        self.interactive_check = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
         classes = set((data.get("class") or "").split())
+        if tag == "html":
+            self.interactive_check = data.get("data-interactive-check") or ""
+        if "pp-actor-one" in classes or "pp-actor-two" in classes:
+            self.actor_classes.update(c for c in ("pp-actor-one", "pp-actor-two") if c in classes)
+        if "pp-demo-play" in classes:
+            self.demo_play_buttons += 1
+        if "pp-fx-splitter" in classes:
+            self.effect_dividers += 1
+        if "tip-pulse" in classes:
+            self.cursor_tip_pulses += 1
         if "yt-suggestion" in classes and data.get("data-rec-index") is not None:
             self.daily_recommendations += 1
         if "messenger-contact" in classes:
@@ -161,6 +177,12 @@ def main() -> int:
             problems.append("Obsolete per-monitor metadata panels remain")
         if "markers" not in editing_parser.premiere_panel_order:
             problems.append("Source marker panel missing from unused upper-left space")
+        if editing_parser.actor_classes != {"pp-actor-one", "pp-actor-two"}:
+            problems.append("Both simulated musicians must have independently animated poses")
+        if editing_parser.demo_play_buttons != 1 or editing_parser.effect_dividers != 1:
+            problems.append("Premiere playback or draggable Effect Controls splitter missing")
+        if editing_parser.cursor_tip_pulses != 1:
+            problems.append("Arrow-tip click highlight must exist")
         if len(editing_parser.monitor_dimensions) != 2:
             problems.append("Source and Program media dimensions were not assigned")
         for width, height in editing_parser.monitor_dimensions:
@@ -174,6 +196,48 @@ def main() -> int:
                 problems.append("Right Program must be substantially larger than upper-left Source")
             if program_w < 360 or program_h < 200:
                 problems.append(f"Program preview insufficient for right-hand 40% workspace: {program_w}x{program_h}")
+
+    # Functional browser probe: really click the Premiere transport button, let
+    # the timecode progress, pause it, and verify the SVG arrow-tip coordinates.
+    # A temporary HTML file keeps test code out of the deployed website.
+    probe_js = """
+    <script>
+    const probeButton=document.querySelector('.pp-demo-play');
+    const probeActor=document.querySelector('.pp-actor-one');
+    const probeStarted=!!probeButton && (probeButton.click(), probeButton.getAttribute('aria-pressed')==='true');
+    cursorAt(500,200,0);
+    const probeTip=/translate3d\\(476px,\\s*186px/.test(document.querySelector('#guideCursor').style.transform);
+    const probeBefore=document.querySelector('.pp-program .pp-timecode')?.textContent;
+    setTimeout(()=>{
+      const probeAfter=document.querySelector('.pp-program .pp-timecode')?.textContent;
+      const probeAnimating=!!probeActor && getComputedStyle(probeActor).animationName.includes('pp-musician-one');
+      if(probeButton)probeButton.click();
+      const probeStopped=probeButton?.getAttribute('aria-pressed')==='false'
+         && !document.querySelector('.pp-program')?.classList.contains('pp-is-playing');
+      document.documentElement.setAttribute('data-interactive-check',
+        probeStarted && probeTip && probeBefore !== probeAfter && probeAnimating && probeStopped
+        ? 'pass' : 'fail:'+JSON.stringify({probeStarted,probeTip,probeBefore,probeAfter,probeAnimating,probeStopped}));
+    },1400);
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            probe_page = Path(temp_dir) / "index.html"
+            original = (ROOT / "index.html").read_text(encoding="utf-8")
+            probe_page.write_text(original.replace("</body>", probe_js + "</body>"), encoding="utf-8")
+            result_probe = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=4500", "--disable-background-timer-throttling",
+                                probe_page.as_uri() + "?scene=editing"],
+                text=True, capture_output=True, timeout=35,
+            )
+            test_parser = DesktopParser()
+            test_parser.feed(result_probe.stdout)
+            if result_probe.returncode != 0 or test_parser.interactive_check != "pass":
+                problems.append("Interactive Premiere playback/cursor-tip probe: "
+                                + (test_parser.interactive_check or "no response"))
+                print("Interactive probe diagnostics:", result_probe.stderr[-2000:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("Interactive playback probe timed out")
 
     if problems:
         for problem in problems:
