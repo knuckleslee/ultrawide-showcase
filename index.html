@@ -263,6 +263,115 @@
 @container (max-width: 530px){.messenger-rail{width:52px;flex-basis:52px}.messenger-tabs{gap:9px}.messenger-tabs>span{font-size:10px}.messenger-window-tools{display:none}.messenger-contact{height:65px;padding-left:10px;gap:8px}.messenger-avatar{width:42px;height:42px;flex-basis:42px;font-size:17px}.messenger-contact-title{font-size:12px}.messenger-contact-preview{font-size:10px}.messenger-contact-meta{min-width:53px}.messenger-ad{height:53px;flex-basis:53px}.messenger-compose{bottom:60px;width:39px;height:39px}.messenger-top{height:35px}.messenger-searchbar{padding:7px 10px}.messenger-search{height:30px}}
 @container (max-width: 380px){.messenger-rail{width:42px;flex-basis:42px}.messenger-tabs>span:nth-child(4),.messenger-tabs>span:nth-child(5){display:none}.messenger-contact-meta{min-width:46px}.messenger-clock{font-size:9px}.messenger-search{font-size:10px}.messenger-contact-title{font-size:11px}}
 @container (max-height: 300px){.messenger-ad{display:none}.messenger-compose{bottom:12px}.messenger-contact{height:54px}.messenger-avatar{width:36px;height:36px;flex-basis:36px}.messenger-rail-bottom{gap:0}.messenger-rail-group{gap:3px}.messenger-rail-action{height:30px}}
+
+/* Discord-like desktop facsimile; fictional accounts and messages */
+.discord2{display:flex;width:100%;height:100%;background:#313338;color:#dbdee1;font:11px/1.45 'Segoe UI','Microsoft JhengHei',sans-serif;overflow:hidden;container-type:size}
+.discord2-serverbar{width:50px;flex:none;background:#1e1f22;padding:8px 5px;display:flex;align-items:center;flex-direction:column;gap:10px}
+.discord2-home,.discord2-server{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#313338;font-size:16px;color:#d4d6dc;font-weight:700;flex:none}
+.discord2-home{font-size:24px;color:#e5e7ff}.discord2-server.selected{background:#5865f2;color:#fff;border-radius:13px}
+.discord2-server.blue{background:#2f5468;color:#c7e7ff}.discord2-server.green,.discord2-server.outline{color:#3ba55c}
+.discord2-separator{width:29px;height:2px;background:#35363c}
+.discord2-channels{width:148px;flex:none;display:flex;flex-direction:column;background:#2b2d31;min-height:0;overflow:hidden}
+.discord2-servername{height:41px;padding:12px 11px;display:flex;align-items:center;justify-content:space-between;white-space:nowrap;border-bottom:1px solid #232428;font-weight:700;font-size:11px}
+.discord2-channel-scroll{min-height:0;flex:1;overflow:auto;scrollbar-width:none}
+.discord2-channel-group{padding:13px 7px 6px;font-size:9px;color:#92989f;font-weight:700;white-space:nowrap}.discord2-channel-group b{float:right;font-size:13px}
+.discord2-channel{padding:5px 8px;margin:0 4px;border-radius:4px;color:#9ba3ac;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;justify-content:space-between}
+.discord2-channel.chosen{background:#42444b;color:#f1f2f3}
+.discord2-channel.chosen span{background:#ed4145;border-radius:7px;padding:0 4px;color:white;font-size:9px}
+.discord2-channel.chosen-voice{color:#dbdfe5}
+.discord2-voice-member{display:flex;align-items:center;gap:6px;font-size:10px;color:#b5bbc6;padding:4px 10px 3px 21px}
+.discord2-voice-member .discord2-avatar{width:17px;height:17px;font-size:8px}
+.discord2-voice-status{border-top:1px solid #222;color:#39bf76;background:#232428;padding:8px 9px 6px;line-height:1.3;font-size:10px}
+.discord2-voice-status strong{font-size:10px}.discord2-voice-status small{display:block;color:#a9b5b9;font-size:8px;margin-left:12px}
+.discord2-userbar{height:42px;display:flex;align-items:center;gap:7px;padding:5px 6px;background:#232428;font-size:9px}
+.discord2-avatar{border-radius:50%;width:28px;height:28px;display:inline-grid;place-items:center;flex:none;color:#fff;background:#6e80aa;font-weight:700}
+.discord2-avatar.blue{background:#6489ae}.discord2-avatar.plum{background:#a77cb1}.discord2-avatar.mint{background:#499e8e}.discord2-avatar.olive{background:#89995d}
+.discord2-userbar small{display:block;font-size:8px;color:#9fa5aa}.discord2-userbar>span{margin-left:auto;color:#a9acb5}
+.discord2-chat{display:flex;flex-direction:column;flex:1;min-width:0;background:#313338}
+.discord2-chathead{height:41px;flex:none;border-bottom:1px solid #26282b;display:flex;align-items:center;gap:11px;padding:0 12px;white-space:nowrap}
+.discord2-chathead strong{font-size:12px}.discord2-chathead strong span{font-size:19px;color:#a2a6ad;vertical-align:-2px}
+.discord2-chathead small{border-left:1px solid #535860;color:#8d949a;padding-left:10px;font-size:9px;overflow:hidden;text-overflow:ellipsis}
+.discord2-chattools{margin-left:auto;font-size:13px;color:#aeb7bd}
+.discord2-thread{min-height:0;flex:1;overflow:auto;scrollbar-width:thin;padding:12px 12px 5px;display:flex;flex-direction:column;gap:12px}
+.discord2-welcome{font-size:15px;font-weight:800}.discord2-welcome small{display:block;font-size:10px;font-weight:400;color:#9b9fa6;margin:4px 0}
+.discord2-day{text-align:center;border-bottom:1px solid #4b4d53;color:#aaaab1;font-size:9px;height:9px;margin:4px 0 13px}.discord2-day span{background:#313338;padding:0 12px}
+.discord2-post{display:flex;gap:9px;align-items:flex-start}
+.discord2-postbody{min-width:0;flex:1}.discord2-author{color:#f4f5f6;font-size:11px;font-weight:750;white-space:nowrap}.discord2-author small{color:#858e9c;font-size:9px;margin-left:7px;font-weight:400}
+.discord2-post p{margin:2px 0 0;color:#ccd1d8;font-size:10px;line-height:1.4}
+.discord2-linkcard{background:#27282d;border-left:3px solid #5865f2;margin-top:7px;padding:8px;color:#8aa9ff;font-size:10px}
+.discord2-linkcard b{display:block}.discord2-linkcard span{display:block;color:#a7aeb8;font-size:9px}
+.discord2-type{height:36px;margin:0 10px 10px;border-radius:7px;background:#383a40;padding:10px;color:#a9b0b8;font-size:10px;flex:none}
+.discord2-type span{float:right}
+.discord2-members{flex:none;width:110px;background:#2b2d31;border-left:1px solid #26282c;padding:14px 6px;color:#b9c1c9;font-size:10px}
+.discord2-members-title{color:#8c939a;font-size:9px;margin-bottom:12px;text-transform:uppercase;font-weight:750}
+.discord2-members>div:not(.discord2-members-title){display:flex;align-items:center;gap:5px;margin:10px 0;white-space:nowrap}
+.discord2-members .discord2-avatar{width:21px;height:21px;font-size:9px}.discord2-members em{font-style:normal;color:#49bf80}
+@container (max-width: 750px){.discord2-members{display:none}.discord2-chathead small{display:none}}
+@container (max-width: 420px){.discord2-channels{width:126px}.discord2-serverbar{width:41px;padding:5px 3px}.discord2-server,.discord2-home{width:32px;height:32px}.discord2-thread{padding:8px 7px}.discord2-post{gap:5px}.discord2-author small{font-size:8px}.discord2-channel{font-size:9px}.discord2-servername{padding:8px}.discord2-voice-status{padding:5px}.discord2-chathead{padding:0 8px}}
+@container (max-width: 320px){.discord2-channels{width:94px}.discord2-serverbar{width:34px}.discord2-server,.discord2-home{width:28px;height:28px}.discord2-chattools{display:none}.discord2-post .discord2-avatar{width:20px;height:20px;font-size:9px}.discord2-welcome{font-size:12px}}
+@container (max-height: 280px){.discord2-voice-member{display:none}.discord2-channel-group{padding-top:6px}.discord2-thread{gap:6px}.discord2-voice-status{display:none}}
+
+/* Bahamut forum: reference-inspired teal navigation, thread index and right news sidebar */
+.baha2{height:100%;width:100%;display:flex;flex-direction:column;overflow:hidden;background:#f3f5f5;color:#34515a;font:11px/1.45 'Microsoft JhengHei','Segoe UI',sans-serif;container-type:size}
+.baha2-global{display:flex;align-items:center;gap:12px;height:38px;flex:none;background:linear-gradient(95deg,#13a5b0,#087389);padding:0 12px;color:white}
+.baha2-logo{font-size:18px;letter-spacing:1px;font-style:italic;font-weight:900;white-space:nowrap}
+.baha2-logo i{font-size:22px;margin-right:3px;font-weight:700}
+.baha2-search{background:#fff;color:#aebec7;border-radius:4px;padding:5px 12px;max-width:290px;flex:1;font-size:12px}
+.baha2-account{margin-left:auto;white-space:nowrap;font-size:11px;color:#e5f9fa}
+.baha2-primary{height:37px;flex:none;display:flex;gap:0;align-items:stretch;background:white;border-bottom:4px solid #e2e9ec;color:#67838c;white-space:nowrap;overflow:hidden;padding:0 12px}
+.baha2-primary span,.baha2-primary strong{display:flex;align-items:center;margin-right:18px;font-size:12px}
+.baha2-primary strong{color:#008ca4;border-bottom:4px solid #0a99a8;margin-bottom:-4px}
+.baha2-primary .active{color:#18869a}
+.baha2-primary>div{margin-left:auto;display:flex;align-items:center;font-size:11px;color:#a1aeb4}.baha2-primary b{background:#008ba3;border-radius:3px;color:white;padding:7px 12px;margin-left:9px}
+.baha2-scroll{flex:1;min-height:0;overflow:auto;scrollbar-width:thin}
+.baha2-layout{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:11px;padding:11px;min-height:100%}
+.baha2-main{min-width:0;overflow:hidden}
+.baha2-welcome{height:64px;display:flex;align-items:center;gap:10px;background:#fff;border-radius:11px;box-shadow:0 1px 5px #0001;margin-bottom:11px;padding:6px 10px}
+.baha2-boardavatar{display:grid;place-items:center;width:45px;height:45px;flex:none;border-radius:50%;background:linear-gradient(140deg,#ffc996,#de85bc);color:#fff;font-size:20px}
+.baha2-welcome>div{min-width:0}.baha2-welcome small{display:block;color:#91a1a6;font-size:10px}.baha2-welcome strong{font-size:15px;font-weight:800;color:#445b65}
+.baha2-welcome button{border:1px solid #6bb8ca;background:white;color:#1896a9;border-radius:20px;padding:6px 11px;margin-left:auto;white-space:nowrap;font-size:10px}
+.baha2-pagination{height:35px;display:flex;justify-content:space-between;align-items:center;gap:5px}
+.baha2-pagination>div{display:flex;gap:5px}.baha2-pagination span,.baha2-pagination b{background:white;color:#4c6670;padding:5px 8px;border-radius:3px;font-weight:600}
+.baha2-pagination b{background:#0d9bb3;color:white}
+.baha2-tags{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0 11px}
+.baha2-tags>span{background:#fff;border-radius:3px;padding:5px 9px;color:#526a74;white-space:nowrap;font-weight:650;box-shadow:0 1px 2px #0001}
+.baha2-tags span.selected{background:#0499b5;color:white}
+.baha2-tools{background:#4fa1b2;min-height:34px;padding:5px;display:flex;gap:4px;align-items:center;white-space:nowrap;color:#eef8fa;overflow:hidden}
+.baha2-tools span,.baha2-tools b{padding:4px 7px;border-right:1px solid #ffffff38;font-size:10px}
+.baha2-tools b{background:#2689a1}.baha2-tools .baha2-toolright{margin-left:auto}
+.baha2-threadhead{display:grid;grid-template-columns:1fr 70px 84px;align-items:center;gap:6px;height:24px;padding:4px 9px;background:#e2edf0;color:#508999;font-size:9px}
+.baha2-threadhead span:nth-child(2),.baha2-threadhead span:nth-child(3){text-align:right}
+.baha2-thread{display:grid;grid-template-columns:42px minmax(0,1fr) 70px 84px;gap:8px;align-items:center;min-height:48px;padding:6px 9px;background:#fff;border-bottom:1px solid #e0e6e8}
+.baha2-thread.pinned{background:#e8f0e0}
+.baha2-type{font-size:9px;color:#8c9ca2;text-align:center}
+.baha2-threadtitle{font-size:11px;font-weight:650;color:#2e606e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.baha2-thread.pinned .baha2-threadtitle{color:#76888d}
+.baha2-pin{color:white;background:#1689a1;border-radius:2px;padding:3px 4px;margin-right:6px;font-size:9px}
+.baha2-threadsub{font-size:9px;color:#91a5a9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}
+.baha2-count,.baha2-last{font-size:10px;color:#607c83;text-align:right;font-weight:650}
+.baha2-last small{display:block;color:#1390a7;font-size:9px;font-weight:600}
+.baha2-sidebar{min-width:0;background:#d8e7eb;padding:0 4px 5px}
+.baha2-mod{height:49px;padding:13px 8px;background:#fff;margin-bottom:9px;color:#667f87;display:flex;align-items:center;justify-content:space-between}
+.baha2-mod span{background:#8c7d55;color:#fff;padding:4px}
+.baha2-promo{margin-bottom:13px;background:white;padding-bottom:9px;box-shadow:0 1px 3px #0002}
+.baha2-promohead{background:#268ba0;color:white;font-weight:900;font-size:13px;padding:7px 5px;white-space:nowrap;overflow:hidden}
+.baha2-promohead b{font-weight:400;border:1px solid #cde6e9;padding:2px 4px}
+.baha2-promoline{background:#00536b;color:#eef8fa;font-size:10px;font-weight:650;padding:8px 5px}
+.baha2-promobtn,.baha2-newsbutton{background:#0989a3;color:#fff;border-radius:3px;text-align:center;font-weight:750;margin:8px 10px 0;padding:6px}
+.baha2-sidetitle{text-align:center;font-size:11px;font-weight:750;color:#4c6873;margin:10px 0}
+.baha2-news{background:white;margin-top:10px;border-radius:5px;padding:9px;box-shadow:0 1px 2px #0002}
+.baha2-news label{background:#0b9cb1;color:white;border-radius:3px 3px 0 0;padding:4px;font-size:10px}
+.baha2-newsart{height:98px;overflow:hidden;position:relative;margin-top:5px;background:linear-gradient(130deg,#8394bc,#365c77 60%,#273d58)}
+.baha2-newsart:before{content:"";position:absolute;bottom:-15px;left:-25px;right:-25px;height:65px;background:#3b6769;clip-path:polygon(0 100%,0 52%,24% 18%,40% 61%,66% 8%,80% 48%,100% 0,100% 100%)}
+.baha2-newsland{position:absolute;z-index:1;color:#fff;text-shadow:0 1px 4px #000;bottom:11px;left:10px;font-size:11px;font-weight:800}
+.baha2-newsland strong{display:block;font-size:17px;letter-spacing:1px}
+.baha2-news>strong{font-size:12px;color:#027e96;display:block;margin:7px 0}
+.baha2-news p{font-size:10px;line-height:1.5;margin:5px 0;color:#445b63}
+.baha2-disclaimer{font-size:9px;padding:2px 9px;background:#e5f1f2;color:#507b88;flex:none}
+@container (max-width: 670px){.baha2-global{gap:6px}.baha2-logo{font-size:14px}.baha2-account{font-size:9px}.baha2-layout{grid-template-columns:minmax(0,1fr) 137px;gap:5px;padding:6px}.baha2-welcome{height:51px}.baha2-welcome small{font-size:9px}.baha2-welcome strong{font-size:11px}.baha2-welcome button{display:none}.baha2-sidebar{padding:0}.baha2-thread{grid-template-columns:30px minmax(0,1fr) 43px 52px;gap:3px;padding:5px;min-height:43px}.baha2-threadhead{grid-template-columns:1fr 43px 52px}.baha2-threadtitle{font-size:10px}.baha2-last,.baha2-count{font-size:9px}.baha2-primary{padding:0 5px}.baha2-primary span,.baha2-primary strong{margin-right:11px;font-size:10px}.baha2-primary>div{display:none}.baha2-tags{gap:3px;margin:4px 0 6px}.baha2-tags>span{padding:3px 6px;font-size:9px}.baha2-tools span,.baha2-tools b{padding:3px 4px;font-size:9px}.baha2-toolright{display:none}.baha2-newsart{height:68px}}
+@container (max-width: 440px){.baha2-search{display:none}.baha2-account{font-size:8px}.baha2-primary span:nth-of-type(n+3){display:none}.baha2-layout{display:block}.baha2-sidebar{display:none}.baha2-thread{grid-template-columns:30px minmax(0,1fr) 45px 54px}.baha2-threadhead{grid-template-columns:1fr 45px 54px}.baha2-tags span:nth-child(n+9){display:none}.baha2-welcome{margin-bottom:6px}.baha2-threadtitle{font-size:10px}}
+@container (max-height: 290px){.baha2-welcome{display:none}.baha2-pagination{height:24px}.baha2-tags{margin:2px 0 5px}.baha2-tags>span{padding:2px 5px}.baha2-thread{min-height:35px}.baha2-primary{height:28px}.baha2-global{height:31px}}
+
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -374,9 +483,54 @@ editor:()=>`<div class="editor"><div class="vscode-bar"><span class="selected">�
 terminal:()=>`<div class="terminal"><div><span class="dim">PS C:&#92;projects&#92;ultrawide-showcase&gt;</span> python server.py</div><div>UltraWide Studio: <span style="color:#9fcfff">http://127.0.0.1:8765/</span></div><div><span class="dim"># Terminal output is simulated for presentation</span></div></div>`,
 appview:()=>`<div class="app-preview"><div class="app-top"><i></i><i></i><i></i>　knuckleslee.github.io/ultrawide-showcase/</div><h3>UltraWide Studio</h3><p>5120 × 1440 · 32:9 virtual desktop</p><div class="repo-quick"><span>Daily</span><span>Editing</span><span>Coding</span></div><div class="metric-row"><div class="metric"><strong>3</strong>Scenes</div><div class="metric"><strong>32:9</strong>Display</div><div class="metric"><strong>Auto</strong>Demo</div></div><p style="font-size:9px;color:#778fa4">Virtual preview of the current project</p></div>`,
 git:()=>`<div class="git"><div class="section-title">GITHUB · REPOSITORY</div><div class="repo-name">knuckleslee / ultrawide-showcase</div><div class="repo-meta">◈ main　·　Public repository</div><div class="issue"><b>✓</b> index.html <small>desktop UI</small></div><div class="issue"><b>✓</b> scripts/fetch_news.py <small>Google News RSS</small></div><div class="issue"><b>✓</b> update-news.yml <small>2 runs / day</small></div><a class="repo-link" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ GitHub source</a></div>`,
-discord:()=>`<div class="discord-ui"><div class="discord-servers"><div class="discord-server">◉</div><div class="discord-divider"></div><div class="discord-server active">G</div><div class="discord-server">P</div><div class="discord-server green">＋</div></div><div class="discord-channel-list"><div class="discord-server-title">🎮 遊戲同好會⌄</div><div class="discord-section">資訊頻道</div><div class="discord-channel"># 歡迎</div><div class="discord-channel"># 最新公告</div><div class="discord-section">文字頻道</div><div class="discord-channel selected"># 遊戲討論</div><div class="discord-channel"># 攻略分享</div><div class="discord-channel"># 組隊招募</div><div class="discord-section">語音頻道</div><div class="discord-channel">◖ 語音大廳</div><div class="discord-channel">◖ 副本小隊</div><div class="discord-voice">◉ 已連線到語音<br>　◖ 副本小隊　🔊</div></div><div class="discord-main"><div class="discord-header"><span>#　遊戲討論</span><span>⌕　♙</span></div><div class="discord-messages"><div class="discord-post"><div class="discord-userpic pink">米</div><div class="discord-post-body"><div class="discord-author">米粒 <small>今天 19:02</small></div><div class="discord-post-content">今晚有人要打新地圖嗎？</div></div></div><div class="discord-post"><div class="discord-userpic">K</div><div class="discord-post-body"><div class="discord-author">Kuma <small>19:03</small></div><div class="discord-post-content">我可以！先把裝備整理一下。</div></div></div><div class="discord-post"><div class="discord-userpic green">風</div><div class="discord-post-body"><div class="discord-author">風鈴 <small>19:04</small></div><div class="discord-post-content">我找到攻略了，放在巴哈姆特討論串。</div><div class="discord-embed">📌　新手探索路線與裝備建議<br><span style="color:#7ca3f6">forum.gamer.com.tw / guide</span></div></div></div><div class="discord-post"><div class="discord-userpic">K</div><div class="discord-post-body"><div class="discord-author">Kuma <small>19:05</small></div><div class="discord-post-content">收到，等等進語音！🎧</div></div></div></div><div class="discord-input">⊕　傳送訊息至 # 遊戲討論　　☺</div></div></div>`,
+discord:()=>`<div class="discord2">
+<div class="discord2-serverbar"><div class="discord2-home">◉</div><div class="discord2-separator"></div><div class="discord2-server selected">遊</div><div class="discord2-server blue">朋</div><div class="discord2-server green">＋</div><div class="discord2-server outline">⌕</div></div>
+<div class="discord2-channels">
+  <div class="discord2-servername">遊戲同好會 <span>⌄</span></div>
+  <div class="discord2-channel-scroll">
+    <div class="discord2-channel-group">⌄　伺服器資訊 <b>＋</b></div>
+    <div class="discord2-channel">#　歡迎與規則</div><div class="discord2-channel">#　公告</div>
+    <div class="discord2-channel-group">⌄　文字頻道 <b>＋</b></div>
+    <div class="discord2-channel chosen">#　遊戲討論 <span>2</span></div><div class="discord2-channel">#　攻略分享</div><div class="discord2-channel">#　組隊招募</div><div class="discord2-channel">#　閒聊大廳</div>
+    <div class="discord2-channel-group">⌄　語音頻道 <b>＋</b></div><div class="discord2-channel">◖　語音大廳</div><div class="discord2-channel chosen-voice">◖　副本小隊 <span>🟢</span></div>
+    <div class="discord2-voice-member"><span class="discord2-avatar mint">風</span>風鈴</div><div class="discord2-voice-member"><span class="discord2-avatar plum">米</span>米粒</div>
+  </div>
+  <div class="discord2-voice-status"><span class="discord2-voice-dot">◖</span><strong>語音已連線</strong><small>副本小隊　◴ 00:18</small></div>
+  <div class="discord2-userbar"><div class="discord2-avatar blue">我</div><div><strong>玩家一號</strong><small>線上</small></div><span>◉　⚙</span></div>
+</div>
+<div class="discord2-chat">
+ <div class="discord2-chathead"><strong><span>#</span> 遊戲討論</strong><small>遊戲情報與組隊聊天</small><div class="discord2-chattools">◉　☷　⌕</div></div>
+ <div class="discord2-thread"><div class="discord2-welcome"># 遊戲討論 <small>歡迎來到遊戲討論頻道</small></div><div class="discord2-day"><span>2026 年 10 月 16 日</span></div>
+ <div class="discord2-post"><div class="discord2-avatar plum">米</div><div class="discord2-postbody"><div class="discord2-author">米粒 <small>今天 19:02</small></div><p>今晚有人要一起探索新地圖嗎？</p></div></div>
+ <div class="discord2-post"><div class="discord2-avatar blue">K</div><div class="discord2-postbody"><div class="discord2-author">Kuma <small>19:03</small></div><p>我可以！正在整理裝備 🎮</p></div></div>
+ <div class="discord2-post"><div class="discord2-avatar mint">風</div><div class="discord2-postbody"><div class="discord2-author">風鈴 <small>19:04</small></div><p>我在巴哈姆特找到一份新手攻略。</p><div class="discord2-linkcard"><b>新手地圖路線與寶箱位置整理</b><span>巴哈姆特哈啦區 · 模擬分享連結</span></div></div></div>
+ <div class="discord2-post"><div class="discord2-avatar blue">K</div><div class="discord2-postbody"><div class="discord2-author">Kuma <small>19:05</small></div><p>太好了，等等進語音一起看！</p></div></div>
+ </div><div class="discord2-type">＋　傳送訊息至 # 遊戲討論 <span>🎁　GIF　☻</span></div>
+</div>
+<div class="discord2-members"><div class="discord2-members-title">線上 — 4</div><div><span class="discord2-avatar plum">米</span> 米粒 <em>●</em></div><div><span class="discord2-avatar mint">風</span> 風鈴 <em>●</em></div><div><span class="discord2-avatar blue">K</span> Kuma <em>●</em></div><div><span class="discord2-avatar olive">我</span> 玩家一號 <em>●</em></div></div>
+</div>`,
 game:()=>`<div class="game-app"><svg class="game-viewport" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="16比9模擬冒險遊戲畫面"><defs><linearGradient id="gameSky" x1="0" x2=".22" y1="0" y2="1"><stop offset="0" stop-color="#73aac5"/><stop offset=".5" stop-color="#e0c5a4"/><stop offset="1" stop-color="#e2ad7d"/></linearGradient><linearGradient id="gameLand" x1="0" x2=".4" y1="0" y2="1"><stop offset="0" stop-color="#778764"/><stop offset=".5" stop-color="#566b50"/><stop offset="1" stop-color="#2a4638"/></linearGradient><linearGradient id="gameRock" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#8e978b"/><stop offset="1" stop-color="#3b5252"/></linearGradient><radialGradient id="gameSun"><stop stop-color="#ffe3a5"/><stop offset="1" stop-color="#ffdfa1" stop-opacity="0"/></radialGradient><filter id="gameShadow"><feGaussianBlur stdDeviation="13"/></filter></defs><rect width="1600" height="900" fill="url(#gameSky)"/><g class="game-cloud" fill="#e7eeee" opacity=".45"><ellipse cx="300" cy="146" rx="190" ry="33"/><ellipse cx="1120" cy="130" rx="230" ry="34"/><ellipse cx="1290" cy="166" rx="90" ry="18"/></g><circle class="game-glow" cx="1120" cy="180" r="260" fill="url(#gameSun)"/><circle cx="1120" cy="180" r="64" fill="#f9dfaa" opacity=".8"/><path d="M0 490L154 336L260 430L470 266L645 447L811 319L1020 472L1250 293L1450 407L1600 279V900H0Z" fill="#77959a" opacity=".55"/><path d="M0 568L172 447L325 520L570 379L760 510L940 392L1130 498L1285 438L1460 504L1600 360V900H0Z" fill="#516d69"/><path d="M0 668L250 565L450 603L690 513L910 605L1180 520L1400 575L1600 494V900H0Z" fill="url(#gameLand)"/><path d="M0 807Q215 741 430 784T865 763T1280 756T1600 718V900H0Z" fill="#355446"/><path d="M525 900L686 641L929 610L1110 900Z" fill="#a39d78" opacity=".8"/><path d="M580 900L717 684L878 662L991 900Z" fill="#c3b08a" opacity=".65"/><path d="M1120 591L1174 385L1202 376L1263 591Z" fill="#697877"/><rect x="1159" y="395" width="62" height="22" fill="#7e8d86"/><rect x="1160" y="429" width="24" height="26" fill="#35494a"/><path d="M1190 383L1221 383L1214 306L1195 310Z" fill="#88958b"/><path d="M1268 588L1282 463L1331 463L1358 591Z" fill="#647771"/><path d="M1312 462L1299 408L1315 381L1343 453Z" fill="#8a9889"/><g opacity=".9" fill="#263e37"><path d="M55 720L85 588L116 712Z"/><path d="M135 722L156 616L188 710Z"/><path d="M1470 681L1515 541L1553 680Z"/><path d="M1405 676L1431 583L1462 676Z"/></g><ellipse cx="788" cy="814" rx="75" ry="17" fill="#172a26" opacity=".65" filter="url(#gameShadow)"/><g transform="translate(787,684)"><path d="M-20 90L-38 134L-17 147L2 103L18 145L40 132L23 82Z" fill="#253d4a"/><path d="M-45 42L-30 101L33 101L45 42L22 6L-15 3Z" fill="#314d5e"/><path d="M-38 36L-65 78L-48 91L-12 56" fill="#2c4251"/><path d="M35 32L65 74L49 89L12 54" fill="#2b4553"/><path d="M-26 0Q-35 -25 -23 -45Q-10 -66 10 -54Q35 -45 28 -20L24 8Z" fill="#dfc29a"/><path d="M-29 -22Q-34 -72 6 -73Q38 -70 33 -27L24 -34L15 -50L-10 -40Z" fill="#3b332d"/><path d="M-20 11L24 12L43 44L-42 43Z" fill="#6c7667"/><path d="M49 18L91 -65" stroke="#d4d6c6" stroke-width="9"/><path d="M85 -55L117 -116" stroke="#e9e7ce" stroke-width="15"/><path d="M78 -48L105 -42" stroke="#907d64" stroke-width="9"/></g><g fill="#edf7f1" font-family="Arial,sans-serif"><rect x="22" y="20" width="392" height="88" rx="7" fill="#102327" fill-opacity=".77"/><text x="42" y="51" font-size="25" font-weight="bold">探索 · 曙光之谷</text><text x="42" y="80" font-size="19">主線任務：抵達遺跡入口　02 / 05</text><rect x="28" y="127" width="265" height="39" rx="6" fill="#152e31" opacity=".79"/><rect x="40" y="138" width="195" height="14" rx="5" fill="#b7c9a1"/><rect x="40" y="138" width="153" height="14" rx="5" fill="#5fcc86"/><text x="243" y="152" font-size="17">HP</text><circle cx="1462" cy="125" r="100" fill="#0d2530" fill-opacity=".8" stroke="#a4d3bb" stroke-width="4"/><path d="M1388 153L1417 113L1432 136L1461 80L1500 126L1536 102" fill="none" stroke="#a6bba1" stroke-width="17"/><circle cx="1462" cy="125" r="9" fill="#f8df9b"/><text x="1423" y="252" font-size="20">目的地 480m</text><text x="1535" y="36" text-anchor="end" font-size="21" opacity=".85">60 FPS · 16:9</text><rect x="472" y="806" width="656" height="68" rx="10" fill="#061720" fill-opacity=".74" stroke="#b1c7ac" stroke-opacity=".3"/><g font-size="21" text-anchor="middle" fill="#fff"><text x="531" y="849">⚔</text><text x="625" y="849">✦</text><text x="719" y="849">✚</text><text x="813" y="849">✧</text><text x="907" y="849">◈</text><text x="1001" y="849">◉</text></g><g fill="none" stroke="#9bc9b4" stroke-width="2" opacity=".7"><rect x="494" y="817" width="76" height="47" rx="5"/><rect x="588" y="817" width="76" height="47" rx="5"/><rect x="682" y="817" width="76" height="47" rx="5"/><rect x="776" y="817" width="76" height="47" rx="5"/><rect x="870" y="817" width="76" height="47" rx="5"/><rect x="964" y="817" width="76" height="47" rx="5"/></g></g></svg><div class="game-format-tag">16:9 畫面 · 模擬遊戲</div></div>`,
-bahamut:()=>`<div class="bahamut-ui"><div class="baha-top"><span class="baha-logo">巴哈姆特</span><span class="baha-search">⌕　搜尋創作、作品、攻略</span><span class="baha-top-icons">🔔　◯</span></div><div class="baha-nav"><span>首頁</span><span>哈啦區</span><span class="active">遊戲攻略</span><span>GNN 新聞</span><span>創作大廳</span></div><div class="baha-body"><div class="baha-breadcrumb">首頁　›　哈啦區　›　遊戲討論</div><div class="baha-forumhead"><div class="baha-cover">⚔</div><div><strong>幻想冒險　哈啦板</strong><small>模擬遊戲討論區 · 攻略與交流</small><small>追蹤 12,480　│　今日討論 68</small></div></div><div class="baha-tabs"><span class="active">綜合討論</span><span>攻略心得</span><span>問題求助</span><span>情報分享</span></div><div class="baha-table"><div class="baha-table-head"><span>文章標題</span><span>回覆</span><span>人氣</span></div><div class="baha-thread"><span class="baha-thread-title"><b>精華</b> 新手必看！地圖探索全攻略</span><small>32</small><small>8.4K</small></div><div class="baha-thread"><span class="baha-thread-title"><b>攻略</b> 全職業配裝與技能配置</span><small>88</small><small>21K</small></div><div class="baha-thread"><span class="baha-thread-title">【討論】副本隱藏房間與寶箱</span><small>14</small><small>3.2K</small></div><div class="baha-thread"><span class="baha-thread-title">【心得】第一次挑戰高難度首領</span><small>25</small><small>2.7K</small></div><div class="baha-thread"><span class="baha-thread-title">【情報】最新版本更新重點</span><small>7</small><small>9.1K</small></div><div class="baha-thread"><span class="baha-thread-title">【問題】多人連線語音設定</span><small>19</small><small>1.6K</small></div></div><div class="baha-bottom">頁面內容為展示資料 · 非巴哈姆特即時討論串</div></div></div>`
+bahamut:()=>`<div class="baha2">
+<div class="baha2-global"><span class="baha2-logo"><i>◈</i> 巴哈姆特</span><div class="baha2-search">⌕　搜尋哈啦板</div><div class="baha2-account">我要登入　│　註冊　 ☰</div></div>
+<div class="baha2-primary"><span>哈啦區</span><span class="active">音速小子 系列</span><strong>文章列表</strong><span>精華區</span><span>板規</span><div>◆ 追蹤　 <b>發文</b>　 ⋮</div></div>
+<div class="baha2-scroll">
+<div class="baha2-layout">
+<section class="baha2-main">
+<div class="baha2-welcome"><span class="baha2-boardavatar">★</span><div><small>🎈 看板紀念活動</small><strong>大家一起玩遊戲！</strong></div><button type="button" tabindex="-1">送出祝福</button></div>
+<div class="baha2-pagination"><span>◀</span><div><b>1</b><span>2</span><span>3</span><span>4</span><span>…</span><span>29</span></div><span>▶</span></div>
+<div class="baha2-tags"><span> XBOX </span><span> GC </span><span> PC </span><span>掌機系列</span><span>其他平台</span><span>情報分享</span><span>閒聊惡搞</span><span>板友創作</span><span class="selected">全部主題</span><span>綜合討論</span><span>遊戲結束</span><span>板務相關</span><span>PS4</span><span>XBOX ONE</span><span>Wii U</span><span>PS3</span><span>Wii</span></div>
+<div class="baha2-tools"><span>▤ 縮圖</span><span>☰ 清單</span><span>⚑ 篩選：</span><b>GP 數 ▾</b><span>精華</span><span>達人</span><span>追蹤</span><span>回收</span><b>依最新回覆 ▾</b><span class="baha2-toolright">互動／人氣　　最新回覆</span></div>
+<div class="baha2-threads"><div class="baha2-threadhead"><span>板面文章</span><span>互動／人氣</span><span>最後回覆</span></div><div class="baha2-thread pinned"><div class="baha2-type">公告</div><div class="baha2-threadmain"><div class="baha2-threadtitle"><span class="baha2-pin">◆ 置頂</span>【公告】看板規則與發文注意事項</div></div><div class="baha2-count">0 / 156</div><div class="baha2-last">2007-03-21<small>demo_user1</small></div></div><div class="baha2-thread pinned"><div class="baha2-type">公告</div><div class="baha2-threadmain"><div class="baha2-threadtitle"><span class="baha2-pin">◆ 置頂</span>【公告】建議與意見反應集中串</div></div><div class="baha2-count">1 / 128</div><div class="baha2-last">2012-08-03<small>demo_user2</small></div></div><div class="baha2-thread pinned"><div class="baha2-type">招募</div><div class="baha2-threadmain"><div class="baha2-threadtitle"><span class="baha2-pin">◆ 置頂</span>【招募】多人冒險小隊週末固定團</div></div><div class="baha2-count">97 / 2179</div><div class="baha2-last">10-16 19:20<small>demo_user3</small></div></div><div class="baha2-thread"><div class="baha2-type">問題</div><div class="baha2-threadmain"><div class="baha2-threadtitle">【問題】新地圖探索時畫質設定怎麼調整？</div><div class="baha2-threadsub">最新討論與玩家心得分享，歡迎一起交流。</div></div><div class="baha2-count">3 / 74</div><div class="baha2-last">10-16 18:57<small>demo_user4</small></div></div><div class="baha2-thread"><div class="baha2-type">情報</div><div class="baha2-threadmain"><div class="baha2-threadtitle">【情報】最新版本更新要點與追加內容</div><div class="baha2-threadsub">最新討論與玩家心得分享，歡迎一起交流。</div></div><div class="baha2-count">1 / 202</div><div class="baha2-last">10-16 17:42<small>demo_user5</small></div></div><div class="baha2-thread"><div class="baha2-type">攻略</div><div class="baha2-threadmain"><div class="baha2-threadtitle">【攻略】初期裝備配置與探索路線</div><div class="baha2-threadsub">最新討論與玩家心得分享，歡迎一起交流。</div></div><div class="baha2-count">23 / 450</div><div class="baha2-last">10-15 22:08<small>demo_user6</small></div></div><div class="baha2-thread"><div class="baha2-type">心得</div><div class="baha2-threadmain"><div class="baha2-threadtitle">【心得】一個人挑戰高難度首領</div><div class="baha2-threadsub">最新討論與玩家心得分享，歡迎一起交流。</div></div><div class="baha2-count">12 / 185</div><div class="baha2-last">10-15 20:33<small>demo_user7</small></div></div></div>
+</section>
+<aside class="baha2-sidebar">
+<div class="baha2-mod">板務人員： <span>🎮</span></div>
+<div class="baha2-promo"><div class="baha2-promohead">NOW!　巴哈新聞 <b>加入　 ↗</b></div><div class="baha2-promoline">下載 APP 體驗完整服務！</div><div class="baha2-promobtn">瀏覽新聞　 ➜</div></div>
+<div class="baha2-sidetitle">10 月 16 日</div><div class="baha2-news"><label>系統訊息</label><div class="baha2-newsart"><div class="baha2-newsland">遊戲速報<br><strong>NEW WORLD</strong></div></div><strong>⚡ 新聞快報</strong><p>冒險遊戲最新版本更新，追加關卡、道具與新挑戰！</p><div class="baha2-newsbutton">瀏覽新聞　 ↗</div></div>
+</aside>
+</div>
+</div>
+<div class="baha2-disclaimer">介面與討論內容為示意，非巴哈姆特即時頁面</div>
+</div>`
 };
 function newsHTML(){let list=newsData.length?newsData:fakeHeadlines;return list.slice(0,7).map((item,i)=>`<div class="story"><div class="story-photo t${1+i%4}">▤</div><div class="story-copy"><div class="story-title">${escapeHTML(item[0])}</div><div class="story-meta">${escapeHTML(item[1]||'')}</div></div></div>`).join('')}
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
