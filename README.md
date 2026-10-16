@@ -85,4 +85,10 @@ README.md            # 使用說明
 
 ## 02 Premiere 工作區配置
 
-預設兩個可拖曳縮放的頂層視窗：左側 `premiere`（1503 × 437 虛擬像素），右側 `editnotes`（352 × 437 虛擬像素）。Premiere 內部為 Docked Panels，並不拆成獨立視窗。上半部從左至右為 **Effect Controls（含 Motion、Opacity、Time Remapping 與關鍵影格時間軸）→ Source → Program**。Source 和 Program 影像各自維持 **16:9、相同高度並緊貼排列**；上半部高度增加到約 **72%**，讓兩個預覽明顯放大，左側 Effect Controls 隨之縮窄；多餘的水平空間仍集中在最左邊的 Effect Controls，**不會在預覽周圍加入額外資訊欄或大片黑邊**。縮小主視窗時保留比例並等比縮小預覽，較窄時會收合部分非核心面板。自動整理與重設會恢復相同配置。雙預覽使用本專案內嵌的 SVG 插畫示意音樂教學素材，並非使用者所提供的影像原檔，也非 Adobe 官方編輯器。
+參考使用者提供的 Premiere Pro 實際截圖，02 場景現在只有一個近乎全寬的 Premiere 主視窗（虛擬桌面座標 `18,54,1884,446`），不再使用外部備忘錄。程式內部為約 **左 60% / 右 40%** 的停駐工作區，類似真實雙螢幕剪輯配置：
+
+- **左上**：Effect Controls（Motion、Opacity、Time Remapping、關鍵影格曲線）加上較小的 Source 16:9 預覽。
+- **左下**：Project 素材清單、寬幅 Timeline、Audio Meter。
+- **右側整欄**：較大的 Program 16:9 預覽。影片不被拉伸；旁邊利用空間顯示 Lumetri Scopes、解析度、色彩與幀率資訊。
+
+此配置在主程式尺寸改變時會重新計算預覽大小，並在窄視窗中收合部分非核心資訊。自動展示會先介紹右側 Program，再移至左側的 Source、Effect Controls、Project 與 Timeline。預覽內容與功能面板為視覺模擬，無法實際剪輯或匯出影片；示意影像並非從 Premiere 擷取。
