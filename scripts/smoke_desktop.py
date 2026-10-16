@@ -24,9 +24,12 @@ class DesktopParser(HTMLParser):
         super().__init__()
         self.windows: dict[str, set[str]] = {}
         self.scenes: set[str] = set()
+        self.youtube_sources: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
+        if tag == "iframe" and data.get("id") == "youtubeFrame":
+            self.youtube_sources.append(data.get("src") or "")
         if tag == "button" and data.get("data-scene"):
             self.scenes.add(data["data-scene"])
         if tag == "article":
@@ -69,6 +72,8 @@ def main() -> int:
         problems.append(f"Missing visible daily windows: {sorted(INITIAL_SCENE - visible)}")
     if parser.scenes != SCENES:
         problems.append(f"Missing scene tabs: {sorted(SCENES - parser.scenes)}")
+    if len(parser.youtube_sources) != 1 or "youtube-nocookie.com/embed/dQw4w9WgXcQ" not in parser.youtube_sources[0]:
+        problems.append("Daily YouTube iframe missing or using the wrong video")
 
     if problems:
         for problem in problems:
