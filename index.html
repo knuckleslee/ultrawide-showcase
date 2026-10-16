@@ -21,7 +21,13 @@
 @container (max-width: 280px){.files-tree{display:none}.metric-row{display:none}.docs h3{font-size:14px}.story-title{font-size:10px}.calendar{padding:7px}.notes h3{font-size:12px}}
 /* guide cursor, overlays */
 #guideCursor{position:absolute;z-index:30000;left:0;top:0;width:80px;height:80px;pointer-events:none;opacity:0;transform:translate3d(0,0,0);transition:transform .7s cubic-bezier(.12,.72,.16,1),opacity .25s}#guideCursor.show{opacity:1}#guideCursor svg{width:80px;height:80px;overflow:visible;filter:drop-shadow(0 3px 3px #000a)}#guideCursor .halo{transition:opacity .25s;opacity:.9}#guideCursor .tip-pulse{opacity:0;transform-box:view-box;transform-origin:24px 14px}#guideCursor.clicking .tip-pulse{animation:pulse .42s ease-out}#guideCursor.dragging svg{filter:drop-shadow(0 0 9px #f4e99e)}@keyframes pulse{0%{transform:scale(.75);opacity:1}100%{transform:scale(1.7);opacity:0}}#guideCursor .halo{transform-box:view-box;transform-origin:35px 35px}
-#hint{position:absolute;z-index:21000;bottom:49px;left:28px;max-width:530px;display:flex;gap:9px;align-items:center;background:#091725df;border:1px solid #7ce7d74d;border-radius:8px;padding:9px 14px;color:#d9f3f3;font-size:12px;box-shadow:0 10px 30px #0008;backdrop-filter:blur(6px)}#hint .hint-symbol{display:grid;place-items:center;height:22px;width:22px;border-radius:50%;background:#245c62;color:#b8fff2}.hidden{display:none!important}.toast{position:absolute;z-index:26000;right:23px;bottom:52px;width:250px;padding:10px 13px;color:#dceaf7;background:#183248ed;border:1px solid #64d5c966;border-radius:8px;font-size:11px;box-shadow:0 9px 25px #0009;transition:opacity .4s,transform .4s}.toast strong{display:block;font-size:12px;margin-bottom:5px}.toast.out{opacity:0;transform:translateX(15px)}
+/* Scene-change notice: at the upper right, away from editors and chat inputs.
+   It is visually hidden until an actual scene switch, then fades after 5s. */
+#hint{position:absolute;z-index:21000;top:59px;right:26px;bottom:auto;left:auto;max-width:350px;min-width:0;display:flex;gap:10px;align-items:center;box-sizing:border-box;background:#0c2136ee;border:1px solid #7ce7d74d;border-radius:9px;padding:11px 15px;color:#d9f3f3;font-size:12px;line-height:1.5;box-shadow:0 10px 30px #0008;backdrop-filter:blur(6px);pointer-events:none;opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .46s ease,transform .46s ease,visibility 0s linear .46s}
+#hint.is-visible{opacity:1;visibility:visible;transform:translateY(0);transition:opacity .23s ease,transform .23s ease,visibility 0s}
+#hint .hint-symbol{display:grid;place-items:center;height:24px;width:24px;flex:none;border-radius:50%;background:#245c62;color:#b8fff2}
+@media (prefers-reduced-motion:reduce){#hint,#hint.is-visible{transition:opacity .15s ease,visibility 0s}}
+.hidden{display:none!important}.toast{position:absolute;z-index:26000;right:23px;bottom:52px;width:250px;padding:10px 13px;color:#dceaf7;background:#183248ed;border:1px solid #64d5c966;border-radius:8px;font-size:11px;box-shadow:0 9px 25px #0009;transition:opacity .4s,transform .4s}.toast strong{display:block;font-size:12px;margin-bottom:5px}.toast.out{opacity:0;transform:translateX(15px)}
 #help{position:absolute;z-index:35000;top:57px;right:24px;background:#11253af5;border:1px solid #618293;border-radius:10px;padding:14px 18px;width:326px;box-shadow:0 18px 45px #000a;color:#d9e7f2;font-size:12px;line-height:1.75}#help strong{font-size:14px}.key{background:#233e55;color:#d6fcfb;border:1px solid #4a6a85;padding:1px 5px;border-radius:4px;font:11px Consolas,monospace}
 #desktop.manual{cursor:default}#desktop.manual .titlebar,#desktop.manual .resize-grip{touch-action:none}#desktop.demo{cursor:none}#desktop.demo #topbar,#desktop.demo #taskbar{cursor:none}
 
@@ -776,7 +782,7 @@
   <div class="spacer"></div><div class="status"><span class="status-dot off" id="statusDot"></span><span id="statusText">自由操作中</span></div>
   <div class="actions"><button id="arrangeBtn" title="將目前視窗自動整理">▦ 自動整理</button><button id="resetBtn" title="恢復目前場景預設排列">↺ 重設</button><button id="helpBtn" title="操作說明">? 說明</button><button class="primary" id="fullscreenBtn">⛶ 全螢幕</button></div>
 </header>
-<main id="windows"></main><div id="hint"><span class="hint-symbol">✦</span><span id="hintText">自由操作：拖曳標題列可移動視窗，拖曳右下角可縮放。</span></div>
+<main id="windows"></main><div id="hint" role="status" aria-live="polite"><span class="hint-symbol">✦</span><span id="hintText">切換場景後，可自由拖曳與縮放視窗。</span></div>
 <div id="taskbar"><div class="taskbar-left"><span class="winlogo"><b></b><b></b><b></b><b></b></span><span id="taskLabel">日常使用 · 工作空間</span></div><div id="taskicons" style="display:flex;gap:7px"></div><div class="taskbar-time" id="clock"></div></div>
 <div id="guideCursor" aria-hidden="true"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle class="halo" cx="35" cy="35" r="27" fill="#f7d76f" fill-opacity=".14" stroke="#ffdf78" stroke-opacity=".9" stroke-width="2.6"/><circle class="tip-pulse" cx="24" cy="14" r="14" fill="#fff4b2" fill-opacity=".65" stroke="#ffe383" stroke-width="2.4"/><path d="M24 14V61L35 50L48 72L57 67L43 46L61 44Z" fill="#fff" stroke="#07131c" stroke-width="4" stroke-linejoin="round"/></svg></div>
 <div id="toast" class="toast hidden"><strong id="toastTitle">新訊息</strong><span id="toastBody"></span></div>
@@ -1677,7 +1683,7 @@ function syncEmbeddedVideo(sceneName){
     stopEmbeddedVideo();
   }
 }
-function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;if(next!=='editing')resetPremierePlayback();if(scene==='gaming'&&next!=='gaming')resetGameVideo();scene=next;syncEmbeddedVideo(next);$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();}
+function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;const changingScene=scene!==next;if(next!=='editing')resetPremierePlayback();if(scene==='gaming'&&next!=='gaming')resetGameVideo();scene=next;syncEmbeddedVideo(next);$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();if(changingScene)showSceneHint(next);}
 function raise(el){zIndex+=1;el.style.zIndex=zIndex;focused=el.dataset.id;updateFocus()}
 function updateFocus(){for(const [id,el] of Object.entries(windowNodes))el.classList.toggle('focused',focused===id)}
 function attachInteractions(el,id){const header=el.querySelector('.titlebar');header.addEventListener('pointerdown',e=>{if(e.target.closest('.win-controls')||mode!=='manual')return;pointerStart(e,el,'move')});el.querySelector('.resize-grip').addEventListener('pointerdown',e=>{if(mode!=='manual')return;pointerStart(e,el,'resize')});header.addEventListener('dblclick',e=>{if(mode!=='manual'||e.target.closest('.win-controls'))return;toggleMax(el)});el.addEventListener('pointerdown',()=>{if(mode==='manual')raise(el)});el.querySelector('.maximize').addEventListener('click',()=>{if(mode==='manual')toggleMax(el)});el.querySelector('.minimize').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});el.querySelector('.close').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});}
@@ -1685,7 +1691,26 @@ function pointerStart(e,el,type){e.preventDefault();e.stopPropagation();raise(el
 function toggleMax(el){const id=el.dataset.id,entry=layoutEntry(id);if(!entry)return;if(maxRestore[id]){entry.splice(1,4,...maxRestore[id]);delete maxRestore[id]}else{maxRestore[id]=entry.slice(1);entry.splice(1,4,0,51,BASE_W,BOTTOM-51)}applyGeometry(el,entry.slice(1),true);raise(el)}
 function arrange(){if(mode!=='manual')return;if(scene==='editing'){customLayouts.editing=clone(S.editing);setScene('editing',{animation:true});hint('剪輯工作區已整理為 Premiere 主視窗與備忘錄。');return;}const visible=S[scene].map(g=>g[0]).filter(id=>!windowNodes[id].classList.contains('offscreen'));const n=visible.length;if(!n)return;const pad=20,gap=12,top=62,bottom=499;let cols=n<=2?n:n===3?3:n===4?2:3,rows=Math.ceil(n/cols);let w=(BASE_W-pad*2-gap*(cols-1))/cols,h=(bottom-top-gap*(rows-1))/rows;visible.forEach((id,i)=>{const entry=layoutEntry(id);entry.splice(1,4,pad+(i%cols)*(w+gap),top+Math.floor(i/cols)*(h+gap),w,h);applyGeometry(windowNodes[id],entry.slice(1),true)});hint('已將目前視窗自動整理；可以繼續拖曳、縮放。')}
 function resetScene(){if(mode==='auto')return;customLayouts[scene]=clone(S[scene]);Object.keys(maxRestore).forEach(k=>delete maxRestore[k]);setScene(scene,{animation:true});hint('已恢復預設視窗配置。')}
-function hint(s){if(!showHints)return;$('#hintText').textContent=s;$('#hint').classList.remove('hidden')}
+let sceneHintTimeout=null;
+const SCENE_HINT_DURATION=5000;
+function hideSceneHint(){
+ if(sceneHintTimeout!==null){clearTimeout(sceneHintTimeout);sceneHintTimeout=null}
+ $('#hint').classList.remove('is-visible');
+}
+function showSceneHint(sceneName){
+ hideSceneHint();
+ if(!showHints)return;
+ const names={daily:'01 日常使用',editing:'02 影片剪輯',coding:'03 程式設計',gaming:'04 遊戲娛樂'};
+ const label=names[sceneName]||sceneName;
+ $('#hintText').textContent='已切換至 '+label+'，可自由拖曳與縮放視窗。';
+ $('#hint').classList.add('is-visible');
+ sceneHintTimeout=setTimeout(()=>{
+  $('#hint').classList.remove('is-visible');
+  sceneHintTimeout=null;
+ },SCENE_HINT_DURATION);
+}
+/* Other actions may update the top status but must not reopen the scene notice. */
+function hint(s){$('#statusText').title=s}
 function toast(title,msg){$('#toastTitle').textContent=title;$('#toastBody').textContent=msg;let el=$('#toast');el.classList.remove('hidden','out');setTimeout(()=>el.classList.add('out'),2600);setTimeout(()=>el.classList.add('hidden'),3050)}
 /* The pointer's actual SVG arrow tip is (24,14), not the halo center. */
 function cursorAt(x,y,ms=740){const cur=$('#guideCursor');cur.style.transitionDuration=`${ms}ms`;cur.style.transform=`translate3d(${x-24}px,${y-14}px,0)`;cur.classList.add('show')}
@@ -1884,7 +1909,7 @@ async function toggleFullscreen(){const root=$('#frame');try{if(document.fullscr
 function updateClock(){let t=new Date();$('#clock').textContent=new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false}).format(t)}
 window.addEventListener('resize',scaleDesktop);document.addEventListener('fullscreenchange',()=>{scaleDesktop();$('#fullscreenBtn').textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕'});
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
-document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true});hint('已切換場景；你可以調整每個視窗的大小與位置。')}));
-document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;$('#hint').classList.toggle('hidden',!showHints)}else if(k==='escape'){$('#help').classList.add('hidden')}});
+document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true})}));
+document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;if(!showHints)hideSceneHint()}else if(k==='escape'){$('#help').classList.add('hidden')}});
 createWindows();setupGameInteractions();setupCodingInteractions();loadLiveCodingData();setupPremiereInteractions();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
 </script></body></html>
