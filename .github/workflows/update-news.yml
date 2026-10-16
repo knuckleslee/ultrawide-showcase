@@ -12,7 +12,7 @@ on:
       - scripts/fetch_news.py
       - .github/workflows/update-news.yml
   schedule:
-    - cron: '17 * * * *'
+    - cron: '17 0,12 * * *' # 08:17 and 20:17 Asia/Taipei (UTC+8)
   workflow_dispatch:
 
 permissions:
@@ -38,6 +38,7 @@ jobs:
           persist-credentials: true
 
       - name: Fetch latest Google News snapshot
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: python3 scripts/fetch_news.py
 
       - name: Commit updated snapshot
