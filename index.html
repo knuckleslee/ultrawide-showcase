@@ -667,6 +667,73 @@
 .game-video-spinner{font-size:22px;color:#8fd9ff}
 .game-video-attribution{position:absolute;bottom:5px;right:8px;color:#f5f7fa;background:#020d15a6;font-size:9px;padding:3px 6px;z-index:2;text-decoration:none;opacity:.15;transition:opacity .25s}
 .game-app:hover .game-video-attribution{opacity:1}
+
+/* 03 AI-assisted coding workspace – scrollable assistant and real-source editor. */
+.window[data-id="aiagent"] .window-content{background:#151925}
+.agent-shell{height:100%;display:flex;flex-direction:column;min-height:0;background:#151925;color:#e5e9f6;font:11px/1.5 'Segoe UI','Microsoft JhengHei',sans-serif;overflow:hidden}
+.agent-head{display:flex;align-items:center;gap:9px;flex:none;background:#202334;border-bottom:1px solid #383a50;padding:10px 12px}
+.agent-symbol{background:#6b5db8;color:#fff;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:23px}
+.agent-head b{font-size:12px;letter-spacing:.8px}.agent-head small{display:block;font-size:9px;color:#a5acbe}
+.agent-online{margin-left:auto;color:#86d2af;font-size:9px;white-space:nowrap}
+.agent-messages{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:12px;display:flex;flex-direction:column;gap:12px}
+.agent-bubble{background:#22283a;border:1px solid #353d51;border-radius:8px;padding:10px}
+.agent-bubble p,.agent-question p{margin:5px 0;color:#ced8e8;line-height:1.6}
+.agent-system small{color:#98a6b8;font-size:9px}
+.agent-welcome{color:#8d9bae;font-size:10px}
+.agent-question{align-self:flex-end;background:#33355b;border:1px solid #555a95;border-radius:10px;padding:10px;max-width:96%}
+.agent-question[hidden],.agent-thinking[hidden],.agent-answer[hidden],.agent-code-changes[hidden]{display:none}
+.agent-question small{font-size:9px;color:#b0b5ed}
+.agent-thinking,.agent-answer{background:#222a37;border:1px solid #3c4658;border-radius:9px;padding:11px}
+.agent-thinking{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+.agent-dots{color:#bcaaff;animation:agent-pulse 1.2s infinite}
+.agent-thinking small{display:block;width:100%;color:#97a5ba;font-size:9px}
+@keyframes agent-pulse{50%{opacity:.35}}
+.agent-answer>b{color:#adcbf3;font-size:12px}
+.agent-steps{display:flex;flex-direction:column;gap:7px;margin:10px 0}
+.agent-step{display:flex;gap:9px;border-left:2px solid #746bd7;background:#2b3345;padding:7px}
+.agent-step-num{color:#c9c2ff;font-weight:800}
+.agent-step-body{min-width:0;color:#d0dae7;font-size:10px;line-height:1.5}
+.agent-finish{color:#8f9db2;font-size:9px;border-top:1px solid #495065;padding-top:7px}
+.agent-input{display:flex;align-items:center;gap:10px;flex:none;margin:8px;background:#30344b;color:#adb8d0;border:1px solid #525773;border-radius:9px;padding:9px 11px}
+#agentPromptLine{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;font-size:10px}
+.agent-input>span:last-child{color:#c8beff}
+.coding-editor{min-height:0}
+.coding-editor .editor-main{display:flex;flex-direction:column;min-width:0;flex:1;overflow:hidden}
+.coding-editor .repo-file-tab{height:28px;flex:none;background:#14283b;padding:5px 12px;color:#a8ddfa;white-space:nowrap;border-bottom:1px solid #31536a}
+.coding-editor .repo-file-tab span{color:#86abb5;font-size:10px}
+.editor-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#0e1a28;scroll-behavior:smooth}
+.editor-load-state{padding:12px;color:#b6c9dd}
+.real-code-lines{padding:6px 8px 8px;min-height:100%;width:max-content;min-width:100%}
+.source-code-line{display:flex;min-height:19px;white-space:pre;color:#c4d7e9;font:11px/1.65 'Cascadia Code',Consolas,monospace}
+.source-code-line .line-num{color:#5e7b94;flex:0 0 30px;text-align:right;padding-right:7px;user-select:none}
+.source-code-line .line-text{white-space:pre;min-width:0}
+.source-code-line.demo-added{background:#1d4738;color:#b8eed1;border-left:2px solid #53bc88}
+.agent-code-changes{padding:2px 8px 10px;width:max-content;min-width:100%;background:#112938}
+.editor-demo-note{font:10px Consolas,monospace;color:#90d9b0;padding:3px 8px;border-top:1px solid #3a6558}
+.coding-editor .vscode-status{display:flex;justify-content:space-between;align-items:center;gap:6px;height:23px;flex:none;background:#145a86;padding:0 9px;color:#e3f2ff;font-size:10px}
+.coding-terminal{white-space:normal;overflow-y:auto;scrollbar-width:thin}
+.live-github{display:flex;flex-direction:column;padding:0;background:#0e1825;overflow:hidden;min-height:0;--git-content-size:11px}
+.git-heading{flex:none;padding:10px;display:flex;align-items:center;justify-content:space-between;background:#172838;color:#cdd7e4;font-size:11px;gap:6px;font-weight:800}
+.git-live-badge{color:#ffe4a5;background:#493f2e;font-size:9px;border-radius:4px;padding:2px 5px}
+.git-live-badge.live{background:#174636;color:#a9e9cb}
+.git-size-controls{flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:7px 10px;background:#1d2939}
+.git-size-button{border:1px solid #637288;color:#bfcee2;background:#2a3546;border-radius:5px;cursor:pointer;font:bold 10px Consolas,monospace;padding:5px 0}
+.git-size-button.active,.git-size-button:focus-visible{background:#3b78ad;color:white;border-color:#8fc8f5}
+.git-live-scroll{min-height:0;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain;flex:1;padding:8px 10px;font-size:var(--git-content-size);transition:font-size .3s}
+.live-github[data-git-font="XS"]{--git-content-size:9px}
+.live-github[data-git-font="SM"]{--git-content-size:10px}
+.live-github[data-git-font="MD"]{--git-content-size:12px}
+.live-github[data-git-font="LG"]{--git-content-size:15px}
+.live-github[data-git-font="XL"]{--git-content-size:18px}
+.git-repo-name{font-size:1.1em;font-weight:800;color:#dbedff;overflow-wrap:anywhere}
+.git-repo-description{color:#a6c2d5;margin:7px 0;font-size:.92em;line-height:1.4}
+.git-repo-stat{display:flex;align-items:center;gap:13px;color:#9eb5cb;margin:8px 0;flex-wrap:wrap}
+.git-repo-stat b{color:#ddefff;font-weight:500}
+.git-live-section{border-bottom:1px solid #33445b;color:#8ba7cb;font-weight:800;font-size:.85em;padding:8px 0 5px}
+.git-file{padding:5px 4px;color:#afc0d3;border-bottom:1px solid #ffffff0e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:1em}
+.github-external{flex:none;background:#1b2b3d;padding:8px 12px;font-size:11px}
+@container (max-width: 410px){.agent-head{padding:6px}.agent-head small{font-size:8px}.agent-messages{padding:7px}.agent-input{margin:5px}}
+
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
