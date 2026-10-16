@@ -1268,6 +1268,7 @@ function restoreCodingState(snapshot){
 }
 async function runCodingAuto(id){
  resetCodingDemo();
+ setGitFontMode('MD');
  const prompt='How do I add five local font-size options to my GitHub panel?';
  if(!await action(id,'03 / AI 協作程式設計','AI AGENT 模擬收到新增功能的需求，先思考再提出五步修改方案。'))return false;
  if(!await focusAction('aiagent',id))return false;
@@ -1809,12 +1810,16 @@ if(!await action(id,'展示完成','四種使用情境展示完畢，即將重�
 function setMode(next){if(next===mode){if(next==='auto')togglePause();return}if(next==='auto'){
 resetPremierePlayback();
 stopEmbeddedVideo();
+codingDemoSaved=captureCodingState();
 savedDailyContent=captureDailyState();
 resetDailyForDemo();
 savedFreeLayouts=clone(customLayouts);mode='auto';paused=false;runId++;$('#desktop').classList.replace('manual','demo');$('#autoMode').classList.add('active');$('#freeMode').classList.remove('active');$('#statusDot').classList.remove('off');$('#arrangeBtn').disabled=true;$('#resetBtn').disabled=true;$('#arrangeBtn').style.opacity='.45';$('#resetBtn').style.opacity='.45';$$('.window').forEach(el=>el.classList.remove('free'));hint('自動展示已開始；大游標將帶領視窗切換與重新排列。');const id=runId;runAuto(id);
 }else{mode='manual';runId++;paused=false;resetPremierePlayback();$('#guideCursor').classList.remove('show','dragging');$('#desktop').classList.replace('demo','manual');$('#autoMode').classList.remove('active');$('#freeMode').classList.add('active');$('#statusDot').classList.add('off');$('#statusText').textContent='自由操作中';$('#arrangeBtn').disabled=false;$('#resetBtn').disabled=false;$('#arrangeBtn').style.opacity='1';$('#resetBtn').style.opacity='1';// restore the manually arranged workspaces after an automated tour
 if(savedFreeLayouts){customLayouts=savedFreeLayouts;savedFreeLayouts=null;}
 stopEmbeddedVideo();
+resetGameVideo({seek:true});
+restoreCodingState(codingDemoSaved);
+codingDemoSaved=null;
 restoreDailyState(savedDailyContent);
 savedDailyContent=null;
 setScene(scene,{animation:false});hint('自由操作：拖曳標題列移動，右下角縮放，內容會依新尺寸自適應。');}}
