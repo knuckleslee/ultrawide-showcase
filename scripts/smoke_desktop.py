@@ -61,6 +61,10 @@ class DesktopParser(HTMLParser):
         self.coding_ui_check = ""
         self.default_layout_check = ""
         self.scene_notice_check = ""
+        self.auto_start_check = ""
+        self.desktop_classes: set[str] = set()
+        self.auto_button_active = False
+        self.free_button_active = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
@@ -71,6 +75,13 @@ class DesktopParser(HTMLParser):
             self.coding_ui_check = data.get("data-coding-ui-check") or ""
             self.default_layout_check = data.get("data-default-layout-check") or ""
             self.scene_notice_check = data.get("data-scene-notice-check") or ""
+            self.auto_start_check = data.get("data-auto-start-check") or ""
+        if data.get("id") == "desktop":
+            self.desktop_classes = classes
+        if data.get("id") == "autoMode":
+            self.auto_button_active = "active" in classes
+        if data.get("id") == "freeMode":
+            self.free_button_active = "active" in classes
         if data.get("id") == "gamingVideoHost":
             self.game_start_seconds = data.get("data-start-seconds") or ""
             self.game_video_id = data.get("data-video-id") or ""
@@ -168,6 +179,8 @@ def main() -> int:
         problems.append(f"Expected {EXPECTED_WINDOWS} windows, found {len(parser.windows)}")
     if not INITIAL_SCENE.issubset(visible):
         problems.append(f"Missing visible daily windows: {sorted(INITIAL_SCENE - visible)}")
+    if not parser.auto_button_active or parser.free_button_active or "demo" not in parser.desktop_classes:
+        problems.append("Homepage must start automatically in guided demo mode")
     if parser.scenes != SCENES:
         problems.append(f"Missing scene tabs: {sorted(SCENES - parser.scenes)}")
     if len(parser.youtube_sources) != 1 or "youtube-nocookie.com/embed/dQw4w9WgXcQ" not in parser.youtube_sources[0]:
@@ -182,6 +195,45 @@ def main() -> int:
         problems.append("Daily to-do checkboxes were not initialized correctly")
     if parser.calendar_controls != {"cal-prev", "cal-next"} or parser.calendar_dates != 1:
         problems.append("Calendar pagination controls or generated day grid missing")
+
+    # The plain homepage must already be in auto mode. Verify a user can still
+    # switch to Free mode and manually restart the guided tour from its button.
+    boot_probe_js = """
+    <script>
+    setTimeout(()=>{
+      const started=mode==='auto' && runId>0
+        && document.querySelector('#autoMode').classList.contains('active')
+        && !document.querySelector('#freeMode').classList.contains('active');
+      document.getElementById('freeMode').click();
+      const freelyEditable=mode==='manual'
+        && document.querySelector('#freeMode').classList.contains('active')
+        && document.querySelector('.window[data-id="news"]').classList.contains('free');
+      document.getElementById('autoMode').click();
+      const canRestart=mode==='auto'
+        && document.querySelector('#autoMode').classList.contains('active');
+      document.documentElement.setAttribute('data-auto-start-check',
+        started&&freelyEditable&&canRestart?'pass':
+        'fail:'+JSON.stringify({started,freelyEditable,canRestart,mode}));
+    },180);
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            probe_page = Path(temp_dir) / "index.html"
+            probe_page.write_text((ROOT / "index.html").read_text(encoding="utf-8").replace(
+                "</body>", boot_probe_js + "</body>"), encoding="utf-8")
+            response = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=1750", probe_page.as_uri()],
+                text=True, capture_output=True, timeout=35,
+            )
+            boot_parser = DesktopParser()
+            boot_parser.feed(response.stdout)
+            if response.returncode != 0 or boot_parser.auto_start_check != "pass":
+                problems.append("Homepage automatic start and Free/Auto toggle probe: "
+                                + (boot_parser.auto_start_check or "no response"))
+                print("Automatic startup probe diagnostics:", response.stderr[-1500:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("Homepage automatic start probe timed out")
 
     # Load the real editing scene through the public ?scene=editing deep link.
     # This catches accidental regressions where the 02 workspace is blank.
@@ -250,6 +302,8 @@ def main() -> int:
         if visible_scene != expected:
             problems.append(f"{scene_name} visible windows: {sorted(visible_scene)}")
         if scene_name == "coding":
+            if scene_parser.auto_button_active or not scene_parser.free_button_active or "manual" not in scene_parser.desktop_classes:
+                problems.append("Explicit ?scene=coding links must stay in manual preview mode")
             required_features = {"agentQuestion", "agentThinking", "agentSteps", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
                                  "agentCodeChanges", "codingScroll", "gitLiveScroll",
                                  "realCodeLines", "gitLiveFiles"}
