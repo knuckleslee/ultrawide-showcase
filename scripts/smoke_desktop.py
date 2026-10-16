@@ -602,6 +602,24 @@ def main() -> int:
     setTimeout(()=>{
       const probeAfter=document.querySelector('.pp-program .pp-timecode')?.textContent;
       const probeAnimating=!!probeActor && getComputedStyle(probeActor).animationName.includes('pp-musician-one');
+      const camera=document.querySelector('.pp-program .pp-shot-svg');
+      const head=document.querySelector('.pp-program .pp-head-one');
+      const cameraMoves=getComputedStyle(camera).animationName.includes('pp-camera-reframe');
+      const headMoves=getComputedStyle(head).animationName.includes('pp-head-bob');
+      const preview=document.querySelector('.pp-program .pp-monitor-shot');
+      const sourceImage=document.querySelector('.pp-source .pp-monitor-shot');
+      const originalSourceFilter=sourceImage.style.filter;
+      const beforeCurve=document.querySelector('[data-curve-path="RGB"]').getAttribute('d');
+      updatePremiereToneCurve(.78,'RGB');
+      const updatedCurve=document.querySelector('[data-curve-path="RGB"]').getAttribute('d');
+      const editedCurve=updatedCurve!==beforeCurve
+         && document.querySelector('[data-curve-point]').getAttribute('cy')!=='110'
+         && preview.dataset.toneGrade==='78'
+         && preview.style.filter.includes('brightness(')
+         && sourceImage.style.filter===originalSourceFilter;
+      resetPremiereToneCurve();
+      const resetCurve=preview.dataset.toneGrade==='0'
+         && document.querySelector('[data-curve-point]').getAttribute('cy')==='110';
       if(probeButton)probeButton.click();
       const probeStopped=probeButton?.getAttribute('aria-pressed')==='false'
          && !document.querySelector('.pp-program')?.classList.contains('pp-is-playing');
@@ -614,8 +632,11 @@ def main() -> int:
       const rightMonth=(new Date().getMonth()+1);
       const calendarCurrent=renderedMonth?.includes(String(rightMonth)+' 月');
       document.documentElement.setAttribute('data-interactive-check',
-        probeStarted && probeTip && probeBefore !== probeAfter && probeAnimating && probeStopped && isolatedFonts && calendarCurrent
-        ? 'pass' : 'fail:'+JSON.stringify({probeStarted,probeTip,probeBefore,probeAfter,probeAnimating,probeStopped}));
+        probeStarted && probeTip && probeBefore !== probeAfter && probeAnimating
+        && cameraMoves && headMoves && editedCurve && resetCurve
+        && probeStopped && isolatedFonts && calendarCurrent
+        ? 'pass' : 'fail:'+JSON.stringify({probeStarted,probeTip,probeBefore,probeAfter,
+           probeAnimating,cameraMoves,headMoves,editedCurve,resetCurve,probeStopped}));
     },1400);
     </script>
     """
