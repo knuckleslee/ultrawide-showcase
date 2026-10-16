@@ -491,6 +491,62 @@
   .pp-panels{grid-template-rows:minmax(0,67fr) minmax(0,33fr)}
 }
 
+
+/* 02 Premiere – reference composition: 60% left editing desk, 40% right Program. */
+.pp-panels{display:grid;grid-template-columns:minmax(0,60fr) minmax(0,40fr);grid-template-rows:minmax(0,1fr);gap:2px;padding:2px}
+.pp-edit-left{grid-column:1;grid-row:1;min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,43fr) minmax(0,57fr);gap:2px}
+.pp-edit-left>.pp-top{grid-column:1;grid-row:1;min-width:0;min-height:0;display:flex;gap:2px}
+.pp-edit-left>.pp-top>.pp-effect-controls{min-width:0;flex:1 1 auto}
+.pp-edit-left>.pp-top>.pp-source{min-width:0;flex:0 0 35%;width:35%}
+.pp-edit-left>.pp-bottom-left{grid-column:1;grid-row:2;min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,32fr) minmax(0,63fr) minmax(19px,5fr);grid-template-rows:minmax(0,1fr);gap:2px;background:#111214}
+.pp-bottom-left>.pp-project{grid-column:1;grid-row:1;min-height:0}
+.pp-bottom-left>.pp-timeline{grid-column:2;grid-row:1;min-width:0;min-height:0}
+.pp-bottom-left>.pp-meter{grid-column:3;grid-row:1;display:flex;min-width:0;min-height:0}
+.pp-panels>.pp-program{grid-column:2;grid-row:1;min-width:0;min-height:0;display:flex;flex-direction:column}
+.pp-source .pp-panel-tabs{height:18px}
+.pp-program .pp-panel-tabs{height:19px}
+.pp-program .pp-monitor-view{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:0;padding:3px;background:#252628}
+.pp-program .pp-monitor-shot{flex:none;min-width:0;min-height:0}
+.pp-source .pp-monitor-view{padding:2px;min-width:0;min-height:0;background:#232427}
+.pp-monitor-shot{background:#100e0e;aspect-ratio:16/9;max-height:100%}
+.pp-program-scopes{min-width:0;flex:1 1 0;align-self:stretch;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:#202326;border:1px solid #3f4348;color:#b9c0c6;font:9px/1.3 'Segoe UI',sans-serif}
+.pp-scope-tabs{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;background:#35373c;color:#d4d8dd;font-size:10px;font-weight:600;white-space:nowrap}
+.pp-scope-label{margin:6px 5px 2px;color:#81b1b3;font-size:8px;white-space:nowrap;overflow:hidden}
+.pp-scope-chart{flex:1;min-height:0;padding:2px;background:#202325}
+.pp-scope-row{display:flex;justify-content:space-between;gap:4px;padding:4px 6px;border-top:1px solid #3f454b;white-space:nowrap;overflow:hidden}
+.pp-scope-row>b{color:#d9dfe5;font-weight:550}
+.pp-program-output{height:24px;flex:none;background:#2d3033;color:#adbbc7;font:9px/1.2 'Segoe UI',sans-serif;display:flex;justify-content:space-around;align-items:center;gap:5px;padding:0 5px;white-space:nowrap;overflow:hidden}
+.pp-program .pp-monitor-details,.pp-program .pp-monitor-scrub{flex:none}
+.pp-program .pp-monitor-actions{flex:none}
+.pp-effect-controls .pp-fx-properties{flex:0 0 min(48%,245px);min-width:0}
+.pp-effect-controls .pp-fx-keyframes{min-width:0}
+@container (max-width: 1250px){
+ .pp-edit-left>.pp-top>.pp-source{flex-basis:43%;width:43%}
+ .pp-program .pp-monitor-view{padding:2px}
+ .pp-program-output span:nth-child(2){display:none}
+ .pp-scope-row{font-size:8px}
+}
+@container (max-width: 850px){
+ .pp-panels{grid-template-columns:minmax(0,56fr) minmax(0,44fr);grid-template-rows:minmax(0,1fr)}
+ .pp-edit-left{grid-template-rows:minmax(0,42fr) minmax(0,58fr)}
+ .pp-edit-left>.pp-top{grid-column:1;grid-row:1}
+ .pp-bottom-left>.pp-project{display:none}
+ .pp-bottom-left{grid-template-columns:minmax(0,1fr) minmax(18px,24px)}
+ .pp-bottom-left>.pp-timeline{grid-column:1;grid-row:1}
+ .pp-bottom-left>.pp-meter{grid-column:2;grid-row:1}
+ .pp-edit-left>.pp-top>.pp-source{flex-basis:50%;width:50%}
+ .pp-effect-controls .pp-fx-keyframes{display:none}
+ .pp-effect-controls .pp-fx-properties{flex:1;min-width:0}
+ .pp-program-scopes{display:none}
+ .pp-program-output{display:none}
+ .pp-program .pp-monitor-view{padding:2px}
+}
+@container (max-height: 260px){
+ .pp-edit-left{grid-template-rows:minmax(0,40fr) minmax(0,60fr)}
+ .pp-scope-row{display:none}
+ .pp-scope-tabs{padding:2px 4px}
+ .pp-program-output{display:none}
+}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -513,13 +569,13 @@ const BASE_W=1920,BASE_H=540,RIGHT=1900,BOTTOM=501;
 const S={daily:[
  ['news',24,62,620,437],['video',662,62,735,437],['notes',1409,62,242,250],['calendar',1409,324,242,175],['chat',1663,62,229,437]
 ],editing:[
- ['premiere',24,62,1503,437],['editnotes',1540,62,352,437]
+ ['premiere',18,54,1884,446]
 ],coding:[
  ['docs',26,62,413,437],['editor',452,62,871,343],['terminal',452,417,871,82],['appview',1336,62,556,257],['git',1336,331,556,168]
 ],gaming:[
  ['discord',24,62,420,437],['game',456,62,784,437],['bahamut',1252,62,640,437]
 ]};
-const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],premiere:['Adobe Premiere Pro · Lesson','Pr','#5d52a2'],editnotes:['剪輯備忘錄','✎','#cba45d'],docs:['README / GitHub','D','#538ca8'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal (Demo)','>_','#324b55'],appview:['UltraWide Preview','◈','#3a9c91'],git:['GitHub Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
+const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],premiere:['Adobe Premiere Pro · Lesson','Pr','#5d52a2'],docs:['README / GitHub','D','#538ca8'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal (Demo)','>_','#324b55'],appview:['UltraWide Preview','◈','#3a9c91'],git:['GitHub Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
 const clone=a=>JSON.parse(JSON.stringify(a));let customLayouts=clone(S),savedFreeLayouts=null,scene='daily',mode='manual',paused=false,runId=0,autoTask=null,zIndex=100,focused=null,showHints=true,windowNodes={},maxRestore={},newsData=[],newsIsLive=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
@@ -597,6 +653,7 @@ premiere:()=>`<div class="pp-shell">
 <div class="pp-menubar"><span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span><span class="pp-menu-right">☰　↗</span></div>
 <div class="pp-workspaces"><span class="pp-workspace-home">⌂</span><span>Assembly</span><span class="active">Editing</span><span>Color</span><span>Effects</span><span>Audio</span><span>Graphics</span><span>Captions</span><span>»</span></div>
 <div class="pp-panels">
+<div class="pp-edit-left">
 <div class="pp-top">
 <section class="pp-panel pp-effect-controls" data-pp-panel="effects">
   <div class="pp-panel-tabs"><span class="pp-selected">Effect Controls</span><span>Audio Clip Mixer: Lesson</span><span>Metadata</span><span class="pp-ellipses">≡</span></div>
@@ -644,6 +701,21 @@ premiere:()=>`<div class="pp-shell">
 <path d="M297 416Q348 344 415 374L505 421L490 454L374 431L306 469Z" fill="#b78667"/>
 <path d="M584 360Q641 344 675 377L731 409L710 433L661 417L599 410Z" fill="#b88464"/>
 </svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+
+</div>
+<div class="pp-bottom-left">
+<section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span class="pp-selected">Project: panels.prproj</span><span>Media Browser</span><span>Libraries</span><span>Info</span><span>Effects</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" value="" placeholder="Search project" readonly><span>▤　☰</span></div><div class="pp-project-header"><span>Name</span><span>Frame Rate</span><span>Media Start</span></div><div class="pp-project-list"><div class="pp-project-row folder">▾　▣ Camino Fuente <small>—</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 1. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 2. <small>23.976</small></div><div class="pp-project-row selected"><i></i> Camino Fuente Cam 3. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 4. <small>23.976</small></div><div class="pp-project-row folder">▾　▣ titles</div><div class="pp-project-row lesson"><i></i> Lesson <small>23.976</small></div></div><div class="pp-project-bottom">▦　☰　↔　 ⊕　 ▣　 ☑</div></section>
+<section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
+<div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name">⌁　V2</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">▣　V1</div><div class="pp-track-content"><div class="pp-clip video" style="width:33%">▣　Camino Fuente Cam 3</div><div class="pp-clip video" style="width:19%">▣　Camino Fuente Cam 4</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">♫　A1</div><div class="pp-track-content"><div class="pp-clip audio" style="width:33%">▥　Camino Fuente</div><div class="pp-clip audio" style="width:19%">▥　Camino Fuente</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name">♫　A2</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name">♫　A3</div><div class="pp-track-content"></div></div>
+</div><div class="pp-playhead" style="left:38%"><b>▼</b></div></div><div class="pp-timeline-footer">▦　 Editing　│　23.976 fps　│　Sequence Lesson</div></section>
+<section class="pp-panel pp-meter" data-pp-panel="meter"><div class="pp-meter-scale"><span>0</span><span>-6</span><span>-12</span><span>-18</span><span>-24</span><span>-36</span><span>-48</span></div><div class="pp-meter-bars"><div class="pp-meter-bar"><div class="pp-meter-level" style="height:58%"></div></div><div class="pp-meter-bar"><div class="pp-meter-level" style="height:72%"></div></div></div><div class="pp-meter-label">L　R</div></section>
+</div>
+</div>
 <section class="pp-panel pp-monitor pp-program" data-pp-panel="program"><div class="pp-panel-tabs"><span class="pp-selected">Program: Lesson</span><span>Metadata</span><span class="pp-ellipses">≡</span></div><div class="pp-monitor-view"><div class="pp-monitor-shot"><svg class="pp-shot-svg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><linearGradient id="ppp-wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#28130f"/><stop offset=".48" stop-color="#6e3825"/><stop offset="1" stop-color="#1b1110"/></linearGradient></defs>
 <rect width="960" height="540" fill="url(#ppp-wall)"/><rect y="420" width="960" height="120" fill="#291b18"/>
@@ -657,21 +729,22 @@ premiere:()=>`<div class="pp-shell">
 <path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/>
 <ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
 <g opacity=".75"><rect x="34" y="473" width="141" height="58" rx="6" fill="#0f1418"/><rect x="793" y="448" width="125" height="84" rx="5" fill="#16171b"/></g>
-</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
-</div>
-<section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span class="pp-selected">Project: panels.prproj</span><span>Media Browser</span><span>Libraries</span><span>Info</span><span>Effects</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" value="" placeholder="Search project" readonly><span>▤　☰</span></div><div class="pp-project-header"><span>Name</span><span>Frame Rate</span><span>Media Start</span></div><div class="pp-project-list"><div class="pp-project-row folder">▾　▣ Camino Fuente <small>—</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 1. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 2. <small>23.976</small></div><div class="pp-project-row selected"><i></i> Camino Fuente Cam 3. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 4. <small>23.976</small></div><div class="pp-project-row folder">▾　▣ titles</div><div class="pp-project-row lesson"><i></i> Lesson <small>23.976</small></div></div><div class="pp-project-bottom">▦　☰　↔　 ⊕　 ▣　 ☑</div></section>
-<section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
-<div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
-<div class="pp-track-row"><div class="pp-track-name">⌁　V2</div><div class="pp-track-content"></div></div>
-<div class="pp-track-row"><div class="pp-track-name active">▣　V1</div><div class="pp-track-content"><div class="pp-clip video" style="width:33%">▣　Camino Fuente Cam 3</div><div class="pp-clip video" style="width:19%">▣　Camino Fuente Cam 4</div></div></div>
-<div class="pp-track-row"><div class="pp-track-name active">♫　A1</div><div class="pp-track-content"><div class="pp-clip audio" style="width:33%">▥　Camino Fuente</div><div class="pp-clip audio" style="width:19%">▥　Camino Fuente</div></div></div>
-<div class="pp-track-row"><div class="pp-track-name">♫　A2</div><div class="pp-track-content"></div></div>
-<div class="pp-track-row"><div class="pp-track-name">♫　A3</div><div class="pp-track-content"></div></div>
-</div><div class="pp-playhead" style="left:38%"><b>▼</b></div></div><div class="pp-timeline-footer">▦　 Editing　│　23.976 fps　│　Sequence Lesson</div></section>
-<section class="pp-panel pp-meter" data-pp-panel="meter"><div class="pp-meter-scale"><span>0</span><span>-6</span><span>-12</span><span>-18</span><span>-24</span><span>-36</span><span>-48</span></div><div class="pp-meter-bars"><div class="pp-meter-bar"><div class="pp-meter-level" style="height:58%"></div></div><div class="pp-meter-bar"><div class="pp-meter-level" style="height:72%"></div></div></div><div class="pp-meter-label">L　R</div></section>
+</svg></div><aside class="pp-program-scopes" data-pp-panel="scopes" aria-label="Lumetri Scopes">
+ <div class="pp-scope-tabs">Lumetri Scopes <span>⋯</span></div>
+ <div class="pp-scope-label">RGB PARADE　·　REC.709</div>
+ <div class="pp-scope-chart">
+  <svg viewBox="0 0 120 210" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pp-scope-fade" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#92cebc" stop-opacity=".75"/><stop offset="1" stop-color="#5c9489" stop-opacity=".08"/></linearGradient></defs>
+   <g stroke="#43494b" stroke-width=".65"><path d="M0 42H120M0 84H120M0 126H120M0 168H120M24 0V210M48 0V210M72 0V210M96 0V210"/></g>
+   <path d="M0 142Q8 126 15 137T32 102T48 132T64 66T80 98T100 53T120 86V210H0Z" fill="url(#pp-scope-fade)"/>
+   <path d="M0 142Q8 126 15 137T32 102T48 132T64 66T80 98T100 53T120 86" fill="none" stroke="#61cba7" stroke-width="1.8"/>
+   <path d="M0 179Q18 173 32 162T58 137T88 149T120 119" fill="none" stroke="#82a8e2" stroke-width="1.4"/>
+   <path d="M0 119Q20 126 42 110T78 132T120 92" fill="none" stroke="#d17e79" stroke-width="1.2"/>
+  </svg>
+ </div><div class="pp-scope-row"><span>Program</span><b>1080p</b></div><div class="pp-scope-row"><span>Color</span><b>Rec.709</b></div>
+ <div class="pp-scope-row"><span>FPS</span><b>23.976</b></div>
+</aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
-editnotes:()=>`<div class="pp-side-notes"><div class="pp-side-header">⌕　剪輯備忘錄 <span>▦</span></div><div class="pp-side-content"><div class="pp-note-title">Lesson — 剪輯清單</div><div class="pp-note-caption">今日專案 · v01</div><div class="pp-note-group"><span>✓</span> 素材已匯入</div><div class="pp-note-group"><span>✓</span> 建立 Lesson 序列</div><div class="pp-note-group pending"><span>☐</span> 修剪兩個鏡頭間的轉場</div><div class="pp-note-group pending"><span>☐</span> 核對背景音樂與人聲</div><div class="pp-note-group pending"><span>☐</span> 調整字幕與顏色</div><div class="pp-note-divider"></div><div class="pp-note-subtitle">素材參考</div><div class="pp-note-chip">▣　Camino Fuente Cam 3.mp4</div><div class="pp-note-chip">▣　Camino Fuente Cam 4.mp4</div><div class="pp-note-chip">♫　Music track.wav</div><div class="pp-note-divider"></div><div class="pp-note-remind">💡 Premiere 為模擬工作區，可拖曳整個視窗並自由調整大小。</div></div></div>`,
 docs:()=>`<div class="docs"><h3>UltraWide Studio</h3><p><b>knuckleslee/ultrawide-showcase</b><br>32:9 Virtual Desktop Showcase</p><p>這個畫面直接以展示網站本身的 GitHub 專案為範本。</p><h4>Project files</h4><p>▤ index.html — 桌面與視窗動畫<br>▤ scripts/fetch_news.py — Google 新聞<br>▤ news.json — 靜態新聞快照<br>▤ .github/workflows — 排程與部署</p><h4>Run locally</h4><div class="code-snippet">git clone github.com/knuckleslee/ultrawide-showcase<br>cd ultrawide-showcase<br>python server.py</div><p><a class="repo-link" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ View source on GitHub</a></p><p style="font-size:10px;color:#627e94">原始碼為展示用節錄，程式操作並未實際執行。</p></div>`,
 editor:()=>`<div class="editor"><div class="vscode-bar"><span class="selected">▤</span><span>⌕</span><span>⑂</span><span>⧉</span><span>⚙</span></div><aside class="files-tree">▾ ultrawide-showcase<br>　◈ index.html<br>　▤ news.json<br>　▾ scripts<br>　　<span class="file-selected">◈ fetch_news.py</span><br>　▾ .github<br>　　▾ workflows<br>　　　◈ update-news.yml<br>　▧ README.md<br>　◈ server.py</aside><div class="code-area"><div class="repo-file-tab">● scripts/fetch_news.py <span>· actual source excerpt</span></div><div class="code-line"><span class="ln">24</span><span class="kw">def</span> get_news() -&gt; list[dict[str, str]]:</div><div class="code-line"><span class="ln">25</span>    request = Request(FEED, headers={</div><div class="code-line"><span class="ln">26</span>        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (compatible; UltraWideStudio/1.0)&quot;,</div><div class="code-line"><span class="ln">27</span>        &quot;Accept&quot;: &quot;application/rss+xml, application/xml, text/xml&quot;,</div><div class="code-line"><span class="ln">28</span>    })</div><div class="code-line"><span class="ln">29</span>    <span class="kw">with</span> urlopen(request, timeout=20) as response:</div><div class="code-line"><span class="ln">30</span>        xml = response.read(2_000_000)</div><div class="code-line"><span class="ln">31</span> </div><div class="code-line"><span class="ln">32</span>    root = ET.fromstring(xml)</div><div class="code-line"><span class="ln">33</span>    seen: set[str] = set()</div><div class="code-line"><span class="ln">34</span>    articles = []</div><div class="code-line"><span class="ln">35</span>    <span class="kw">for</span> entry in root.findall(&quot;./channel/item&quot;):</div><div class="code-line"><span class="ln">36</span>        title = &quot; &quot;.join((entry.findtext(&quot;title&quot;) or &quot;&quot;).split())</div><div class="code-line"><span class="ln">37</span>        <span class="kw">if</span> not title or title in seen:</div><div class="code-line"><span class="ln">38</span>            continue</div><div class="code-line"><span class="ln">39</span>        seen.add(title)</div><div class="code-line"><span class="ln">40</span>        source = &quot; &quot;.join((entry.findtext(&quot;source&quot;) or &quot;Google News&quot;).split())</div><div class="code-line"><span class="ln">41</span>        raw_date = entry.findtext(&quot;pubDate&quot;) or &quot;&quot;</div><div class="code-line"><span class="ln">42</span>        time_text = &quot;&quot;</div><div class="code-line"><span class="ln">43</span>        <span class="kw">if</span> raw_date:</div></div><div class="vscode-status"><span>⑂ main　✓ 0</span><span>Python　UTF-8　Spaces: 4　⌁</span></div></div>`,
 terminal:()=>`<div class="terminal"><div><span class="dim">PS C:&#92;projects&#92;ultrawide-showcase&gt;</span> python server.py</div><div>UltraWide Studio: <span style="color:#9fcfff">http://127.0.0.1:8765/</span></div><div><span class="dim"># Terminal output is simulated for presentation</span></div></div>`,
@@ -768,37 +841,37 @@ function layoutEntry(id){return customLayouts[scene].find(g=>g[0]===id)}
    ResizeObserver follows freely resized windows as well as scene transitions. */
 /* Natural monitor width is derived from the existing image-region height.
    The two identical 16:9 monitors touch at the right; Effects fills the left. */
+/* Resize only the 16:9 picture areas; the upper-left Source and
+   full-height right Program intentionally have different sizes. */
 function arrangePremiereMonitors(){
- const top=document.querySelector('.pp-top');
- if(!top||top.clientWidth<2||top.clientHeight<2)return;
- const monitors=[...top.querySelectorAll('.pp-monitor')];
- if(monitors.length!==2)return;
- const sample=monitors[0].querySelector('.pp-monitor-view');
- const style=getComputedStyle(sample);
- const padX=(parseFloat(style.paddingLeft)||0)+(parseFloat(style.paddingRight)||0);
- const padY=(parseFloat(style.paddingTop)||0)+(parseFloat(style.paddingBottom)||0);
- const availableHeight=Math.max(1,sample.clientHeight-padY);
- const naturalPanelWidth=availableHeight*16/9+padX+2;
- const minEffectSpace=Math.min(210,Math.max(105,top.clientWidth*.15));
- const pairRoom=Math.max(2,(top.clientWidth-4-minEffectSpace)/2);
- const panelWidth=Math.max(1,Math.min(naturalPanelWidth,pairRoom));
- for(const el of monitors){
-   el.style.width=panelWidth+'px';
-   el.style.flex='0 0 '+panelWidth+'px';
-   const view=el.querySelector('.pp-monitor-view');
-   const image=el.querySelector('.pp-monitor-shot');
-   if(!image||!view)continue;
-   const maxWidth=Math.max(1,view.clientWidth-padX);
-   const mediaWidth=Math.max(1,Math.min(maxWidth,availableHeight*16/9));
-   const mediaHeight=mediaWidth*9/16;
-   image.style.width=mediaWidth+'px';
-   image.style.height=mediaHeight+'px';
+ const desk=document.querySelector('.pp-panels');
+ if(!desk||desk.clientWidth<2||desk.clientHeight<2)return;
+ for(const kind of ['source','program']){
+  const panel=desk.querySelector('.pp-'+kind);
+  if(!panel)continue;
+  const view=panel.querySelector('.pp-monitor-view');
+  const image=view?.querySelector('.pp-monitor-shot');
+  if(!view||!image||view.clientWidth<2||view.clientHeight<2)continue;
+  const s=getComputedStyle(view);
+  const padX=(parseFloat(s.paddingLeft)||0)+(parseFloat(s.paddingRight)||0);
+  const padY=(parseFloat(s.paddingTop)||0)+(parseFloat(s.paddingBottom)||0);
+  const gap=(parseFloat(s.gap)||0);
+  const usableH=Math.max(1,view.clientHeight-padY);
+  const usableW=Math.max(1,view.clientWidth-padX);
+  const scopes=kind==='program'?view.querySelector('.pp-program-scopes'):null;
+  const scopesActive=!!(scopes&&getComputedStyle(scopes).display!=='none');
+  // Reserve ~15% of the Program area for useful Lumetri scopes.
+  const targetScope=scopesActive?Math.max(65,Math.min(140,usableW*.17)):0;
+  const availablePictureW=scopesActive?usableW-targetScope-gap:usableW;
+  const mediaW=Math.max(1,Math.min(availablePictureW,usableH*16/9));
+  image.style.width=mediaW+'px';
+  image.style.height=mediaW*9/16+'px';
  }
 }
 const premiereResizeObserver=new ResizeObserver(()=>arrangePremiereMonitors());
 function watchPremiereMonitors(){
- const top=document.querySelector('.pp-top');
- if(top)premiereResizeObserver.observe(top);
+ const desk=document.querySelector('.pp-panels');
+ if(desk)premiereResizeObserver.observe(desk);
  arrangePremiereMonitors();
 }
 function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
@@ -878,17 +951,17 @@ if(!await action(id,'視窗自由編排','拖曳聊天視窗，讓需要的工�
 if(!await showcaseDrag('chat',id,-85,-18))return;
 if(!await focusAction('video',id))return;if(!await delay(1700,id))return;
 }else if(sn==='editing'){
-if(!await action(id,'02 / Premiere Pro','雙預覽、素材庫、時間軸都在同一個 Premiere 主視窗內。'))return;
+if(!await action(id,'02 / Premiere Pro','約六成剪輯工作區搭配右側大型 16:9 Program 預覽。'))return;
 if(!await focusAction('premiere',id))return;
-if(!await focusPremierePanel('effects',id))return;
-if(!await focusPremierePanel('source',id))return;
 if(!await focusPremierePanel('program',id))return;
-if(!await action(id,'剪輯素材','從 Project 面板檢視素材，再把片段放進時間軸。'))return;
+if(!await action(id,'大型預覽與即時色階','Program 占右側約四成，旁邊顯示 Lumetri Scopes。'))return;
+if(!await focusPremierePanel('scopes',id))return;
+if(!await focusPremierePanel('source',id))return;
+if(!await focusPremierePanel('effects',id))return;
+if(!await action(id,'剪輯工作區','左上調整效果與來源，左下直接操作素材和時間軸。'))return;
 if(!await focusPremierePanel('project',id))return;
 if(!await focusPremierePanel('timeline',id))return;
 if(!await advancePremierePlayhead(id))return;
-if(!await action(id,'32:9 多工優勢','保留 Premiere 主工作區，右邊仍可檢視剪輯筆記。'))return;
-if(!await focusAction('editnotes',id))return;
 if(!await delay(1100,id))return;
 }else if(sn==='coding'){
 if(!await action(id,'03 / 程式設計','文件、程式編輯、終端機及即時預覽並排。'))return;
