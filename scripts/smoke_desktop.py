@@ -290,7 +290,7 @@ def main() -> int:
       const bannerSeparate=!editor.contains(source)&&source.parentElement===editor.parentElement;
       const statusStyle=getComputedStyle(source);
       const compactBanner=parseFloat(statusStyle.fontSize)<=11
-        && statusStyle.letterSpacing==='normal'
+        && (statusStyle.letterSpacing==='normal'||parseFloat(statusStyle.letterSpacing)===0)
         && source.offsetHeight<=27;
       const editorFont=getComputedStyle(editor).fontSize;
       alignGitHubReadme('instant');
