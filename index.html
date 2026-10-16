@@ -1083,7 +1083,8 @@ function renderCalendar(offset){
  const el=document.querySelector('.calendar');
  if(!el)return;
  const shift=Math.max(-24,Math.min(24,Number(offset)||0));
- const first=new Date(2026,9+shift,1);
+ const currentDate=new Date();
+ const first=new Date(currentDate.getFullYear(),currentDate.getMonth()+shift,1);
  const year=first.getFullYear(),month=first.getMonth(),start=first.getDay();
  const days=new Date(year,month+1,0).getDate();
  const total=Math.ceil((start+days)/7)*7;
@@ -1091,7 +1092,7 @@ function renderCalendar(offset){
  for(let i=0;i<total;i++){
    const date=i-start+1;
    const inMonth=date>=1&&date<=days;
-   const today=year===2026&&month===9&&date===16;
+   const today=year===currentDate.getFullYear()&&month===currentDate.getMonth()&&date===currentDate.getDate();
    cells.push('<span'+(today?' class="today"':'')+'>'+(inMonth?date:'')+'</span>');
  }
  el.dataset.shift=String(shift);
@@ -1146,6 +1147,196 @@ function setupDailyInteractions(){
  calendar.querySelector('.cal-next').addEventListener('click',()=>renderCalendar(Number(calendar.dataset.shift)+1));
  renderCalendar(0);
 }
+
+/* Actual public repository data is fetched from GitHub: the coding edits and AI
+   messages are explicitly scripted UI demonstrations, not real commits or AI calls. */
+const CODE_REPO='knuckleslee/ultrawide-showcase';
+const AGENT_PLAN=[
+ 'Identify the GitHub panel and keep its typography separate from editor and terminal.',
+ 'Define five uppercase sizes (XS, SM, MD, LG, XL) in the GitHub panel toolbar.',
+ 'Store the selected size in a panel-scoped data-git-font attribute.',
+ 'Apply one CSS custom property only to the GitHub panel content, never globally.',
+ 'Verify all five modes, scroll behavior, and readability on the 32:9 desktop.'
+];
+const AGENT_EDITS=[
+ {title:'01 / Define size options',code:"const GITHUB_FONT_MODES = ['XS','SM','MD','LG','XL'];"},
+ {title:'02 / Add panel-local state',code:"let githubFontMode = 'MD'; // UI state, not a site-wide setting"},
+ {title:'03 / Provide control buttons',code:"const fontButtons = GITHUB_FONT_MODES.map(mode => makeButton(mode));"},
+ {title:'04 / Apply only within GitHub',code:"githubPanel.dataset.gitFont = githubFontMode;"},
+ {title:'05 / Verify the scoped CSS',code:"// .live-github[data-git-font='XL'] { --git-content-size: 18px; }"}
+];
+let codingDemoSaved=null,codingRawSource='';
+function setGitFontMode(mode){
+ const allowed=['XS','SM','MD','LG','XL'];
+ if(!allowed.includes(mode))return;
+ const panel=windowNodes.git?.querySelector('.live-github');
+ if(!panel)return;
+ panel.dataset.gitFont=mode;
+ panel.querySelectorAll('.git-size-button').forEach(button=>{
+  const active=button.dataset.fontMode===mode;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+}
+function setupCodingInteractions(){
+ const panel=windowNodes.git?.querySelector('.live-github');
+ if(panel)panel.querySelectorAll('.git-size-button').forEach(button=>{
+  button.addEventListener('click',()=>setGitFontMode(button.dataset.fontMode));
+ });
+}
+function renderRealSource(source){
+ const container=document.getElementById('realCodeLines');
+ if(!container)return;
+ const lines=source.split(/\r?\n/);
+ container.innerHTML=lines.map((line,i)=>
+  '<div class="source-code-line"><span class="line-num">'+(i+1)+'</span><span class="line-text">'+escapeHTML(line)+'</span></div>'
+ ).join('');
+}
+async function loadLiveCodingData(){
+ const base='https://api.github.com/repos/'+CODE_REPO;
+ const badge=document.getElementById('gitLiveBadge');
+ const repoDescription=document.getElementById('gitRepoDescription');
+ const files=document.getElementById('gitLiveFiles');
+ const loader=document.getElementById('editorLoadState');
+ const loadJSON=async url=>{
+  const response=await fetch(url,{headers:{Accept:'application/vnd.github+json'},signal:AbortSignal.timeout(8000)});
+  if(!response.ok)throw Error('GitHub HTTP '+response.status);
+  return response.json();
+ };
+ // Each load is independent: failing metadata will not prevent source loading.
+ try{
+  const result=await loadJSON(base);
+  if(repoDescription)repoDescription.textContent=result.description||'Public repository';
+  document.getElementById('gitRepoName').textContent=result.full_name||CODE_REPO;
+  document.getElementById('gitDefaultBranch').textContent=result.default_branch||'main';
+  document.getElementById('gitStars').textContent=String(result.stargazers_count??'—');
+  document.getElementById('gitForks').textContent=String(result.forks_count??'—');
+  document.getElementById('gitUpdated').textContent=result.updated_at?new Date(result.updated_at).toLocaleDateString('zh-TW'):'—';
+  if(badge){badge.textContent='LIVE';badge.classList.add('live')}
+ }catch(err){
+  if(badge)badge.textContent='OFFLINE';
+  if(repoDescription)repoDescription.textContent='GitHub 資料暫時無法載入，請用下方原站連結查看。';
+ }
+ try{
+  const listing=await loadJSON(base+'/contents');
+  if(Array.isArray(listing)&&files){
+   files.replaceChildren();
+   for(const item of listing.filter(x=>x&&x.name).slice(0,14)){
+    const row=document.createElement('div');
+    row.className='git-file';
+    row.textContent=(item.type==='dir'?'▸　':'▤　')+item.name;
+    files.append(row);
+   }
+  }
+ }catch(err){if(files)files.textContent='GitHub files 暫時無法載入。'}
+ try{
+  const response=await fetch('https://raw.githubusercontent.com/'+CODE_REPO+'/main/scripts/fetch_news.py',{signal:AbortSignal.timeout(10000),cache:'no-store'});
+  if(!response.ok)throw Error('Source HTTP '+response.status);
+  codingRawSource=await response.text();
+  renderRealSource(codingRawSource);
+  if(loader)loader.textContent='來源：GitHub main · scripts/fetch_news.py（已載入完整真實檔案）';
+ }catch(err){
+  if(loader)loader.textContent='原始碼暫時無法載入，請使用右上方的 GitHub 原站連結。';
+ }
+}
+function resetCodingDemo(){
+ const question=document.getElementById('agentQuestion'),think=document.getElementById('agentThinking'),answer=document.getElementById('agentAnswer');
+ for(const el of [question,think,answer])if(el)el.hidden=true;
+ const steps=document.getElementById('agentSteps');if(steps)steps.replaceChildren();
+ const prompt=document.getElementById('agentPromptLine');if(prompt)prompt.textContent='Ask how to add a feature…';
+ const changes=document.getElementById('agentCodeChanges');if(changes){changes.replaceChildren();changes.hidden=true}
+ const count=document.getElementById('editorChangeCount');if(count)count.textContent='✓ 0';
+ const terminal=document.getElementById('codingTerminalStatus');if(terminal)terminal.textContent='Working tree: demo preview';
+}
+function codingScrollTo(selector,top){
+ const el=document.querySelector(selector);if(!el)return;
+ el.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+}
+function captureCodingState(){
+ return {font:document.querySelector('.live-github')?.dataset.gitFont||'MD',
+  agentScroll:document.getElementById('agentMessages')?.scrollTop||0,
+  editorScroll:document.getElementById('codingScroll')?.scrollTop||0,
+  githubScroll:document.getElementById('gitLiveScroll')?.scrollTop||0};
+}
+function restoreCodingState(snapshot){
+ resetCodingDemo();
+ setGitFontMode(snapshot?.font||'MD');
+ for(const [key,scroll] of [['agentMessages',snapshot?.agentScroll],['codingScroll',snapshot?.editorScroll],['gitLiveScroll',snapshot?.githubScroll]]){
+  const el=document.getElementById(key);
+  if(el){el.style.scrollBehavior='auto';el.scrollTop=scroll||0;requestAnimationFrame(()=>{if(el.isConnected)el.style.scrollBehavior=''})}
+ }
+}
+async function runCodingAuto(id){
+ resetCodingDemo();
+ const prompt='How do I add five local font-size options to my GitHub panel?';
+ if(!await action(id,'03 / AI 協作程式設計','AI AGENT 模擬收到新增功能的需求，先思考再提出五步修改方案。'))return false;
+ if(!await focusAction('aiagent',id))return false;
+ const promptLabel=document.getElementById('agentPromptLine');
+ for(let i=0;i<=prompt.length;i+=3){
+  if(!await delay(38,id))return false;
+  promptLabel.textContent=prompt.slice(0,i)+'▌';
+ }
+ promptLabel.textContent=prompt;
+ const question=document.getElementById('agentQuestion');
+ question.hidden=false;
+ codingScrollTo('#agentMessages',document.getElementById('agentMessages').scrollHeight);
+ if(!await delay(700,id))return false;
+ const thinking=document.getElementById('agentThinking');
+ const progress=document.getElementById('agentThinkDetail');
+ thinking.hidden=false;
+ for(const note of ['Reading repository structure…','Checking panel-specific typography…','Preparing a safe five-step implementation plan…']){
+  progress.textContent=note;
+  codingScrollTo('#agentMessages',document.getElementById('agentMessages').scrollHeight);
+  if(!await delay(850,id))return false;
+ }
+ thinking.hidden=true;
+ const answer=document.getElementById('agentAnswer'),steps=document.getElementById('agentSteps');
+ answer.hidden=false;
+ for(let i=0;i<AGENT_PLAN.length;i++){
+  const item=document.createElement('div');item.className='agent-step';
+  const number=document.createElement('span');number.className='agent-step-num';number.textContent=String(i+1).padStart(2,'0');
+  const body=document.createElement('span');body.className='agent-step-body';body.textContent=AGENT_PLAN[i];
+  item.append(number,body);steps.append(item);
+  codingScrollTo('#agentMessages',document.getElementById('agentMessages').scrollHeight);
+  if(!await delay(650,id))return false;
+ }
+ if(!await action(id,'人工參照建議修改','參考五步計畫，在真實載入的原始碼旁，示範五次捲動及手動新增程式碼。'))return false;
+ if(!await focusAction('editor',id))return false;
+ const scroll=document.getElementById('codingScroll'),changes=document.getElementById('agentCodeChanges');
+ changes.hidden=false;
+ const start=Math.min(scroll.scrollHeight,Math.max(0,scroll.scrollHeight*.18));
+ for(let i=0;i<AGENT_EDITS.length;i++){
+  if(!await demoScroll(scroll,130,id))return false;
+  const position=demoElementCoords(scroll);
+  cursorAt(position.x+Math.min(90,scroll.clientWidth*.15),position.y+Math.min(25,scroll.clientHeight*.12),480);
+  if(!await delay(420,id))return false;
+  const row=document.createElement('div');row.className='source-code-line demo-added';
+  const line=document.createElement('span');line.className='line-num';line.textContent='+';
+  const body=document.createElement('span');body.className='line-text';
+  row.append(line,body);changes.append(row);
+  const snippet=AGENT_EDITS[i].code;
+  for(let k=0;k<=snippet.length;k+=4){
+   if(!await delay(30,id))return false;
+   body.textContent=snippet.slice(0,k)+'▌';
+  }
+  body.textContent=snippet;
+  const banner=document.createElement('div');banner.className='editor-demo-note';banner.textContent=AGENT_EDITS[i].title+' · simulated manual edit';
+  changes.append(banner);
+  document.getElementById('editorChangeCount').textContent='+ '+(i+1)+' simulated edits';
+  document.getElementById('codingTerminalStatus').textContent='Pending review · '+(i+1)+' / 5 simulated edits';
+  codingScrollTo('#codingScroll',scroll.scrollHeight);
+  if(!await delay(520,id))return false;
+ }
+ if(!await action(id,'GitHub 五級字體大小','右上角依序切換 XS、SM、MD、LG、XL，並只影響 GitHub 面板。'))return false;
+ if(!await focusAction('git',id))return false;
+ for(const mode of ['XS','SM','MD','LG','XL']){
+  const button=document.querySelector('.git-size-button[data-font-mode="'+mode+'"]');
+  if(!await demoTap(button,id,850))return false;
+ }
+ if(!await demoScroll(document.getElementById('gitLiveScroll'),130,id))return false;
+ return await delay(650,id);
+}
+
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
 function applyGeometry(el,g,animate=false){if(animate)el.classList.add('animating');else el.classList.remove('animating');el.style.left=g[0]+'px';el.style.top=g[1]+'px';el.style.width=g[2]+'px';el.style.height=g[3]+'px';}
 function layoutEntry(id){return customLayouts[scene].find(g=>g[0]===id)}
@@ -1483,10 +1674,7 @@ if(!await focusPremierePanel('timeline',id))return;
 if(!await demoPremierePlayback(id))return;
 if(!await delay(1100,id))return;
 }else if(sn==='coding'){
-if(!await action(id,'03 / 程式設計','文件、程式編輯、終端機及即時預覽並排。'))return;
-if(!await focusAction('docs',id))return;if(!await focusAction('editor',id))return;
-if(!await action(id,'即時測試','修改程式的同時，可以立即看到輸出與預覽。'))return;
-if(!await focusAction('terminal',id))return;if(!await focusAction('appview',id))return;if(!await delay(1600,id))return;
+if(!await runCodingAuto(id))return;
 }else{
 if(!await action(id,'04 / 遊戲娛樂','遊戲固定 16:9 比例；左側 Discord 聊天，右側巴哈姆特查攻略。'))return;
 if(!await focusAction('game',id))return;if(!await delay(1000,id))return;
