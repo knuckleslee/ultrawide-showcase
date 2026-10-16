@@ -133,7 +133,7 @@ class DesktopParser(HTMLParser):
             self.game_sources.append(data.get("src") or "")
         if data.get("data-font-mode"):
             self.github_font_modes.add(data["data-font-mode"])
-        for label in ("agentQuestion", "agentThinking", "agentSteps", "agentCodeChanges", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
+        for label in ("agentQuestion", "agentThinking", "agentSteps", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
                       "codingScroll", "gitLiveScroll", "realCodeLines", "gitLiveFiles"):
             if data.get("id") == label:
                 self.coding_features.add(label)
@@ -305,7 +305,7 @@ def main() -> int:
             if scene_parser.auto_button_active or not scene_parser.free_button_active or "manual" not in scene_parser.desktop_classes:
                 problems.append("Explicit ?scene=coding links must stay in manual preview mode")
             required_features = {"agentQuestion", "agentThinking", "agentSteps", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
-                                 "agentCodeChanges", "codingScroll", "gitLiveScroll",
+                                 "codingScroll", "gitLiveScroll",
                                  "realCodeLines", "gitLiveFiles"}
             if scene_parser.github_font_modes != {"XS", "SM", "MD", "LG", "XL"}:
                 problems.append("GitHub 5 uppercase font modes XS/SM/MD/LG/XL missing")
@@ -374,11 +374,11 @@ def main() -> int:
         && document.getElementById('gitLiveScroll').scrollTop>0
         && readme.children.length>=18;
       const isolatedFont=getComputedStyle(editor).fontSize===editorFont;
-      const agentLocalized=AGENT_PLAN.length===4
+      const agentLocalized=AGENT_PLAN.length===5
         && AGENT_PLAN.every(text=>/[\u4e00-\u9fff]/.test(text))
-        && AGENT_EDITS.length===4
+        && AGENT_EDITS.length===5
         && AGENT_EDITS.every(step=>/[\u4e00-\u9fff]/.test(step.title))
-        && document.querySelector('#agentQuestion')?.textContent.includes('請問如何替 GitHub')
+        && document.querySelector('#agentQuestion')?.textContent.includes('請問如何修改 index.html')
         && document.querySelector('#agentThinking')?.textContent.includes('正在分析')
         && document.querySelector('#agentAnswer')?.textContent.includes('建議修改方案');
       const meaningfulClicksOnly=!focusAction.toString().includes('clickCursor(')
@@ -421,32 +421,26 @@ def main() -> int:
       document.documentElement.setAttribute('data-default-layout-check',
         layoutsOkay?'pass':'fail:'+JSON.stringify({matchingSeams,withinScreen,
           sidesSafe,manualChange,resetRestores,mainRects}));
-      // Verify the last four simulated VS Code edit lines sit multiple
-      // rows ABOVE the editor's bottom edge, not against the status bar.
-      const editArea=document.getElementById('agentCodeChanges');
-      editArea.hidden=false;
-      editArea.replaceChildren();
-      for(let i=0;i<4;i++){
-        const row=document.createElement('div');
-        row.className='source-code-line demo-added';
-        row.textContent='// 人工輸入的第 '+(i+1)+' 段程式碼';
-        editArea.append(row);
-      }
-      const savedScrollBehavior=editor.style.scrollBehavior;
-      editor.style.scrollBehavior='auto';
-      editor.scrollTop=editor.scrollHeight;
-      const lastEdit=editArea.lastElementChild;
-      const typingClearance=(editor.getBoundingClientRect().bottom
-        -lastEdit.getBoundingClientRect().bottom)/desktopScale;
-      const editorTypingRaised=typingClearance>=80;
-      editor.style.scrollBehavior=savedScrollBehavior;
+      // The editor must show the real index.html JavaScript, not Python
+      // followed by detached JS additions and free-floating step captions.
+      const sourceLines=[...document.querySelectorAll('#realCodeLines .source-code-line')];
+      const editorJavaScript=sourceLines.some(row=>row.textContent.includes('function setGitFontMode(mode){'))
+        && document.querySelector('.repo-file-tab')?.textContent.includes('index.html')
+        && document.querySelector('.vscode-status')?.textContent.includes('JavaScript');
+      const noWrongFileContent=!document.querySelector('.repo-file-tab')?.textContent.includes('fetch_news.py')
+        && !sourceLines.some(row=>row.textContent.includes('raise SystemExit(main())'))
+        && !document.getElementById('agentCodeChanges');
+      const numberedRows=sourceLines.length>=15
+        && sourceLines.every((row,i)=>Number(row.querySelector('.line-num')?.textContent)===codingSourceStartLine+i);
+      const noEditorCaptions=!document.querySelector('#realCodeLines .editor-demo-note');
+      const editorTypingRaised=editorJavaScript&&noWrongFileContent&&numberedRows&&noEditorCaptions;
       const success=clearance>=31 && bannerSeparate && compactBanner
         && readmeInScroll && isolatedFont && agentLocalized
         && meaningfulClicksOnly && editorTypingRaised;
       document.documentElement.setAttribute('data-coding-ui-check',
         success?'pass':'fail:'+JSON.stringify({clearance,bannerSeparate,
          compactBanner,readmeInScroll,isolatedFont,agentLocalized,
-         meaningfulClicksOnly,editorTypingRaised,typingClearance,
+         meaningfulClicksOnly,editorTypingRaised,editorJavaScript,noWrongFileContent,numberedRows,noEditorCaptions,
          statusHeight:source.offsetHeight}));
     })();
     </script>
