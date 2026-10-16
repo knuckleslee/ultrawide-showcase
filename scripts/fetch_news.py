@@ -48,7 +48,7 @@ def get_news() -> list[dict[str, str]]:
                 time_text = published.astimezone(TAIWAN).strftime("%m/%d %H:%M")
             except (ValueError, TypeError, OverflowError):
                 pass
-        articles.append({"title": title, "source": source, "time": time_text})
+        articles.append({"title": title, "source": source, "time": time_text, "link": (entry.findtext("link") or "").strip()})
         if len(articles) >= 12:
             break
     if not articles:
