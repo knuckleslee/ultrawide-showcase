@@ -14,9 +14,11 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_WINDOWS = 17
+EXPECTED_WINDOWS = 15
 INITIAL_SCENE = {"news", "chat", "video", "calendar", "notes"}
 SCENES = {"daily", "editing", "coding", "gaming"}
+EDITING_WINDOWS = {"premiere", "editnotes"}
+PREMIERE_PANELS = {"source", "program", "project", "timeline", "meter"}
 
 
 class DesktopParser(HTMLParser):
@@ -25,9 +27,12 @@ class DesktopParser(HTMLParser):
         self.windows: dict[str, set[str]] = {}
         self.scenes: set[str] = set()
         self.youtube_sources: list[str] = []
+        self.premiere_panels: set[str] = set()
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
+        if data.get("data-pp-panel"):
+            self.premiere_panels.add(data["data-pp-panel"])
         if tag == "iframe" and data.get("id") == "youtubeFrame":
             self.youtube_sources.append(data.get("src") or "")
         if tag == "button" and data.get("data-scene"):
@@ -75,6 +80,26 @@ def main() -> int:
     if len(parser.youtube_sources) != 1 or "youtube-nocookie.com/embed/dQw4w9WgXcQ" not in parser.youtube_sources[0]:
         problems.append("Daily YouTube iframe missing or using the wrong video")
 
+    # Load the real editing scene through the public ?scene=editing deep link.
+    # This catches accidental regressions where the 02 workspace is blank.
+    editing_result = subprocess.run(
+        command[:-1] + [source + "?scene=editing"],
+        text=True, capture_output=True, timeout=35,
+    )
+    if editing_result.returncode != 0:
+        problems.append("Chrome failed to load editing scene")
+        print("Editing browser diagnostics:", editing_result.stderr[-2500:], file=sys.stderr)
+    else:
+        editing_parser = DesktopParser()
+        editing_parser.feed(editing_result.stdout)
+        visible_editing = {name for name, classes in editing_parser.windows.items()
+                           if "offscreen" not in classes}
+        if visible_editing != EDITING_WINDOWS:
+            problems.append(f"Editing scene windows mismatch: {sorted(visible_editing)}")
+        if editing_parser.premiere_panels != PREMIERE_PANELS:
+            problems.append(f"Premiere docked panels missing: "
+                            f"{sorted(PREMIERE_PANELS - editing_parser.premiere_panels)}")
+
     if problems:
         for problem in problems:
             print("ERROR:", problem, file=sys.stderr)
@@ -83,7 +108,9 @@ def main() -> int:
         return 1
 
     print(f"PASS: {len(parser.windows)} desktop windows created; "
-          f"daily scene visible = {sorted(visible)}; four scene tabs present.")
+          f"daily scene visible = {sorted(visible)}; four scene tabs present; "
+          f"editing workspace includes {sorted(EDITING_WINDOWS)} and "
+          f"{len(PREMIERE_PANELS)} docked Premiere panels.")
     return 0
 
 
