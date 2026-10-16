@@ -1,50 +1,85 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360">
-<defs><linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a1110"/><stop offset=".65" stop-color="#75401f"/><stop offset="1" stop-color="#1b1112"/></linearGradient><linearGradient id="office" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fdfaf1"/><stop offset="1" stop-color="#e5dfc9"/></linearGradient></defs>
+<defs>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a1510"/><stop offset="1" stop-color="#894d2b"/></linearGradient>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6f5ec"/><stop offset="1" stop-color="#e5e1d2"/></linearGradient>
+</defs>
 <rect width="1280" height="360" fill="#081626"/>
 <rect width="1280" height="38" fill="#10273c"/>
-<text x="20" y="25" fill="#8fefde" font-family="Arial,sans-serif" font-size="18" font-weight="bold">ULTRAWIDE STUDIO</text>
-<text x="1066" y="25" fill="#c2d7e7" font-family="Arial,sans-serif" font-size="15">02 EDITING</text>
-<rect x="12" y="50" width="1000" height="263" rx="3" fill="#202124" stroke="#565861"/>
-<rect x="12" y="50" width="1000" height="22" fill="#28282d"/>
+<text x="20" y="25" fill="#8fefde" font-family="Arial" font-size="18" font-weight="bold">ULTRAWIDE STUDIO</text>
+<text x="1060" y="25" fill="#c2d7e7" font-family="Arial" font-size="15">02 EDITING</text>
+<!-- one Premiere application window -->
+<rect x="12" y="49" width="1000" height="265" rx="3" fill="#202124" stroke="#565861"/>
+<rect x="12" y="49" width="1000" height="23" fill="#28282d"/>
 <rect x="18" y="54" width="16" height="14" rx="2" fill="#5d52a2"/>
-<text x="21" y="65" fill="#fff" font-family="Arial" font-size="10">Pr</text>
-<text x="41" y="65" fill="#cdd2db" font-family="Arial,sans-serif" font-size="12">Adobe Premiere Pro — Lesson</text>
-<text x="936" y="65" fill="#aeb5c3" font-family="Arial,sans-serif" font-size="11">─　□　×</text>
-<rect x="14" y="74" width="996" height="22" fill="#303136"/>
-<g fill="#aab0b9" font-family="Arial,sans-serif" font-size="10"><text x="250" y="89">Assembly</text><text x="330" y="89" fill="#77c1ec">Editing</text><text x="401" y="89">Color</text><text x="463" y="89">Effects</text><text x="540" y="89">Audio</text><text x="608" y="89">Graphics</text><text x="699" y="89">Captions</text></g>
-<rect x="14" y="97" width="494" height="126" fill="#131416" stroke="#44464a"/>
-<rect x="510" y="97" width="500" height="126" fill="#131416" stroke="#44464a"/>
-<g font-size="10" fill="#c0c2ca" font-family="Arial,sans-serif"><text x="22" y="110">Source: Camino Fuente Cam 3.mp4</text><text x="518" y="110">Program: Lesson</text></g>
-<rect x="38" y="115" width="445" height="84" fill="url(#stage)"/>
-<rect x="535" y="115" width="451" height="84" fill="url(#stage)"/>
-<path d="M38 178Q160 135 245 176L483 160v39H38Z" fill="#35271e"/>
-<path d="M535 178Q640 143 740 176Q836 148 986 171v28H535Z" fill="#39251c"/>
-<circle cx="294" cy="139" r="17" fill="#b9896a"/><path d="M276 131L276 122L302 120L310 132Z" fill="#242323"/>
-<path d="M258 199L265 152L327 150L344 199Z" fill="#7f8b96"/>
-<ellipse cx="335" cy="188" rx="38" ry="17" fill="#b0783e" transform="rotate(-15 335 188)"/>
-<path d="M352 183L429 157" stroke="#ad7a48" stroke-width="13"/>
-<circle cx="678" cy="146" r="15" fill="#ba896a"/><path d="M664 138L671 126L693 133L697 140Z" fill="#191c20"/>
-<path d="M649 199L658 162L707 160L726 199Z" fill="#8295a5"/>
-<circle cx="837" cy="145" r="14" fill="#c89c7d"/><path d="M821 198L827 160L862 159L885 199Z" fill="#a3a9ae"/>
-<ellipse cx="717" cy="181" rx="28" ry="13" fill="#bb8550" transform="rotate(-12 717 181)"/><ellipse cx="870" cy="182" rx="29" ry="14" fill="#a27141" transform="rotate(15 870 182)"/>
-<path d="M737 177L793 152M890 179L949 160" stroke="#b88d5e" stroke-width="10"/>
-<text x="22" y="214" fill="#72c3e5" font-size="10" font-family="monospace">00:00:18:02　Fit　 ◀　▶　⏩</text><text x="518" y="214" fill="#72c3e5" font-size="10" font-family="monospace">00:00:17:09　Fit　 ◀　▶　⏩</text>
-<rect x="14" y="226" width="279" height="85" fill="#252629" stroke="#47494e"/>
-<rect x="295" y="226" width="670" height="85" fill="#222327" stroke="#50718b"/>
-<rect x="967" y="226" width="43" height="85" fill="#212327" stroke="#44494c"/>
-<g font-family="Arial,sans-serif" font-size="10"><text x="22" y="239" fill="#e2e4e8">Project: panels.prproj　Media Browser</text><text x="303" y="239" fill="#d5dce1">Lesson — Timeline</text></g>
-<g font-family="Arial,sans-serif" font-size="9" fill="#bfc6cf"><text x="23" y="255">▾　Camino Fuente</text><text x="34" y="268">▣　Camino Fuente Cam 3.mp4</text><text x="34" y="281">▣　Camino Fuente Cam 4.mp4</text><text x="23" y="294">▾　titles</text></g>
-<g fill="#414349"><rect x="300" y="246" width="660" height="11"/><rect x="300" y="259" width="660" height="12"/><rect x="300" y="274" width="660" height="12"/><rect x="300" y="289" width="660" height="14"/></g>
-<g fill="#87afcf"><rect x="410" y="275" width="115" height="11" rx="1"/><rect x="527" y="275" width="70" height="11" rx="1"/></g>
-<g fill="#769ab8"><rect x="410" y="290" width="115" height="11" rx="1"/><rect x="527" y="290" width="70" height="11" rx="1"/></g>
-<path d="M489 245v61" stroke="#63bee9" stroke-width="2"/><path d="M485 243h8l-4 5Z" fill="#63bee9"/>
-<g fill="#4bcc5a"><rect x="976" y="259" width="8" height="46"/><rect x="987" y="247" width="8" height="58"/></g>
-<text x="21" y="307" font-family="Arial,sans-serif" fill="#aab7c5" font-size="8">Premiere Pro style demo</text>
-<rect x="1024" y="50" width="244" height="263" rx="4" fill="url(#office)" stroke="#e7e0c9"/>
-<rect x="1024" y="50" width="244" height="24" rx="3" fill="#e7e8e6"/>
-<text x="1036" y="66" fill="#46505c" font-family="Arial,sans-serif" font-size="12">✎　剪輯備忘錄</text>
-<text x="1037" y="100" fill="#2e4656" font-family="Arial,sans-serif" font-size="15" font-weight="bold">Lesson — 剪輯清單</text>
-<g fill="#556762" font-family="Arial,sans-serif" font-size="12"><text x="1038" y="131">✓　素材已匯入</text><text x="1038" y="156">✓　建立 Lesson 序列</text><text x="1038" y="181">☐　修剪片段轉場</text><text x="1038" y="206">☐　核對音樂與人聲</text><text x="1038" y="231">☐　調整字幕與顏色</text></g>
+<text x="20" y="65" fill="white" font-family="Arial" font-size="10">Pr</text>
+<text x="42" y="65" fill="#cdd2db" font-family="Arial" font-size="12">Adobe Premiere Pro — Lesson</text>
+<rect x="14" y="73" width="996" height="23" fill="#303136"/>
+<g fill="#aab0b9" font-family="Arial" font-size="10">
+<text x="256" y="89">Assembly</text><text x="334" y="89" fill="#77c1ec">Editing</text><text x="402" y="89">Color</text><text x="461" y="89">Effects</text><text x="535" y="89">Audio</text><text x="608" y="89">Graphics</text><text x="698" y="89">Captions</text>
+</g>
+<!-- Single upper docked row: LEFT effects, RIGHT adjacent Source + Program -->
+<rect x="14" y="97" width="663" height="127" fill="#25262a" stroke="#44464a"/>
+<rect x="680" y="97" width="164" height="127" fill="#131416" stroke="#44464a"/>
+<rect x="846" y="97" width="164" height="127" fill="#131416" stroke="#44464a"/>
+<rect x="15" y="98" width="661" height="19" fill="#303238"/>
+<rect x="681" y="98" width="162" height="19" fill="#303238"/>
+<rect x="847" y="98" width="162" height="19" fill="#303238"/>
+<g font-family="Arial" fill="#d9dcdf" font-size="10">
+<text x="23" y="111">Effect Controls　　Audio Clip Mixer　　Metadata</text>
+<text x="684" y="111">Source: Camino Fuente</text><text x="851" y="111">Program: Lesson</text>
+</g>
+<rect x="15" y="118" width="179" height="104" fill="#27282b"/>
+<g font-family="Arial" font-size="9" fill="#c2cbd3">
+<text x="25" y="132" font-weight="bold">▾ Motion</text>
+<text x="39" y="145">Position　 960.0　540.0</text>
+<text x="39" y="158">Scale　100.0</text>
+<text x="39" y="171">Rotation　0.0°</text>
+<text x="25" y="187" font-weight="bold">▾ Opacity</text>
+<text x="39" y="200">Opacity　100.0%</text>
+<text x="25" y="215" font-weight="bold">▾ Time Remapping</text>
+</g>
+<rect x="196" y="118" width="480" height="104" fill="#222427"/>
+<g stroke="#42474d" stroke-width="1" opacity=".7"><path d="M238 119v103M293 119v103M348 119v103M403 119v103M458 119v103M513 119v103M568 119v103M623 119v103"/><path d="M196 146h480M196 175h480M196 203h480"/></g>
+<path d="M196 173Q260 138 311 155T423 183T565 137T676 156" fill="none" stroke="#89b8dc" stroke-width="2"/>
+<path d="M383 120v102" stroke="#6dbaf1" stroke-width="2"/>
+<g fill="#b4d5f1"><text x="276" y="153" font-size="10">◆</text><text x="442" y="175" font-size="10">◆</text><text x="590" y="138" font-size="10">◆</text></g>
+<!-- 16:9 media frames: 156x88 (height maintained and no letterboxing) -->
+<rect x="684" y="119" width="156" height="88" fill="url(#wall)"/>
+<rect x="850" y="119" width="156" height="88" fill="url(#wall)"/>
+<circle cx="762" cy="145" r="12" fill="#ca9b7d"/>
+<path d="M727 208L734 157L782 151L813 208Z" fill="#8696a0"/>
+<ellipse cx="775" cy="193" rx="24" ry="10" fill="#b97f46" transform="rotate(-15 775 193)"/>
+<path d="M788 188L829 161" stroke="#c1955b" stroke-width="9"/>
+<circle cx="901" cy="143" r="12" fill="#ba866d"/><circle cx="956" cy="143" r="12" fill="#bd9678"/>
+<path d="M868 208L874 159L922 166L940 208Z" fill="#7b9399"/>
+<path d="M935 208L945 158L986 156L999 208Z" fill="#aab0b5"/>
+<ellipse cx="924" cy="194" rx="19" ry="8" fill="#c2915b"/>
+<path d="M940 190L1003 158" stroke="#b78956" stroke-width="7"/>
+<g font-family="Arial" font-size="9" fill="#8cbedc">
+<text x="688" y="219">00:00:18:02　 ▶</text>
+<text x="854" y="219">00:00:17:09　 ▶</text>
+</g>
+<!-- original lower docked panels -->
+<rect x="14" y="227" width="278" height="85" fill="#242528" stroke="#4b4c52"/>
+<rect x="295" y="227" width="670" height="85" fill="#202126" stroke="#577995"/>
+<rect x="968" y="227" width="42" height="85" fill="#222326" stroke="#474c52"/>
+<text x="22" y="240" fill="#d5d8df" font-family="Arial" font-size="10">Project: panels.prproj</text>
+<text x="303" y="240" fill="#d5d8df" font-family="Arial" font-size="10">Lesson · Timeline</text>
+<g font-family="Arial" font-size="9" fill="#b5bfcb"><text x="23" y="255">▾ Camino Fuente</text><text x="32" y="268">▣ Cam 3.mp4</text><text x="32" y="281">▣ Cam 4.mp4</text><text x="23" y="295">▾ titles</text></g>
+<g fill="#393b40"><rect x="302" y="246" width="659" height="12"/><rect x="302" y="260" width="659" height="12"/><rect x="302" y="275" width="659" height="14"/><rect x="302" y="290" width="659" height="14"/></g>
+<rect x="408" y="274" width="118" height="12" fill="#7da5cf"/><rect x="530" y="274" width="83" height="12" fill="#7da5cf"/><rect x="408" y="290" width="118" height="12" fill="#7195b8"/><rect x="530" y="290" width="83" height="12" fill="#7195b8"/>
+<path d="M494 245v60" stroke="#66bcf5" stroke-width="2"/><path d="M490 242h8l-4 5Z" fill="#66bcf5"/>
+<rect x="977" y="256" width="8" height="48" fill="#53c859"/><rect x="989" y="248" width="8" height="56" fill="#53c859"/>
+<!-- external notes panel -->
+<rect x="1024" y="49" width="244" height="265" rx="4" fill="url(#paper)" stroke="#e7dfca"/>
+<rect x="1024" y="49" width="244" height="26" rx="3" fill="#e5e8e6"/>
+<text x="1036" y="66" fill="#46505c" font-family="Arial" font-size="12">✎ 剪輯備忘錄</text>
+<text x="1036" y="101" fill="#2e4656" font-family="Arial" font-size="15" font-weight="bold">Lesson · 剪輯清單</text>
+<g fill="#556762" font-family="Arial" font-size="12">
+<text x="1038" y="132">✓ 素材已匯入</text><text x="1038" y="155">✓ 建立 Lesson 序列</text>
+<text x="1038" y="181">☐ 修剪片段轉場</text><text x="1038" y="204">☐ 核對音樂與人聲</text>
+<text x="1038" y="227">☐ 調整字幕與顏色</text>
+</g>
 <rect x="0" y="327" width="1280" height="33" fill="#101b2e"/>
-<text x="18" y="349" fill="#a1c7d8" font-family="Arial,sans-serif" font-size="13">32:9 · 5120 × 1440 · Editing workspace</text>
+<text x="18" y="349" fill="#a1c7d8" font-family="Arial" font-size="13">32:9 · 5120 × 1440 · Editing workspace</text>
 </svg>
