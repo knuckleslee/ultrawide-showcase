@@ -258,6 +258,21 @@ def main() -> int:
             if not required_features.issubset(scene_parser.coding_features):
                 problems.append("Coding AI AGENT/editor/live GitHub components missing")
         else:
+            # Discord fictional participants must use the three names selected
+            # for the public demo, consistently in chat and member list.
+            game_dom = scene_dom.stdout
+            expected_authors = ('discord2-author">Knuckles', 'discord2-author">Dark',
+                                'discord2-author">Z3')
+            for author in expected_authors:
+                if author not in game_dom:
+                    problems.append(f"Discord renamed author missing: {author}")
+            for obsolete in ('discord2-author">米粒', 'discord2-author">Kuma',
+                             'discord2-author">風鈴'):
+                if obsolete in game_dom:
+                    problems.append(f"Old Discord author still displayed: {obsolete}")
+            for visible_member in (' Knuckles <em>', ' Dark <em>', ' Z3 <em>'):
+                if visible_member not in game_dom:
+                    problems.append(f"Discord member rename missing: {visible_member}")
             # No iframe is allowed before a Play request: thumbnail first, no loader.
             if scene_parser.game_sources:
                 problems.append("Gaming player must be loaded lazily, not on entering scene")
