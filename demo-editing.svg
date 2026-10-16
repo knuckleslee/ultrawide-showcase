@@ -1,1 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360"><rect width="1280" height="360" fill="#081626"/><rect x="0" y="0" width="1280" height="38" fill="#10273c"/><text x="20" y="25" fill="#8fefde" font-family="Arial,sans-serif" font-size="18" font-weight="bold">ULTRAWIDE STUDIO</text><text x="1000" y="25" fill="#c2d7e7" font-family="Arial,sans-serif" font-size="15">EDITING</text><rect x="12" y="52" width="192" height="265" rx="7" fill="#584831" stroke="#5f839c"/><rect x="12" y="52" width="192" height="32" rx="7" fill="#142b3d"/><text x="28" y="73" fill="white" font-family="Arial,sans-serif" font-size="17">Media Library</text><rect x="30" y="108" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="132" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="156" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="180" width="156" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="204" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="228" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="30" y="252" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="212" y="52" width="502" height="265" rx="7" fill="#174d52" stroke="#5f839c"/><rect x="212" y="52" width="502" height="32" rx="7" fill="#142b3d"/><text x="228" y="73" fill="white" font-family="Arial,sans-serif" font-size="17">Timeline</text><rect x="230" y="108" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="132" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="156" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="180" width="182" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="204" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="228" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="230" y="252" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="722" y="52" width="272" height="265" rx="7" fill="#253f67" stroke="#5f839c"/><rect x="722" y="52" width="272" height="32" rx="7" fill="#142b3d"/><text x="738" y="73" fill="white" font-family="Arial,sans-serif" font-size="17">Video Preview</text><rect x="740" y="108" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="132" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="156" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="180" width="182" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="204" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="228" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="740" y="252" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1002" y="52" width="234" height="265" rx="7" fill="#503963" stroke="#5f839c"/><rect x="1002" y="52" width="234" height="32" rx="7" fill="#142b3d"/><text x="1018" y="73" fill="white" font-family="Arial,sans-serif" font-size="17">Effects</text><rect x="1020" y="108" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="132" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="156" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="180" width="182" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="204" width="65" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="228" width="104" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="1020" y="252" width="143" height="8" rx="3" fill="#d4edf9" opacity=".27"/><rect x="0" y="328" width="1280" height="32" fill="#101b2e"/><text x="18" y="349" fill="#a1c7d8" font-family="Arial,sans-serif" font-size="13">32:9 · 5120 × 1440 · Simulated desktop</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360">
+<defs><linearGradient id="stage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a1110"/><stop offset=".65" stop-color="#75401f"/><stop offset="1" stop-color="#1b1112"/></linearGradient><linearGradient id="office" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fdfaf1"/><stop offset="1" stop-color="#e5dfc9"/></linearGradient></defs>
+<rect width="1280" height="360" fill="#081626"/>
+<rect width="1280" height="38" fill="#10273c"/>
+<text x="20" y="25" fill="#8fefde" font-family="Arial,sans-serif" font-size="18" font-weight="bold">ULTRAWIDE STUDIO</text>
+<text x="1066" y="25" fill="#c2d7e7" font-family="Arial,sans-serif" font-size="15">02 EDITING</text>
+<rect x="12" y="50" width="1000" height="263" rx="3" fill="#202124" stroke="#565861"/>
+<rect x="12" y="50" width="1000" height="22" fill="#28282d"/>
+<rect x="18" y="54" width="16" height="14" rx="2" fill="#5d52a2"/>
+<text x="21" y="65" fill="#fff" font-family="Arial" font-size="10">Pr</text>
+<text x="41" y="65" fill="#cdd2db" font-family="Arial,sans-serif" font-size="12">Adobe Premiere Pro — Lesson</text>
+<text x="936" y="65" fill="#aeb5c3" font-family="Arial,sans-serif" font-size="11">─　□　×</text>
+<rect x="14" y="74" width="996" height="22" fill="#303136"/>
+<g fill="#aab0b9" font-family="Arial,sans-serif" font-size="10"><text x="250" y="89">Assembly</text><text x="330" y="89" fill="#77c1ec">Editing</text><text x="401" y="89">Color</text><text x="463" y="89">Effects</text><text x="540" y="89">Audio</text><text x="608" y="89">Graphics</text><text x="699" y="89">Captions</text></g>
+<rect x="14" y="97" width="494" height="126" fill="#131416" stroke="#44464a"/>
+<rect x="510" y="97" width="500" height="126" fill="#131416" stroke="#44464a"/>
+<g font-size="10" fill="#c0c2ca" font-family="Arial,sans-serif"><text x="22" y="110">Source: Camino Fuente Cam 3.mp4</text><text x="518" y="110">Program: Lesson</text></g>
+<rect x="38" y="115" width="445" height="84" fill="url(#stage)"/>
+<rect x="535" y="115" width="451" height="84" fill="url(#stage)"/>
+<path d="M38 178Q160 135 245 176L483 160v39H38Z" fill="#35271e"/>
+<path d="M535 178Q640 143 740 176Q836 148 986 171v28H535Z" fill="#39251c"/>
+<circle cx="294" cy="139" r="17" fill="#b9896a"/><path d="M276 131L276 122L302 120L310 132Z" fill="#242323"/>
+<path d="M258 199L265 152L327 150L344 199Z" fill="#7f8b96"/>
+<ellipse cx="335" cy="188" rx="38" ry="17" fill="#b0783e" transform="rotate(-15 335 188)"/>
+<path d="M352 183L429 157" stroke="#ad7a48" stroke-width="13"/>
+<circle cx="678" cy="146" r="15" fill="#ba896a"/><path d="M664 138L671 126L693 133L697 140Z" fill="#191c20"/>
+<path d="M649 199L658 162L707 160L726 199Z" fill="#8295a5"/>
+<circle cx="837" cy="145" r="14" fill="#c89c7d"/><path d="M821 198L827 160L862 159L885 199Z" fill="#a3a9ae"/>
+<ellipse cx="717" cy="181" rx="28" ry="13" fill="#bb8550" transform="rotate(-12 717 181)"/><ellipse cx="870" cy="182" rx="29" ry="14" fill="#a27141" transform="rotate(15 870 182)"/>
+<path d="M737 177L793 152M890 179L949 160" stroke="#b88d5e" stroke-width="10"/>
+<text x="22" y="214" fill="#72c3e5" font-size="10" font-family="monospace">00:00:18:02　Fit　 ◀　▶　⏩</text><text x="518" y="214" fill="#72c3e5" font-size="10" font-family="monospace">00:00:17:09　Fit　 ◀　▶　⏩</text>
+<rect x="14" y="226" width="279" height="85" fill="#252629" stroke="#47494e"/>
+<rect x="295" y="226" width="670" height="85" fill="#222327" stroke="#50718b"/>
+<rect x="967" y="226" width="43" height="85" fill="#212327" stroke="#44494c"/>
+<g font-family="Arial,sans-serif" font-size="10"><text x="22" y="239" fill="#e2e4e8">Project: panels.prproj　Media Browser</text><text x="303" y="239" fill="#d5dce1">Lesson — Timeline</text></g>
+<g font-family="Arial,sans-serif" font-size="9" fill="#bfc6cf"><text x="23" y="255">▾　Camino Fuente</text><text x="34" y="268">▣　Camino Fuente Cam 3.mp4</text><text x="34" y="281">▣　Camino Fuente Cam 4.mp4</text><text x="23" y="294">▾　titles</text></g>
+<g fill="#414349"><rect x="300" y="246" width="660" height="11"/><rect x="300" y="259" width="660" height="12"/><rect x="300" y="274" width="660" height="12"/><rect x="300" y="289" width="660" height="14"/></g>
+<g fill="#87afcf"><rect x="410" y="275" width="115" height="11" rx="1"/><rect x="527" y="275" width="70" height="11" rx="1"/></g>
+<g fill="#769ab8"><rect x="410" y="290" width="115" height="11" rx="1"/><rect x="527" y="290" width="70" height="11" rx="1"/></g>
+<path d="M489 245v61" stroke="#63bee9" stroke-width="2"/><path d="M485 243h8l-4 5Z" fill="#63bee9"/>
+<g fill="#4bcc5a"><rect x="976" y="259" width="8" height="46"/><rect x="987" y="247" width="8" height="58"/></g>
+<text x="21" y="307" font-family="Arial,sans-serif" fill="#aab7c5" font-size="8">Premiere Pro style demo</text>
+<rect x="1024" y="50" width="244" height="263" rx="4" fill="url(#office)" stroke="#e7e0c9"/>
+<rect x="1024" y="50" width="244" height="24" rx="3" fill="#e7e8e6"/>
+<text x="1036" y="66" fill="#46505c" font-family="Arial,sans-serif" font-size="12">✎　剪輯備忘錄</text>
+<text x="1037" y="100" fill="#2e4656" font-family="Arial,sans-serif" font-size="15" font-weight="bold">Lesson — 剪輯清單</text>
+<g fill="#556762" font-family="Arial,sans-serif" font-size="12"><text x="1038" y="131">✓　素材已匯入</text><text x="1038" y="156">✓　建立 Lesson 序列</text><text x="1038" y="181">☐　修剪片段轉場</text><text x="1038" y="206">☐　核對音樂與人聲</text><text x="1038" y="231">☐　調整字幕與顏色</text></g>
+<rect x="0" y="327" width="1280" height="33" fill="#101b2e"/>
+<text x="18" y="349" fill="#a1c7d8" font-family="Arial,sans-serif" font-size="13">32:9 · 5120 × 1440 · Editing workspace</text>
+</svg>
