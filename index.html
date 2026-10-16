@@ -653,7 +653,12 @@
 
 
 /* 04: actual YouTube gaming video. Central window itself is 777x437 (16:9). */
-.window[data-id="game"] .window-content{background:#000}
+/* Keep the entire 16:9 central rectangle for the film, not just the area
+   below the virtual window titlebar. The titlebar overlays on hover for drag. */
+.window[data-id="game"] .titlebar{position:absolute;left:0;right:0;top:0;z-index:12;height:24px;background:#122237c9;opacity:0;transition:opacity .2s}
+.window[data-id="game"]:hover .titlebar,.window[data-id="game"]:focus-within .titlebar{opacity:1}
+.window[data-id="game"] .window-content{background:#000;flex:1;height:100%}
+.window[data-id="game"] .resize-grip{z-index:12}
 .yt-game{background:#050505;padding:0}
 .game-frame-16x9{width:100%;height:100%;aspect-ratio:16/9;position:relative;flex:none;background:#000;overflow:hidden}
 #gamingFrame{width:100%;height:100%;position:absolute;inset:0;border:0;display:block;background:#000}
