@@ -381,6 +381,79 @@
 .yt-external:hover{text-decoration:underline}
 .yt-detail{gap:6px;flex-wrap:wrap}
 @container (max-height: 240px){.yt-video{flex:1 1 auto}.yt-title{padding-top:2px}.yt-detail{font-size:8px}}
+
+/* Premiere Pro-inspired simulated editing workspace, with inner docked panels. */
+.window[data-id="premiere"]{border-radius:3px;border-color:#32343a;background:#232427}
+.window[data-id="premiere"] .titlebar{background:#242429;color:#dadde0}
+.window[data-id="premiere"] .app-ico{background:#625ab2!important;color:#f8f3ff}
+.window[data-id="premiere"] .window-content{background:#191a1b}
+.pp-shell{height:100%;display:flex;flex-direction:column;min-width:0;min-height:0;color:#bbbdbf;background:#1e1e21;font:10px/1.3 'Segoe UI','Microsoft JhengHei',sans-serif;container-type:size}
+.pp-menubar{height:21px;display:flex;align-items:center;gap:15px;flex:none;padding:0 12px;background:#232427;border-bottom:1px solid #323337;font-size:10px;color:#a9aaad;white-space:nowrap;overflow:hidden}
+.pp-menu-right{margin-left:auto}
+.pp-workspaces{display:flex;align-items:stretch;justify-content:center;height:25px;flex:none;background:#28292c;border-bottom:2px solid #17181b;white-space:nowrap;overflow:hidden}
+.pp-workspaces>span{display:flex;align-items:center;justify-content:center;padding:0 15px;color:#a9abad;font-size:10px}
+.pp-workspaces>span.active{color:#73b9e3;background:#313236;box-shadow:inset 0 -2px 0 #57a6da}
+.pp-workspaces>span.pp-workspace-home{margin-right:auto;font-size:17px;background:#3b3c3f}
+.pp-panels{flex:1;min-height:0;min-width:0;display:grid;grid-template-columns:29fr 20fr 46fr 5fr;grid-template-rows:minmax(0,54fr) minmax(0,46fr);gap:2px;background:#0f1012;padding:2px}
+.pp-panel{min-width:0;min-height:0;position:relative;overflow:hidden;background:#232427;border:1px solid #343539}
+.pp-source{grid-column:1 / span 2;grid-row:1}.pp-program{grid-column:3 / span 2;grid-row:1}.pp-project{grid-column:1;grid-row:2}.pp-timeline{grid-column:2 / span 2;grid-row:2;border-color:#476b88}.pp-meter{grid-column:4;grid-row:2}
+.pp-panel.pp-auto-focus{box-shadow:inset 0 0 0 2px #6aa9e1;z-index:4}
+.pp-panel-tabs{height:21px;background:#292a2d;display:flex;gap:13px;padding:0 7px;align-items:center;color:#9c9da2;font-size:9px;white-space:nowrap;overflow:hidden}
+.pp-panel-tabs>span{height:100%;display:flex;align-items:center;flex:none}
+.pp-panel-tabs>.pp-selected{color:#dcdde0;border-bottom:1px solid #7eb1d5;font-weight:650}.pp-ellipses{color:#8c8e91}
+.pp-monitor{display:flex;flex-direction:column}
+.pp-monitor-view{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#0e0e0f;padding:3px 12px 0}
+.pp-monitor-shot{height:100%;width:100%;min-height:0;display:flex;justify-content:center;align-items:center;overflow:hidden;background:#130f0e}
+.pp-shot-svg{width:100%;height:100%;display:block}
+.pp-monitor-details{height:18px;display:flex;align-items:center;gap:13px;padding:0 7px;background:#26272a;flex:none;color:#a4aaae;font-size:9px}
+.pp-timecode{color:#7ac8ed;font:700 10px 'Consolas',monospace}
+.pp-metadata{margin-left:auto;color:#9a9ba1}
+.pp-monitor-scrub{height:12px;background:#242529;padding:3px 8px;flex:none}
+.pp-scrub-rail{height:3px;background:#6b6c6e;position:relative;top:2px}.pp-scrub-rail>i{position:absolute;top:-2px;width:7px;height:9px;border-radius:2px;background:#65b9ed;box-shadow:0 0 3px #51aeff}
+.pp-monitor-actions{height:24px;display:flex;align-items:center;justify-content:center;color:#bcbec4;font-size:12px;background:#26272a;flex:none;white-space:nowrap}
+.pp-project{display:flex;flex-direction:column}.pp-project .pp-panel-tabs{height:23px}
+.pp-project-tools{height:21px;background:#262729;display:flex;align-items:center;padding:2px 7px;gap:7px;flex:none;font-size:11px}
+.pp-project-tools input{flex:1;min-width:0;background:#191b1e;border:1px solid #3b3d3f;border-radius:3px;padding:1px 5px;color:#d2d2d2;font-size:9px;height:17px}
+.pp-project-header{display:grid;grid-template-columns:1fr 62px 66px;align-items:center;background:#313235;min-height:20px;padding:0 7px;font-size:9px;color:#aeb0b2;white-space:nowrap;gap:3px}
+.pp-project-list{flex:1;min-height:0;overflow:hidden;background:#212225;padding:2px 4px}
+.pp-project-row{height:19px;display:flex;align-items:center;gap:6px;font-size:10px;color:#c6c8ce;white-space:nowrap;overflow:hidden;padding:0 6px}
+.pp-project-row.folder{color:#c0c5cb}.pp-project-row.selected{background:#536277}.pp-project-row i{display:inline-block;width:10px;height:9px;border:1px solid #8a9cb0;background:#34485c}
+.pp-project-row small{margin-left:auto;color:#c3c3c3;font-size:8px}.pp-project-row.lesson i{background:#709474}
+.pp-project-bottom{height:18px;background:#252629;color:#8e9295;padding:2px 8px;font-size:10px;flex:none}
+.pp-timeline{display:flex;flex-direction:column}
+.pp-timeline-head{height:26px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 7px;background:#242527}
+.pp-timeline-head b{font:700 12px 'Consolas',monospace;color:#80bfea}
+.pp-timeline-head span{font-size:13px;color:#bbc2ca}
+.pp-timeline-editor{flex:1;min-height:0;position:relative;background:#191a1c;display:flex;flex-direction:column;overflow:hidden}
+.pp-track-ruler{height:18px;display:flex;align-items:center;justify-content:space-around;color:#9a9da5;font-size:8px;padding-left:43px;flex:none;border-bottom:1px solid #4c4d50;background:#26272a;white-space:nowrap;overflow:hidden}
+.pp-tracks{flex:1;min-height:0;display:flex;flex-direction:column}
+.pp-track-row{height:20%;display:flex;border-bottom:1px solid #3b3c40;min-height:0}
+.pp-track-name{width:76px;flex:0 0 76px;background:#292a2e;border-right:1px solid #515257;padding:4px 7px;color:#9da7b4;font-size:9px}
+.pp-track-name.active{color:#78baf4;background:#344c6a}
+.pp-track-content{display:flex;align-items:center;min-width:0;flex:1;gap:2px;padding:1px 2px;background:repeating-linear-gradient(90deg,#202124 0,#202124 62px,#343536 63px)}
+.pp-clip{height:100%;display:flex;align-items:center;border:1px solid #66809b;border-radius:2px;padding:2px 5px;white-space:nowrap;overflow:hidden;font-size:9px;font-weight:550;color:#172737}
+.pp-clip.video{background:#7b9ec4}.pp-clip.audio{background:repeating-linear-gradient(90deg,#769bc5 0,#769bc5 3px,#6385aa 4px,#6385aa 7px)}
+.pp-playhead{position:absolute;z-index:3;top:8px;bottom:0;border-left:2px solid #5cbeec;pointer-events:none}
+.pp-playhead>b{position:absolute;top:-6px;left:-6px;font-size:12px;color:#65bef5}
+.pp-timeline-footer{height:17px;flex:none;font-size:9px;color:#9ca0a4;padding:2px 7px;background:#252629}
+.pp-meter{display:flex;justify-content:flex-end;background:#222327;padding:1px;position:relative}
+.pp-meter-scale{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;font-size:8px;color:#888d91;min-width:17px;flex:0 0 17px}
+.pp-meter-bars{flex:1;min-width:0;display:flex;gap:2px;align-items:flex-end;padding:9px 2px 10px}
+.pp-meter-bar{flex:1;height:100%;position:relative;background:#101719;border:1px solid #4a5153;display:flex;align-items:flex-end}
+.pp-meter-level{width:100%;background:linear-gradient(0deg,#4cd249 0%,#56c44b 73%,#d4c94b 83%,#dd6256 98%);transition:height 1.2s}
+.pp-meter-label{position:absolute;bottom:0;left:3px;font-size:8px;color:#a5a8ae}
+.pp-bottom-status{height:16px;flex:none;padding:2px 9px;color:#9399a1;background:#242528;font-size:9px}
+.pp-side-notes{height:100%;background:#fbf9f0;color:#3e4b53;font:12px/1.55 'Segoe UI','Microsoft JhengHei',sans-serif;overflow:auto;container-type:size}
+.pp-side-header{padding:11px 15px;background:#f2f3f3;border-bottom:1px solid #dddfe0;font-size:13px;font-weight:650}.pp-side-header span{float:right;color:#89949a}
+.pp-side-content{padding:16px}.pp-note-title{font-size:18px;font-weight:750;color:#283a47}.pp-note-caption{color:#a0a1a2;font-size:10px;margin-bottom:19px}
+.pp-note-group{padding:8px 0;font-size:12px;border-bottom:1px solid #e2e0d8;color:#436a61}.pp-note-group span{color:#18a683;font-size:13px;padding-right:6px}
+.pp-note-group.pending{color:#686b6c}.pp-note-group.pending span{color:#adaba7}
+.pp-note-divider{height:1px;background:#dddcd8;margin:17px 0 12px}.pp-note-subtitle{color:#4f606e;font-weight:700;font-size:11px;margin-bottom:8px}
+.pp-note-chip{color:#60737f;background:#edf0f2;border-radius:4px;padding:7px 9px;margin-bottom:7px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-note-remind{background:#fff5d5;color:#8b7045;padding:11px;font-size:11px;border-radius:5px}
+@container (max-width: 1250px){.pp-workspaces>span{padding:0 9px}.pp-menubar{gap:9px}.pp-panel-tabs{gap:7px}.pp-meter{display:none}.pp-program{grid-column:3 / span 2}.pp-timeline{grid-column:2 / span 3}.pp-project-header{grid-template-columns:1fr 60px}.pp-project-header span:last-child{display:none}.pp-monitor-view{padding:3px}}
+@container (max-width: 850px){.pp-workspaces>span{padding:0 5px;font-size:9px}.pp-menubar span:nth-child(n+6):not(.pp-menu-right){display:none}.pp-project{display:none}.pp-panels{grid-template-columns:1fr 1fr;grid-template-rows:48% 52%}.pp-source{grid-column:1;grid-row:1}.pp-program{grid-column:2;grid-row:1}.pp-timeline{grid-column:1 / -1;grid-row:2}.pp-meter{display:none}.pp-panel-tabs{font-size:8px}.pp-panel-tabs>span:not(.pp-selected){display:none}.pp-monitor-actions{font-size:10px}.pp-track-name{width:48px;flex-basis:48px}.pp-track-ruler{padding-left:48px}.pp-monitor-details{gap:3px}.pp-metadata{display:none}.pp-bottom-status{display:none}}
+@container (max-height: 260px){.pp-menubar{display:none}.pp-workspaces{height:18px}.pp-monitor-actions{display:none}.pp-monitor-details{height:13px}.pp-monitor-scrub{height:7px;padding:1px}.pp-project-header{height:15px}.pp-project-row{height:15px}.pp-panel-tabs{height:16px}.pp-side-content{padding:7px}.pp-note-group{padding:3px 0}}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -403,13 +476,13 @@ const BASE_W=1920,BASE_H=540,RIGHT=1900,BOTTOM=501;
 const S={daily:[
  ['news',24,62,620,437],['video',662,62,735,437],['notes',1409,62,242,250],['calendar',1409,324,242,175],['chat',1663,62,229,437]
 ],editing:[
- ['assets',26,62,340,437],['preview',379,62,948,257],['effects',1340,62,552,257],['timeline',379,331,1513,168]
+ ['premiere',24,62,1503,437],['editnotes',1540,62,352,437]
 ],coding:[
  ['docs',26,62,413,437],['editor',452,62,871,343],['terminal',452,417,871,82],['appview',1336,62,556,257],['git',1336,331,556,168]
 ],gaming:[
  ['discord',24,62,420,437],['game',456,62,784,437],['bahamut',1252,62,640,437]
 ]};
-const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],assets:['Media Library','▣','#5f83a7'],preview:['Preview','▶','#a081ba'],effects:['Effects','✦','#7b87ae'],timeline:['Timeline','≡','#528d83'],docs:['README / GitHub','D','#538ca8'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal (Demo)','>_','#324b55'],appview:['UltraWide Preview','◈','#3a9c91'],git:['GitHub Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
+const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],premiere:['Adobe Premiere Pro · Lesson','Pr','#5d52a2'],editnotes:['剪輯備忘錄','✎','#cba45d'],docs:['README / GitHub','D','#538ca8'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal (Demo)','>_','#324b55'],appview:['UltraWide Preview','◈','#3a9c91'],git:['GitHub Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
 const clone=a=>JSON.parse(JSON.stringify(a));let customLayouts=clone(S),savedFreeLayouts=null,scene='daily',mode='manual',paused=false,runId=0,autoTask=null,zIndex=100,focused=null,showHints=true,windowNodes={},maxRestore={},newsData=[],newsIsLive=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
@@ -483,10 +556,55 @@ chat:()=>`<div class="desktop-messenger">
 video:()=>`<div class="video-wrap"><div class="yt-browser"><span>‹　›　↻</span><span class="yt-address">🔒　youtube.com/watch?v=dQw4w9WgXcQ</span><span>☆　⋮</span></div><div class="yt-header"><span style="font-size:15px">☰</span><span class="yt-brand"><span class="yt-logo">▶</span>YouTube</span><span class="yt-search">⌕ 搜尋</span><span>🔔　◯</span></div><div class="yt-main"><div class="yt-view"><div class="yt-video"><iframe id="youtubeFrame" class="yt-real-iframe" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&amp;playsinline=1" data-embed-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&amp;playsinline=1" title="Rick Astley — Never Gonna Give You Up (YouTube)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div><div class="yt-title">Rick Astley — Never Gonna Give You Up</div><div class="yt-detail"><span>真正的 YouTube 影片 · 手動點擊播放</span><a class="yt-external" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">在 YouTube 開啟 ↗</a></div></div><div class="yt-next"><strong>推薦影片（示意）</strong><div class="yt-suggestion"><span class="yt-suggestion-image"></span><span>音樂與創作<br><small>示範內容</small></span></div><div class="yt-suggestion"><span class="yt-suggestion-image"></span><span>城市攝影<br><small>示範內容</small></span></div></div></div></div>`,
 calendar:()=>`<div class="calendar"><div class="cal-header"><span>2026 年 10 月</span><span>▦　◀　▶</span></div><div class="cal-days">${['日','一','二','三','四','五','六',...Array.from({length:35},(_,i)=>i<4?'':i-3)].map(x=>`<span class="${x==16?'today':''}">${x}</span>`).join('')}</div><div class="cal-foot">● 14:30　專案進度同步</div></div>`,
 notes:()=>`<div class="notes"><h3>今天的待辦 ✨</h3><p><span class="check">☑</span> 整理參考資料</p><p><span class="check">☑</span> 確認影片素材</p><p>☐ 完成剪輯初版</p><p>☐ 檢查網頁顯示</p><p>☐ 回覆專案訊息</p></div>`,
-assets:()=>`<div class="assets"><div class="resolve-toolbar"><span class="active">Media Pool</span><span>Effects</span><span>Index</span><span class="dim">● ● ●</span></div><div class="resolve-path">▾　Master / video assets　　⌕</div><div class="asset-grid"><div><div class="asset-thumb"></div><div class="asset-label">opening_01.mp4</div></div><div><div class="asset-thumb"></div><div class="asset-label">city_walk.mp4</div></div><div><div class="asset-thumb"></div><div class="asset-label">landscape.mp4</div></div><div><div class="asset-thumb"></div><div class="asset-label">sunset_04.mp4</div></div><div><div class="asset-thumb"></div><div class="asset-label">music.wav</div></div><div><div class="asset-thumb"></div><div class="asset-label">voiceover.wav</div></div></div></div>`,
-preview:()=>`<div class="preview"><div class="resolve-view-top"><span>Timeline 1 ▼</span><span>2160p · 30 fps　　▦</span></div><div class="preview-visual"><span class="preview-overlay">EXPLORE BEYOND</span></div><div class="preview-transport">|◀　◀　▶　▶|　◎　▦</div><div class="preview-bottom"><span>00:01:24:12 / 00:04:30:00</span><span>4K　30 FPS　◩</span></div></div>`,
-effects:()=>`<div class="effects"><div class="resolve-toolbar"><span class="active">Inspector</span><span>Video</span><span>Audio</span><span>Effects</span></div><div class="effects-inner"><div class="section-title">Transform · Color</div><div class="fx-item"><span>曝光</span><span class="fx-track"></span><span>+0.20</span></div><div class="fx-item"><span>對比</span><span class="fx-track"></span><span>+12</span></div><div class="fx-item"><span>飽和度</span><span class="fx-track"></span><span>+8</span></div><div class="fx-item"><span>色溫</span><span class="fx-track"></span><span>5400 K</span></div><div class="fx-item"><span>高光</span><span class="fx-track"></span><span>−15</span></div><div class="fx-item"><span>陰影</span><span class="fx-track"></span><span>+20</span></div></div></div>`,
-timeline:()=>`<div class="timeline"><div class="resolve-toolbar"><span class="active">Edit</span><span>Timeline 1 ▾</span><span class="dim">🔒　⌖　☷　▣</span></div><div class="timeline-scale">${['00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00'].map(x=>`<span>${x}</span>`).join('')}</div><div class="track"><span class="trackname">V2 / 標題</span><div class="clip v2" style="flex:1">INTRO</div><div class="clip v2" style="flex:2">TITLE / LOWER THIRD</div><div class="clip v2" style="flex:1">END CARD</div></div><div class="track"><span class="trackname">V1 / 影片</span><div class="clip" style="flex:2">opening_01</div><div class="clip" style="flex:2">city_walk</div><div class="clip" style="flex:3">landscape</div><div class="clip" style="flex:1">sunset</div></div><div class="track"><span class="trackname">A1 / 音樂</span><div class="clip au" style="flex:1">▁▆▃█▃▆▂▄▂█▅▂▄▆▃█▅▁▅▃▆▂▄█▅▃▆▃▄▂</div></div><div class="playhead"></div></div>`,
+premiere:()=>`<div class="pp-shell">
+<div class="pp-menubar"><span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span><span class="pp-menu-right">☰　↗</span></div>
+<div class="pp-workspaces"><span class="pp-workspace-home">⌂</span><span>Assembly</span><span class="active">Editing</span><span>Color</span><span>Effects</span><span>Audio</span><span>Graphics</span><span>Captions</span><span>»</span></div>
+<div class="pp-panels">
+<section class="pp-panel pp-monitor pp-source" data-pp-panel="source"><div class="pp-panel-tabs"><span class="pp-selected">Source: Camino Fuente Cam 3.mp4</span><span>Effect Controls</span><span class="pp-ellipses">≡</span></div><div class="pp-monitor-view"><div class="pp-monitor-shot"><svg class="pp-shot-svg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs><linearGradient id="pps-wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#100b0b"/><stop offset=".45" stop-color="#462319"/><stop offset="1" stop-color="#8b3c1c"/></linearGradient><radialGradient id="pps-light"><stop stop-color="#b26837" stop-opacity=".7"/><stop offset="1" stop-color="#543020" stop-opacity="0"/></radialGradient></defs>
+<rect width="960" height="540" fill="url(#pps-wall)"/><rect width="960" height="540" fill="url(#pps-light)"/><path d="M40 0h44v540H40zm102 0h12v540h-12z" fill="#1a100e" opacity=".6"/>
+<path d="M0 415Q186 359 345 458L448 540H0Z" fill="#120f10"/>
+<path d="M295 470Q296 318 415 268L604 264Q775 317 817 540H256Z" fill="#768185"/><path d="M430 299Q595 332 754 540h-66Q575 411 394 342Z" fill="#35414a"/>
+<path d="M343 0Q440-43 593 18L681 92Q669 171 618 182L356 134Q320 65 343 0Z" fill="#232323"/>
+<path d="M363 103Q330 197 383 267Q447 311 521 250Q581 183 554 115Z" fill="#c79773"/>
+<path d="M435 217Q502 209 559 194Q534 268 481 290Q428 280 397 240Z" fill="#39302b"/>
+<path d="M357 144Q370 200 420 207Q470 202 475 184Q436 229 389 218Z" fill="#6f5747"/>
+<path d="M520 98Q570 135 558 190" stroke="#382c29" stroke-width="20" fill="none"/>
+<path d="M544 308Q615 307 708 365L738 421L568 433Z" fill="#9fa8a5"/>
+<g stroke="#253036" stroke-width="4" opacity=".47"><path d="M313 359L617 510M358 315L700 500M410 294L777 490M472 278L845 493"/></g>
+<ellipse cx="525" cy="435" rx="150" ry="95" fill="#a76b35" transform="rotate(-27 525 435)"/><ellipse cx="530" cy="429" rx="103" ry="62" fill="#c88c4c" transform="rotate(-27 530 429)"/><ellipse cx="526" cy="429" rx="32" ry="32" fill="#321e14"/>
+<path d="M590 395L933 260" stroke="#875531" stroke-width="39"/><path d="M590 397L940 262" stroke="#c18f58" stroke-width="27"/>
+<g stroke="#eee1c3" stroke-width="1.4"><path d="M448 475L934 259M454 480L940 264M461 484L944 268M472 488L947 274"/></g>
+<path d="M297 416Q348 344 415 374L505 421L490 454L374 431L306 469Z" fill="#b78667"/>
+<path d="M584 360Q641 344 675 377L731 409L710 433L661 417L599 410Z" fill="#b88464"/>
+</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+<section class="pp-panel pp-monitor pp-program" data-pp-panel="program"><div class="pp-panel-tabs"><span class="pp-selected">Program: Lesson</span><span>Metadata</span><span class="pp-ellipses">≡</span></div><div class="pp-monitor-view"><div class="pp-monitor-shot"><svg class="pp-shot-svg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs><linearGradient id="ppp-wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#28130f"/><stop offset=".48" stop-color="#6e3825"/><stop offset="1" stop-color="#1b1110"/></linearGradient></defs>
+<rect width="960" height="540" fill="url(#ppp-wall)"/><rect y="420" width="960" height="120" fill="#291b18"/>
+<g opacity=".75"><rect x="68" y="29" width="165" height="190" fill="#301a12" stroke="#67422f" stroke-width="13"/><rect x="299" y="0" width="280" height="114" fill="#21150f"/><rect x="306" y="70" width="266" height="13" fill="#8a5d3b"/><path d="M356 65v-48h30v48M419 65V13h30v52M482 65V6h20v59" fill="#995b37"/><circle cx="826" cy="70" r="42" fill="#211612" stroke="#886041" stroke-width="7"/></g>
+<g><path d="M166 540Q167 338 230 266L375 280Q452 367 470 540Z" fill="#647882"/><path d="M198 295Q265 328 367 534" stroke="#40515d" stroke-width="10"/><path d="M274 280Q357 362 395 540" stroke="#a1b1b8" stroke-width="5" opacity=".7"/>
+<ellipse cx="279" cy="212" rx="58" ry="68" fill="#c28d6b"/><path d="M214 184Q217 95 303 126L356 172L327 188Z" fill="#1b1c1d"/>
+<path d="M250 245Q287 268 320 244L299 286L267 289Z" fill="#372a26"/>
+<ellipse cx="296" cy="409" rx="90" ry="62" fill="#9a5e32" transform="rotate(-20 296 409)"/><ellipse cx="290" cy="408" rx="58" ry="41" fill="#c7985e" transform="rotate(-20 290 408)"/><circle cx="285" cy="409" r="20" fill="#332016"/><path d="M327 394L526 303" stroke="#ac733c" stroke-width="22"/><path d="M211 352L263 390" stroke="#c59a77" stroke-width="26"/></g>
+<g><path d="M530 540Q530 331 608 278L765 277Q869 368 901 540Z" fill="#b8afb1"/><path d="M646 283Q677 380 737 536" stroke="#3d3a3d" stroke-width="10"/><path d="M736 297Q817 359 834 523" stroke="#514f50" stroke-width="9"/>
+<ellipse cx="687" cy="211" rx="54" ry="64" fill="#bb8463"/><path d="M630 167Q657 103 730 138L747 194L712 169L681 183L649 176Z" fill="#30231e"/>
+<path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/>
+<ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
+<g opacity=".75"><rect x="34" y="473" width="141" height="58" rx="6" fill="#0f1418"/><rect x="793" y="448" width="125" height="84" rx="5" fill="#16171b"/></g>
+</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+<section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span class="pp-selected">Project: panels.prproj</span><span>Media Browser</span><span>Libraries</span><span>Info</span><span>Effects</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" value="" placeholder="Search project" readonly><span>▤　☰</span></div><div class="pp-project-header"><span>Name</span><span>Frame Rate</span><span>Media Start</span></div><div class="pp-project-list"><div class="pp-project-row folder">▾　▣ Camino Fuente <small>—</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 1. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 2. <small>23.976</small></div><div class="pp-project-row selected"><i></i> Camino Fuente Cam 3. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 4. <small>23.976</small></div><div class="pp-project-row folder">▾　▣ titles</div><div class="pp-project-row lesson"><i></i> Lesson <small>23.976</small></div></div><div class="pp-project-bottom">▦　☰　↔　 ⊕　 ▣　 ☑</div></section>
+<section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
+<div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name">⌁　V2</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">▣　V1</div><div class="pp-track-content"><div class="pp-clip video" style="width:33%">▣　Camino Fuente Cam 3</div><div class="pp-clip video" style="width:19%">▣　Camino Fuente Cam 4</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">♫　A1</div><div class="pp-track-content"><div class="pp-clip audio" style="width:33%">▥　Camino Fuente</div><div class="pp-clip audio" style="width:19%">▥　Camino Fuente</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name">♫　A2</div><div class="pp-track-content"></div></div>
+<div class="pp-track-row"><div class="pp-track-name">♫　A3</div><div class="pp-track-content"></div></div>
+</div><div class="pp-playhead" style="left:38%"><b>▼</b></div></div><div class="pp-timeline-footer">▦　 Editing　│　23.976 fps　│　Sequence Lesson</div></section>
+<section class="pp-panel pp-meter" data-pp-panel="meter"><div class="pp-meter-scale"><span>0</span><span>-6</span><span>-12</span><span>-18</span><span>-24</span><span>-36</span><span>-48</span></div><div class="pp-meter-bars"><div class="pp-meter-bar"><div class="pp-meter-level" style="height:58%"></div></div><div class="pp-meter-bar"><div class="pp-meter-level" style="height:72%"></div></div></div><div class="pp-meter-label">L　R</div></section>
+</div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
+</div>`,
+editnotes:()=>`<div class="pp-side-notes"><div class="pp-side-header">⌕　剪輯備忘錄 <span>▦</span></div><div class="pp-side-content"><div class="pp-note-title">Lesson — 剪輯清單</div><div class="pp-note-caption">今日專案 · v01</div><div class="pp-note-group"><span>✓</span> 素材已匯入</div><div class="pp-note-group"><span>✓</span> 建立 Lesson 序列</div><div class="pp-note-group pending"><span>☐</span> 修剪兩個鏡頭間的轉場</div><div class="pp-note-group pending"><span>☐</span> 核對背景音樂與人聲</div><div class="pp-note-group pending"><span>☐</span> 調整字幕與顏色</div><div class="pp-note-divider"></div><div class="pp-note-subtitle">素材參考</div><div class="pp-note-chip">▣　Camino Fuente Cam 3.mp4</div><div class="pp-note-chip">▣　Camino Fuente Cam 4.mp4</div><div class="pp-note-chip">♫　Music track.wav</div><div class="pp-note-divider"></div><div class="pp-note-remind">💡 Premiere 為模擬工作區，可拖曳整個視窗並自由調整大小。</div></div></div>`,
 docs:()=>`<div class="docs"><h3>UltraWide Studio</h3><p><b>knuckleslee/ultrawide-showcase</b><br>32:9 Virtual Desktop Showcase</p><p>這個畫面直接以展示網站本身的 GitHub 專案為範本。</p><h4>Project files</h4><p>▤ index.html — 桌面與視窗動畫<br>▤ scripts/fetch_news.py — Google 新聞<br>▤ news.json — 靜態新聞快照<br>▤ .github/workflows — 排程與部署</p><h4>Run locally</h4><div class="code-snippet">git clone github.com/knuckleslee/ultrawide-showcase<br>cd ultrawide-showcase<br>python server.py</div><p><a class="repo-link" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ View source on GitHub</a></p><p style="font-size:10px;color:#627e94">原始碼為展示用節錄，程式操作並未實際執行。</p></div>`,
 editor:()=>`<div class="editor"><div class="vscode-bar"><span class="selected">▤</span><span>⌕</span><span>⑂</span><span>⧉</span><span>⚙</span></div><aside class="files-tree">▾ ultrawide-showcase<br>　◈ index.html<br>　▤ news.json<br>　▾ scripts<br>　　<span class="file-selected">◈ fetch_news.py</span><br>　▾ .github<br>　　▾ workflows<br>　　　◈ update-news.yml<br>　▧ README.md<br>　◈ server.py</aside><div class="code-area"><div class="repo-file-tab">● scripts/fetch_news.py <span>· actual source excerpt</span></div><div class="code-line"><span class="ln">24</span><span class="kw">def</span> get_news() -&gt; list[dict[str, str]]:</div><div class="code-line"><span class="ln">25</span>    request = Request(FEED, headers={</div><div class="code-line"><span class="ln">26</span>        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (compatible; UltraWideStudio/1.0)&quot;,</div><div class="code-line"><span class="ln">27</span>        &quot;Accept&quot;: &quot;application/rss+xml, application/xml, text/xml&quot;,</div><div class="code-line"><span class="ln">28</span>    })</div><div class="code-line"><span class="ln">29</span>    <span class="kw">with</span> urlopen(request, timeout=20) as response:</div><div class="code-line"><span class="ln">30</span>        xml = response.read(2_000_000)</div><div class="code-line"><span class="ln">31</span> </div><div class="code-line"><span class="ln">32</span>    root = ET.fromstring(xml)</div><div class="code-line"><span class="ln">33</span>    seen: set[str] = set()</div><div class="code-line"><span class="ln">34</span>    articles = []</div><div class="code-line"><span class="ln">35</span>    <span class="kw">for</span> entry in root.findall(&quot;./channel/item&quot;):</div><div class="code-line"><span class="ln">36</span>        title = &quot; &quot;.join((entry.findtext(&quot;title&quot;) or &quot;&quot;).split())</div><div class="code-line"><span class="ln">37</span>        <span class="kw">if</span> not title or title in seen:</div><div class="code-line"><span class="ln">38</span>            continue</div><div class="code-line"><span class="ln">39</span>        seen.add(title)</div><div class="code-line"><span class="ln">40</span>        source = &quot; &quot;.join((entry.findtext(&quot;source&quot;) or &quot;Google News&quot;).split())</div><div class="code-line"><span class="ln">41</span>        raw_date = entry.findtext(&quot;pubDate&quot;) or &quot;&quot;</div><div class="code-line"><span class="ln">42</span>        time_text = &quot;&quot;</div><div class="code-line"><span class="ln">43</span>        <span class="kw">if</span> raw_date:</div></div><div class="vscode-status"><span>⑂ main　✓ 0</span><span>Python　UTF-8　Spaces: 4　⌁</span></div></div>`,
 terminal:()=>`<div class="terminal"><div><span class="dim">PS C:&#92;projects&#92;ultrawide-showcase&gt;</span> python server.py</div><div>UltraWide Studio: <span style="color:#9fcfff">http://127.0.0.1:8765/</span></div><div><span class="dim"># Terminal output is simulated for presentation</span></div></div>`,
@@ -604,7 +722,7 @@ function updateFocus(){for(const [id,el] of Object.entries(windowNodes))el.class
 function attachInteractions(el,id){const header=el.querySelector('.titlebar');header.addEventListener('pointerdown',e=>{if(e.target.closest('.win-controls')||mode!=='manual')return;pointerStart(e,el,'move')});el.querySelector('.resize-grip').addEventListener('pointerdown',e=>{if(mode!=='manual')return;pointerStart(e,el,'resize')});header.addEventListener('dblclick',e=>{if(mode!=='manual'||e.target.closest('.win-controls'))return;toggleMax(el)});el.addEventListener('pointerdown',()=>{if(mode==='manual')raise(el)});el.querySelector('.maximize').addEventListener('click',()=>{if(mode==='manual')toggleMax(el)});el.querySelector('.minimize').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});el.querySelector('.close').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});}
 function pointerStart(e,el,type){e.preventDefault();e.stopPropagation();raise(el);let id=el.dataset.id,startX=e.clientX,startY=e.clientY;const sc=Math.min(innerWidth/BASE_W,innerHeight/BASE_H),entry=layoutEntry(id);if(!entry)return;let initial=entry.slice(1);el.classList.remove('animating');let target=e.currentTarget;target.setPointerCapture(e.pointerId);const move=p=>{const dx=(p.clientX-startX)/sc,dy=(p.clientY-startY)/sc;let [x,y,w,h]=initial;if(type==='move'){x=clamp(x+dx,0,BASE_W-w);y=clamp(y+dy,51,BOTTOM-h);if(x<15)x=0;if(Math.abs(BASE_W-(x+w))<15)x=BASE_W-w;}else{w=clamp(w+dx,165,BASE_W-x);h=clamp(h+dy,105,BOTTOM-y)};entry.splice(1,4,x,y,w,h);applyGeometry(el,[x,y,w,h])};const end=()=>{target.removeEventListener('pointermove',move);target.removeEventListener('pointerup',end);target.removeEventListener('pointercancel',end)};target.addEventListener('pointermove',move);target.addEventListener('pointerup',end);target.addEventListener('pointercancel',end)}
 function toggleMax(el){const id=el.dataset.id,entry=layoutEntry(id);if(!entry)return;if(maxRestore[id]){entry.splice(1,4,...maxRestore[id]);delete maxRestore[id]}else{maxRestore[id]=entry.slice(1);entry.splice(1,4,0,51,BASE_W,BOTTOM-51)}applyGeometry(el,entry.slice(1),true);raise(el)}
-function arrange(){if(mode!=='manual')return;const visible=S[scene].map(g=>g[0]).filter(id=>!windowNodes[id].classList.contains('offscreen'));const n=visible.length;if(!n)return;const pad=20,gap=12,top=62,bottom=499;let cols=n<=2?n:n===3?3:n===4?2:3,rows=Math.ceil(n/cols);let w=(BASE_W-pad*2-gap*(cols-1))/cols,h=(bottom-top-gap*(rows-1))/rows;visible.forEach((id,i)=>{const entry=layoutEntry(id);entry.splice(1,4,pad+(i%cols)*(w+gap),top+Math.floor(i/cols)*(h+gap),w,h);applyGeometry(windowNodes[id],entry.slice(1),true)});hint('已將目前視窗自動整理；可以繼續拖曳、縮放。')}
+function arrange(){if(mode!=='manual')return;if(scene==='editing'){customLayouts.editing=clone(S.editing);setScene('editing',{animation:true});hint('剪輯工作區已整理為 Premiere 主視窗與備忘錄。');return;}const visible=S[scene].map(g=>g[0]).filter(id=>!windowNodes[id].classList.contains('offscreen'));const n=visible.length;if(!n)return;const pad=20,gap=12,top=62,bottom=499;let cols=n<=2?n:n===3?3:n===4?2:3,rows=Math.ceil(n/cols);let w=(BASE_W-pad*2-gap*(cols-1))/cols,h=(bottom-top-gap*(rows-1))/rows;visible.forEach((id,i)=>{const entry=layoutEntry(id);entry.splice(1,4,pad+(i%cols)*(w+gap),top+Math.floor(i/cols)*(h+gap),w,h);applyGeometry(windowNodes[id],entry.slice(1),true)});hint('已將目前視窗自動整理；可以繼續拖曳、縮放。')}
 function resetScene(){if(mode==='auto')return;customLayouts[scene]=clone(S[scene]);Object.keys(maxRestore).forEach(k=>delete maxRestore[k]);setScene(scene,{animation:true});hint('已恢復預設視窗配置。')}
 function hint(s){if(!showHints)return;$('#hintText').textContent=s;$('#hint').classList.remove('hidden')}
 function toast(title,msg){$('#toastTitle').textContent=title;$('#toastBody').textContent=msg;let el=$('#toast');el.classList.remove('hidden','out');setTimeout(()=>el.classList.add('out'),2600);setTimeout(()=>el.classList.add('hidden'),3050)}
@@ -617,6 +735,36 @@ async function focusAction(app,id){const el=windowNodes[app],g=customLayouts[sce
 async function demoLayout(sceneId,id){customLayouts[sceneId]=clone(S[sceneId]);setScene(sceneId,{animation:true,force:true});return await delay(1200,id)}
 async function showcaseDrag(app,id,deltaX,deltaY){let el=windowNodes[app],g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+95,y+14,550);if(!await delay(650,id))return false;$('#guideCursor').classList.add('dragging');const nx=clamp(x+deltaX,0,BASE_W-w),ny=clamp(y+deltaY,51,BOTTOM-h);cursorAt(nx+95,ny+14,950);g.splice(1,4,nx,ny,w,h);raise(el);applyGeometry(el,[nx,ny,w,h],true);if(!await delay(1150,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
 async function showcaseResize(app,id,dx,dy){const g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+w-7,y+h-7,600);if(!await delay(710,id))return false;$('#guideCursor').classList.add('dragging');let nw=clamp(w+dx,165,BASE_W-x),nh=clamp(h+dy,105,BOTTOM-y);cursorAt(x+nw-7,y+nh-7,900);g.splice(1,4,x,y,nw,nh);applyGeometry(windowNodes[app],[x,y,nw,nh],true);if(!await delay(1080,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
+
+async function focusPremierePanel(panel,id){
+ const host=windowNodes.premiere;
+ if(!host)return false;
+ const area=host.querySelector('[data-pp-panel="'+panel+'"]');
+ if(!area)return false;
+ const desktop=$('#desktop').getBoundingClientRect(),rect=area.getBoundingClientRect();
+ const scale=desktop.width/BASE_W;
+ const x=(rect.left-desktop.left+Math.min(rect.width*0.4,155*scale))/scale;
+ const y=(rect.top-desktop.top+Math.min(25*scale,rect.height*.3))/scale;
+ cursorAt(x,y,610);
+ if(!await delay(700,id))return false;
+ clickCursor();
+ host.querySelectorAll('[data-pp-panel]').forEach(p=>p.classList.toggle('pp-auto-focus',p===area));
+ if(!await delay(750,id))return false;
+ area.classList.remove('pp-auto-focus');
+ return true;
+}
+async function advancePremierePlayhead(id){
+ const head=windowNodes.premiere?.querySelector('.pp-playhead');
+ if(!head)return false;
+ cursorAt(customLayouts.editing[0][1]+900,customLayouts.editing[0][2]+348,650);
+ if(!await delay(550,id))return false;
+ clickCursor();
+ head.style.transition='left 1.25s ease-in-out';
+ head.style.left='62%';
+ if(!await delay(1500,id))return false;
+ head.style.left='38%';
+ return true;
+}
 async function runAuto(id){let first=true;while(mode==='auto'&&runId===id){for(const sn of ['daily','editing','coding','gaming']){if(runId!==id||mode!=='auto')return;if(!await demoLayout(sn,id))return;if(sn==='daily'){
 if(!await action(id,'01 / 日常使用','新聞、聊天、影音與行程集中在同一畫面。'))return;
 if(!await focusAction('news',id))return;if(!await delay(900,id))return;
@@ -626,11 +774,17 @@ if(!await action(id,'視窗自由編排','拖曳聊天視窗，讓需要的工�
 if(!await showcaseDrag('chat',id,-85,-18))return;
 if(!await focusAction('video',id))return;if(!await delay(1700,id))return;
 }else if(sn==='editing'){
-if(!await action(id,'02 / 影片剪輯','素材、播放預覽、調色及時間軸一目了然。'))return;
-if(!await focusAction('assets',id))return;if(!await delay(380,id))return;
-if(!await focusAction('preview',id))return;
-if(!await action(id,'超寬時間軸','放大時間軸視窗，展示水平工作空間的優勢。'))return;
-if(!await showcaseResize('timeline',id,0,-35))return;if(!await delay(1500,id))return;
+if(!await action(id,'02 / Premiere Pro','雙預覽、素材庫、時間軸都在同一個 Premiere 主視窗內。'))return;
+if(!await focusAction('premiere',id))return;
+if(!await focusPremierePanel('source',id))return;
+if(!await focusPremierePanel('program',id))return;
+if(!await action(id,'剪輯素材','從 Project 面板檢視素材，再把片段放進時間軸。'))return;
+if(!await focusPremierePanel('project',id))return;
+if(!await focusPremierePanel('timeline',id))return;
+if(!await advancePremierePlayhead(id))return;
+if(!await action(id,'32:9 多工優勢','保留 Premiere 主工作區，右邊仍可檢視剪輯筆記。'))return;
+if(!await focusAction('editnotes',id))return;
+if(!await delay(1100,id))return;
 }else if(sn==='coding'){
 if(!await action(id,'03 / 程式設計','文件、程式編輯、終端機及即時預覽並排。'))return;
 if(!await focusAction('docs',id))return;if(!await focusAction('editor',id))return;
