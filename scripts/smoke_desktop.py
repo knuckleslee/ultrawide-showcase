@@ -286,7 +286,8 @@ def main() -> int:
         p.className='git-readme-line';
         readme.append(p);
       }
-      const clearance=shell.getBoundingClientRect().bottom-input.getBoundingClientRect().bottom;
+      const desktopScale=document.querySelector('#desktop').getBoundingClientRect().width/1920;
+      const clearance=(shell.getBoundingClientRect().bottom-input.getBoundingClientRect().bottom)/desktopScale;
       const bannerSeparate=!editor.contains(source)&&source.parentElement===editor.parentElement;
       const statusStyle=getComputedStyle(source);
       const compactBanner=parseFloat(statusStyle.fontSize)<=11
