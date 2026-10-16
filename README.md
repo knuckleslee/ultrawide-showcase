@@ -11,7 +11,8 @@
 - **視窗內容自適應**：依視窗大小調整模擬應用程式版面；應用程式不是實際可操作的生產力工具。
 - **自動整理／重設**：切換工作區配置，快速恢復展示。
 - **全螢幕展示**：透過網頁按鈕進入全螢幕。
-- **新聞內容**：GitHub Actions 每小時擷取 Google News RSS 並產生 `news.json`；使用者開啟網站時讀取一次，展示中不改變標題。
+- **新聞內容**：GitHub Actions 每天兩次（台灣時間 **08:17／20:17**）擷取 Google News RSS 並產生 `news.json`；使用者開啟網站時讀取一次，展示中不改變標題。
+- **真實專案示範**：「程式設計」場景以本儲存庫 `knuckleslee/ultrawide-showcase` 為範本，顯示 `scripts/fetch_news.py` 真實程式碼節錄、README、檔案結構與 GitHub 資訊（操作與 Terminal 輸出仍為模擬）。
 
 ![影片剪輯場景](demo-editing.svg)
 
@@ -51,9 +52,9 @@ python server.py
 1. 開啟 [Repository Settings → Pages](https://github.com/knuckleslee/ultrawide-showcase/settings/pages)，將 **Build and deployment → Source** 設為 **GitHub Actions**（首次啟用必要）。
 2. 開啟 [Repository Settings → Actions → General](https://github.com/knuckleslee/ultrawide-showcase/settings/actions) 確認允許 GitHub Actions 執行，且 **Workflow permissions** 可寫入儲存庫內容；工作流程本身宣告 `contents: write`。
 3. 前往 [Actions → Refresh news and deploy GitHub Pages](https://github.com/knuckleslee/ultrawide-showcase/actions/workflows/update-news.yml)，按 **Run workflow** 手動執行首次部署。
-4. 成功後可開啟 https://knuckleslee.github.io/ultrawide-showcase/ 。排程約每小時執行，GitHub 可能延後執行，並非即時保證。
+4. 成功後可開啟 https://knuckleslee.github.io/ultrawide-showcase/ 。Google 新聞排程在 **UTC 00:17、12:17**（台灣時間 **08:17、20:17**）執行，GitHub 可能延後執行，並非即時保證。一般推送 `main` 會重新部署頁面，**不會額外擷取新聞**；手動 `Run workflow` 則可以額外更新一次。
 
-新聞更新發生在 GitHub Actions 環境，不在瀏覽器內執行爬取。每次進入網頁只讀取一次 JSON。RSS 取得失敗時保留上一版資料；從未成功擷取時則顯示標示清楚的展示內容。`server.py` 仍供本機使用。
+新聞更新只在 GitHub Actions 排程或手動執行時進行，不在瀏覽器內執行爬取。每次進入網頁只讀取一次 JSON。RSS 取得失敗時保留上一版資料；從未成功擷取時則顯示標示清楚的展示內容。`server.py` 仍供本機使用。
 
 ## 專案結構
 
