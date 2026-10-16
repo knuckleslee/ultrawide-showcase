@@ -2,7 +2,7 @@
 
 以 **32:9（5120 × 1440）超寬螢幕**為目標的互動展示網頁。這是一個模擬桌面，無需登入 LINE、安裝剪輯軟體或編輯器。
 
-![日常使用場景](demo-initial.png)
+![日常使用場景](demo-initial.svg)
 
 ## 功能
 
@@ -13,7 +13,7 @@
 - **全螢幕展示**：透過網頁按鈕進入全螢幕。
 - **新聞內容**：啟用本機 Python 服務時讀取繁體中文台灣 Google News RSS，離線則使用明確標示的示範資料。
 
-![影片剪輯場景](demo-editing.png)
+![影片剪輯場景](demo-editing.svg)
 
 ## 使用方法
 
@@ -54,9 +54,11 @@ GitHub Pages 等靜態網站服務可以直接部署 `index.html`，但**無法�
 index.html           # 虛擬桌面 UI、三種場景、動畫與互動
 server.py            # 可選的本機 RSS API 服務
 啟動展示.bat          # Windows 啟動器
-demo-initial.png     # 日常模式預覽
-demo-editing.png     # 剪輯模式預覽
+demo-initial.svg     # 日常模式預覽
+demo-editing.svg     # 剪輯模式預覽
 README.md            # 使用說明
 ```
 
 > 所有模擬聊天、剪輯及程式碼畫面僅供展示，並非真實應用程式。本專案不是 Google 或 LINE 官方產品。
+
+> GitHub 上的 SVG 預覽為示意圖；原始 PNG 截圖保留在本次提供的完整 ZIP 內。
