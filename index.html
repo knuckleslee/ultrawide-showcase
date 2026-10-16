@@ -205,6 +205,64 @@
 .window[data-id="git"] .repo-name{color:#58a6ff}.window[data-id="git"] .repo-link{color:#58a6ff}
 @container (max-width: 420px){.vscode-bar{width:26px;flex-basis:26px;font-size:14px}.editor .files-tree{flex-basis:100px;width:100px;font-size:9px}.editor .code-area{font-size:10px}}
 
+
+/* Reference-style desktop messaging list: entirely fictional demo content. */
+.window[data-id="chat"] .window-content{background:#fff}
+.window[data-id="chat"] .titlebar{height:24px;background:#f6f6f7;color:#4b5156;border-bottom:1px solid #e6e6e6}
+.desktop-messenger{display:flex;height:100%;width:100%;background:#fff;color:#111;font-family:"Segoe UI","Microsoft JhengHei",system-ui,sans-serif;overflow:hidden;container-type:size}
+.messenger-rail{background:#242e49;color:#8591ae;flex:0 0 70px;width:70px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:9px 0 8px;min-height:0}
+.messenger-rail-group,.messenger-rail-bottom{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+.messenger-rail-profile{width:32px;height:32px;margin:1px 0 8px;font-size:0;position:relative;color:#7886a4}
+.messenger-rail-profile:before{content:"";position:absolute;left:12px;top:2px;width:10px;height:10px;border-radius:50%;background:#8996b1}
+.messenger-rail-profile:after{content:"";position:absolute;left:6px;bottom:4px;width:23px;height:13px;border-radius:14px 14px 3px 3px;background:#8996b1}
+.messenger-rail-action{width:34px;height:37px;flex:none;position:relative;display:flex;align-items:center;justify-content:center;color:#8996b1}
+.messenger-rail-action svg{width:24px;height:24px}
+.messenger-rail-action.active{color:#fff}
+.messenger-rail-badge{position:absolute;right:-6px;top:0;background:#ff4052;color:white;border:2px solid #242e49;border-radius:100px;min-width:18px;height:19px;padding:0 3px;font-size:10px;display:grid;place-items:center;line-height:1}
+.messenger-rail-dot{position:absolute;right:0;top:0;background:#ff4251;border-radius:50%;width:5px;height:5px}
+.messenger-rail-simple{font-size:17px;letter-spacing:1px}
+.messenger-main{flex:1;min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden;background:white}
+.messenger-top{height:44px;flex:none;display:flex;align-items:stretch;gap:7px;border-bottom:1px solid #dce1e4;padding:0 11px;white-space:nowrap}
+.messenger-tabs{display:flex;min-width:0;align-items:stretch;gap:14px;overflow:hidden}
+.messenger-tabs>span{font-size:12px;display:flex;align-items:center;color:#a4a8ad;position:relative;flex-shrink:0}
+.messenger-tabs>span.current{color:#121a24;font-weight:750}
+.messenger-tabs>span.current:after{content:"";height:3px;width:100%;background:#3b474e;position:absolute;left:0;bottom:0;border-radius:3px}
+.messenger-tabs i{position:absolute;right:-6px;top:8px;width:4px;height:4px;background:#17ad65;border-radius:50%}
+.messenger-filter{color:#636a72;font-size:18px;padding-top:10px;margin-left:auto}
+.messenger-window-tools{font-size:13px;color:#c5c8cc;padding-top:11px;letter-spacing:3px}
+.messenger-searchbar{padding:11px 13px 12px;display:flex;align-items:center;gap:10px;flex:none;background:#fff}
+.messenger-search{flex:1;min-width:0;height:38px;background:#f3f3f4;border-radius:7px;display:flex;align-items:center;gap:10px;color:#b7bcc2;padding:0 12px;font-size:12px}
+.messenger-sort{color:#6e747b;font-size:21px;width:15px}
+.messenger-rows{flex:1;min-height:0;overflow:auto;scrollbar-width:thin;background:#fff}
+.messenger-contact{height:76px;display:flex;align-items:center;gap:12px;padding:8px 12px 8px 16px;position:relative;background:#fff;border-bottom:1px solid #f1f2f3}
+.messenger-contact.is-highlighted{background:#f0f0f0}
+.messenger-avatar{width:53px;height:53px;flex:0 0 53px;border-radius:50%;display:grid;place-items:center;overflow:hidden;color:#fff;font-size:20px;font-weight:800;letter-spacing:1px;box-shadow:inset 0 -9px 20px #0002}
+.messenger-avatar.group{background:linear-gradient(135deg,#e45e55,#ae2142)}
+.messenger-avatar.sea{background:linear-gradient(135deg,#578f96,#283e65)}
+.messenger-avatar.amber{background:linear-gradient(135deg,#f5c44f,#ef832e)}
+.messenger-avatar.purple{background:linear-gradient(135deg,#6e7cd0,#384b90)}
+.messenger-avatar.coral{background:linear-gradient(135deg,#e29077,#8c3a59)}
+.messenger-avatar.forest{background:linear-gradient(135deg,#66a873,#34544a)}
+.messenger-avatar.blue{background:linear-gradient(135deg,#79aec8,#3b7296)}
+.messenger-contact-body{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;padding-right:4px}
+.messenger-contact-title{font-size:13px;font-weight:500;color:#111a23;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.messenger-contact-preview{color:#87919b;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.messenger-contact-meta{align-self:stretch;min-width:65px;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:10px 0 9px;gap:8px}
+.messenger-clock{color:#b0b9c5;font-size:10px;white-space:nowrap}
+.messenger-unread{display:grid;place-items:center;background:#07b63d;color:#fff;font-weight:700;min-width:20px;height:20px;border-radius:50%;font-size:11px;padding:0 4px}
+.messenger-ad{height:68px;flex:0 0 68px;background:#401c2c;color:white;position:relative;overflow:hidden;display:flex;align-items:center;border-top:1px solid #d8dadd}
+.messenger-ad:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,#bb5c16 0,#a32517 35%,#54223f 100%)}
+.messenger-ad:after{content:"";position:absolute;right:55px;bottom:-35px;width:170px;height:130px;background:radial-gradient(ellipse,#ec9f44aa 0,transparent 70%)}
+.messenger-ad-tag{position:absolute;top:5px;left:8px;background:#0008;color:#fff;font-size:9px;padding:2px 5px;z-index:1}
+.messenger-ad-art{z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;font-size:15px;line-height:1.3}
+.messenger-ad-art em{font-style:normal;color:#ffe5a2}
+.messenger-ad-art span{font-size:9px;margin-top:3px;color:#fce2ca}
+.messenger-ad-close{z-index:2;position:absolute;right:9px;top:4px}
+.messenger-compose{position:absolute;right:16px;bottom:75px;width:47px;height:47px;display:grid;place-items:center;border-radius:50%;background:#06c755;color:white;box-shadow:0 4px 13px #0003}
+.messenger-compose svg{width:25px;height:25px}
+@container (max-width: 530px){.messenger-rail{width:52px;flex-basis:52px}.messenger-tabs{gap:9px}.messenger-tabs>span{font-size:10px}.messenger-window-tools{display:none}.messenger-contact{height:65px;padding-left:10px;gap:8px}.messenger-avatar{width:42px;height:42px;flex-basis:42px;font-size:17px}.messenger-contact-title{font-size:12px}.messenger-contact-preview{font-size:10px}.messenger-contact-meta{min-width:53px}.messenger-ad{height:53px;flex-basis:53px}.messenger-compose{bottom:60px;width:39px;height:39px}.messenger-top{height:35px}.messenger-searchbar{padding:7px 10px}.messenger-search{height:30px}}
+@container (max-width: 380px){.messenger-rail{width:42px;flex-basis:42px}.messenger-tabs>span:nth-child(4),.messenger-tabs>span:nth-child(5){display:none}.messenger-contact-meta{min-width:46px}.messenger-clock{font-size:9px}.messenger-search{font-size:10px}.messenger-contact-title{font-size:11px}}
+@container (max-height: 300px){.messenger-ad{display:none}.messenger-compose{bottom:12px}.messenger-contact{height:54px}.messenger-avatar{width:36px;height:36px;flex-basis:36px}.messenger-rail-bottom{gap:0}.messenger-rail-group{gap:3px}.messenger-rail-action{height:30px}}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -244,7 +302,66 @@ const fakeHeadlines=[
  ['新聞示範：國際重要新聞與今日焦點','示意資料 · 連線取得 RSS 後更新']];
 const apps={
 news:()=>`<div class="news"><div class="news-browser"><div class="browser-tab"><span class="gnews-mark">◈</span> Google 新聞 <span class="browser-tab-close">×</span></div><div class="browser-tools"><span>‹　›　↻</span><div class="browser-address">🔒　news.google.com/home?hl=zh-TW</div><span>☆　⋯</span></div></div><div class="news-top"><span class="gnews-brand"><span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span><span class="gnews-text">新聞</span></span><span class="news-search">⌕　搜尋主題、地點和來源</span><span class="news-top-right">◯　⋮</span></div><div class="news-body"><aside class="news-nav"><div class="nav-entry selected">⌂　首頁</div><div class="nav-entry">◫　為你推薦</div><div class="nav-entry">☷　追蹤中</div><div class="nav-divider"></div><div class="nav-entry">◉　台灣</div><div class="nav-entry">◎　國際</div><div class="nav-entry">⌘　商業</div><div class="nav-entry">▣　科技</div><div class="nav-entry">◉　娛樂</div></aside><section class="news-main"><div class="news-page-heading"><div><strong>頭條新聞</strong><small>為你整理的最新新聞</small></div><div class="news-location">☀ 台灣</div></div><div class="news-category-tabs"><span class="active">焦點</span><span>為你推薦</span><span>台灣</span><span>科技</span><span>商業</span></div><div class="news-card-header"><strong>熱門新聞</strong><span class="news-badge" id="newsBadge">資料載入中</span></div><div id="newsStories">${newsHTML()}</div></section></div></div>`,
-chat:()=>`<div class="chat"><aside class="chat-rail"><div class="rail-profile">我</div><div class="rail-tool on">▤</div><div class="rail-tool">♙</div><div class="rail-tool">♧</div><div class="rail-tool">▣</div><div class="rail-spacer"></div><div class="rail-tool">⚙</div><div class="rail-tool">⋯</div></aside><aside class="contacts"><div class="chat-list-title"><strong>聊天</strong><span>⌗　⋯</span></div><div class="contact-search">⌕　搜尋聊天和訊息</div><div class="chat-list-tabs"><span class="active">全部</span><span>未讀</span><span>群組</span></div><div class="contact active"><span class="avatar group">專</span><div class="contact-copy"><div class="contact-row"><strong>專案討論群</strong><small>18:08</small></div><div class="contact-preview">收到！我晚點確認畫面 👍</div></div><b class="unread">2</b></div><div class="contact"><span class="avatar a2">安</span><div class="contact-copy"><div class="contact-row"><strong>安妮</strong><small>17:42</small></div><div class="contact-preview">今天晚餐吃什麼？</div></div></div><div class="contact"><span class="avatar a3">李</span><div class="contact-copy"><div class="contact-row"><strong>李先生</strong><small>昨天</small></div><div class="contact-preview">已傳送照片</div></div></div><div class="contact"><span class="avatar group2">設</span><div class="contact-copy"><div class="contact-row"><strong>設計團隊 (5)</strong><small>昨天</small></div><div class="contact-preview">初稿我先放這裡</div></div></div><div class="contact"><span class="avatar a4">媽</span><div class="contact-copy"><div class="contact-row"><strong>媽媽</strong><small>週三</small></div><div class="contact-preview">好，路上小心！</div></div></div></aside><section class="chat-view"><div class="chat-head"><div class="chat-title-group"><strong>專案討論群</strong><small>4 位成員</small></div><div class="chat-actions"><span>⌕</span><span>☎</span><span>☷</span></div></div><div class="messages"><div class="chat-date">10 月 16 日（五）</div><div class="msg"><div class="mini-avatar">安</div><div class="msg-stack"><div class="msg-author">安妮</div><div class="msg-row"><div class="bubble">今天的影片素材整理好了嗎？</div><span class="msg-time">17:40</span></div></div></div><div class="msg mine"><div class="msg-row"><span class="msg-time read">已讀<br>17:45</span><div class="bubble me">都整理好了！我正在剪輯。</div></div></div><div class="msg"><div class="mini-avatar">安</div><div class="msg-stack"><div class="msg-author">安妮</div><div class="msg-row"><div class="bubble">太好了～記得把預覽傳到群組 😊</div><span class="msg-time">17:52</span></div></div></div><div class="msg mine"><div class="msg-row"><span class="msg-time read">已讀<br>18:03</span><div class="bubble me">沒問題！現在同時看新聞和回訊息。</div></div></div><div class="msg"><div class="mini-avatar">專</div><div class="msg-stack"><div class="msg-author">專案夥伴</div><div class="msg-row"><div class="bubble">收到！我晚點確認畫面 👍</div><span class="msg-time">18:08</span></div></div></div></div><div class="chat-entry"><div class="chat-entry-actions">＋　▧　◉　😊　GIF</div><div class="chat-entry-text">輸入訊息</div></div></section></div>`,
+chat:()=>`<div class="desktop-messenger">
+  <aside class="messenger-rail" aria-label="通訊軟體功能列">
+    <div class="messenger-rail-group">
+      <div class="messenger-rail-profile" aria-hidden="true">●</div>
+      <div class="messenger-rail-action active" aria-label="聊天"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.7 2 11.3c0 2.5 1.4 4.8 3.8 6.3l-.7 3 3.7-1.9a12 12 0 0 0 3.2.4c5.5 0 10-3.6 10-8.1S17.5 3 12 3Z"/></svg><span class="messenger-rail-badge">5</span></div>
+      <div class="messenger-rail-action" aria-label="好友"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="10" cy="7" r="4"/><path d="M2 22v-2c0-5 3.3-8 8-8 2.7 0 4.8 1 6.2 3.2-1.5.6-2.2 2-2.2 3.8v3H2Z"/><path d="M19 13v8M15 17h8" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+      <div class="messenger-rail-action" aria-label="社群"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="#253047"/></svg><i class="messenger-rail-dot"></i></div>
+      <div class="messenger-rail-action" aria-label="工具"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="M10 8v8m0-8h6"/></svg></div>
+      <div class="messenger-rail-action messenger-rail-simple" aria-label="其他功能"><span>•••</span></div>
+    </div>
+    <div class="messenger-rail-bottom">
+      <div class="messenger-rail-action" aria-label="視訊"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-4v12l-6-4"/></svg></div>
+      <div class="messenger-rail-action" aria-label="擷取"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9V4h5M16 4h5v5M3 15v5h5M16 20h5v-5"/></svg></div>
+      <div class="messenger-rail-action" aria-label="收藏"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg></div>
+      <div class="messenger-rail-action messenger-rail-simple" aria-label="選單">•••</div>
+    </div>
+  </aside>
+  <section class="messenger-main" aria-label="聊天清單">
+    <div class="messenger-top">
+      <div class="messenger-tabs"><span class="current">全部</span><span>好友<i></i></span><span>群組<i></i></span><span>社群</span><span>官方帳號</span></div>
+      <span class="messenger-filter">☷</span>
+      <span class="messenger-window-tools">─　□　×</span>
+    </div>
+    <div class="messenger-searchbar">
+      <div class="messenger-search"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="10.5" cy="10.5" r="6.2"/><path d="m15.5 15.5 5 5"/></svg><span>搜尋聊天和訊息</span></div>
+      <span class="messenger-sort" aria-label="排序">↕</span>
+    </div>
+    <div class="messenger-rows"><div class="messenger-contact">
+  <div class="messenger-avatar group"><span>旅</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">旅行計畫討論</div><div class="messenger-contact-preview">景點照片我放在共享相簿囉！</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">下午 7:42</span><span class="messenger-unread">2</span></div>
+</div><div class="messenger-contact">
+  <div class="messenger-avatar sea"><span>魚</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">小魚</div><div class="messenger-contact-preview">好，週末見～</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">下午 6:22</span><span class="messenger-unread">2</span></div>
+</div><div class="messenger-contact">
+  <div class="messenger-avatar amber"><span>豪</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">阿豪</div><div class="messenger-contact-preview">新遊戲真的很有趣 🎮</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">下午 6:06</span><span class="messenger-unread">1</span></div>
+</div><div class="messenger-contact is-highlighted">
+  <div class="messenger-avatar purple"><span>設</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">設計工作群</div><div class="messenger-contact-preview">檔案已傳送</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">下午 5:34</span></div>
+</div><div class="messenger-contact">
+  <div class="messenger-avatar coral"><span>食</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">料理研究室</div><div class="messenger-contact-preview">這份食譜看起來很棒！</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">下午 2:00</span></div>
+</div><div class="messenger-contact">
+  <div class="messenger-avatar forest"><span>影</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">攝影同好</div><div class="messenger-contact-preview">晚上的天空也太美了 ✨</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">上午 10:59</span></div>
+</div><div class="messenger-contact">
+  <div class="messenger-avatar blue"><span>傑</span></div>
+  <div class="messenger-contact-body"><div class="messenger-contact-title">阿傑</div><div class="messenger-contact-preview">星期日再一起討論</div></div>
+  <div class="messenger-contact-meta"><span class="messenger-clock">昨天</span></div>
+</div></div>
+    <div class="messenger-ad" aria-label="展示用橫幅，不是真實廣告"><span class="messenger-ad-tag">DEMO</span><div class="messenger-ad-art"><strong>精彩日常，<em>隨時分享</em></strong><span>虛構展示橫幅</span></div><span class="messenger-ad-close">⋮</span></div>
+    <div class="messenger-compose" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 12a8 8 0 0 1-8 8c-1 0-2-.2-2.9-.5L5 21l1.1-4.1A8 8 0 1 1 20 12Z"/><path d="M8 12h8M12 8v8"/></svg></div>
+  </section>
+</div>`,
 video:()=>`<div class="video-wrap"><div class="yt-browser"><span>‹　›　↻</span><span class="yt-address">🔒　youtube.com/watch?v=demo</span><span>☆　⋮</span></div><div class="yt-header"><span style="font-size:15px">☰</span><span class="yt-brand"><span class="yt-logo">▶</span>YouTube</span><span class="yt-search">⌕ 搜尋</span><span>🔔　◯</span></div><div class="yt-main"><div class="yt-view"><div class="yt-video"><span class="yt-center-play">▶</span><span class="yt-player-controls">▶　00:42 / 04:30　　⚙　⛶</span></div><div class="yt-title">城市散步與創作日常｜4K 城市紀錄</div><div class="yt-detail"><span>1.2 萬次觀看　·　2 天前</span><span>♡ 3.2K　↗ 分享</span></div></div><div class="yt-next"><strong>推薦影片</strong><div class="yt-suggestion"><span class="yt-suggestion-image"></span><span>週末走訪老街<br><small>生活頻道</small></span></div><div class="yt-suggestion"><span class="yt-suggestion-image"></span><span>城市攝影技巧<br><small>影像筆記</small></span></div></div></div></div>`,
 calendar:()=>`<div class="calendar"><div class="cal-header"><span>2026 年 10 月</span><span>▦　◀　▶</span></div><div class="cal-days">${['日','一','二','三','四','五','六',...Array.from({length:35},(_,i)=>i<4?'':i-3)].map(x=>`<span class="${x==16?'today':''}">${x}</span>`).join('')}</div><div class="cal-foot">● 14:30　專案進度同步</div></div>`,
 notes:()=>`<div class="notes"><h3>今天的待辦 ✨</h3><p><span class="check">☑</span> 整理參考資料</p><p><span class="check">☑</span> 確認影片素材</p><p>☐ 完成剪輯初版</p><p>☐ 檢查網頁顯示</p><p>☐ 回覆專案訊息</p></div>`,
