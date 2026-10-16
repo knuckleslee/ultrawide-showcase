@@ -1300,7 +1300,7 @@ const AGENT_EDITS=[
  {title:'04／限定套用範圍',lines:["  panel.style.setProperty('--git-content-size', GITHUB_FONT_SIZES[mode]);","  panel.dataset.gitFont = mode;","}"]},
  {title:'05／接回原有功能',replaceLine:"  applyGitHubFontSize(mode);"}
 ];
-let codingDemoSaved=null,codingRawSource='';
+let codingDemoSaved=null,codingRawSource='',codingSourceStartLine=1,codingViewLines=[],codingDemoCompleted=0;
 function setGitFontMode(mode){
  const allowed=['XS','SM','MD','LG','XL'];
  if(!allowed.includes(mode))return;
@@ -1318,14 +1318,63 @@ function setupCodingInteractions(){
  if(panel)panel.querySelectorAll('.git-size-button').forEach(button=>{
   button.addEventListener('click',()=>setGitFontMode(button.dataset.fontMode));
  });
+ // Use the page's own real JavaScript until its full index.html is fetched.
+ // This works even for local previews without any external network access.
+ const embeddedScript=document.currentScript?.textContent ||
+   [...document.scripts].find(script=>!script.src&&script.textContent.includes('function setGitFontMode(mode){'))?.textContent;
+ if(embeddedScript)renderRealSource(embeddedScript,{embedded:true});
 }
-function renderRealSource(source){
+/* Display real, contiguous source lines around the actual GitHub font handler.
+   The demo adds/refactors lines IN THIS code section; do not append JS after
+   a Python file, and never insert presentation labels among source code. */
+function renderSourceLines(){
  const container=document.getElementById('realCodeLines');
  if(!container)return;
+ const fragment=document.createDocumentFragment();
+ codingViewLines.forEach((item,index)=>{
+  const row=document.createElement('div');
+  row.className='source-code-line'+(item.added?' demo-added':'');
+  row.dataset.sourceIndex=String(index);
+  const number=document.createElement('span');
+  number.className='line-num';
+  number.textContent=String(codingSourceStartLine+index);
+  const content=document.createElement('span');
+  content.className='line-text';
+  content.textContent=item.text;
+  row.append(number,content);fragment.append(row);
+ });
+ container.replaceChildren(fragment);
+}
+function renderRealSource(source,{embedded=false}={}){
  const lines=source.split(/\r?\n/);
- container.innerHTML=lines.map((line,i)=>
-  '<div class="source-code-line"><span class="line-num">'+(i+1)+'</span><span class="line-text">'+escapeHTML(line)+'</span></div>'
- ).join('');
+ const idx=lines.findIndex(line=>line.trim()==='function setGitFontMode(mode){');
+ if(idx<0)return false;
+ const first=Math.max(0,idx-1),last=Math.min(lines.length,idx+38);
+ codingRawSource=source;
+ codingSourceStartLine=first+1;
+ codingViewLines=lines.slice(first,last).map(text=>({text,added:false}));
+ codingDemoCompleted=0;
+ renderSourceLines();
+ const loader=document.getElementById('editorLoadState');
+ if(loader)loader.textContent=embedded
+  ? 'INDEX.HTML  /  JAVASCRIPT  /  本頁內嵌來源'
+  : 'INDEX.HTML  /  JAVASCRIPT  /  目前部署版本';
+ return true;
+}
+function scrollEditorRowIntoView(row,behavior='smooth'){
+ const viewport=document.getElementById('codingScroll');
+ if(!row||!viewport)return;
+ const pane=viewport.getBoundingClientRect(),rect=row.getBoundingClientRect();
+ const scale=pane.height/Math.max(1,viewport.clientHeight);
+ const target=viewport.scrollTop+
+  (rect.top+rect.height*.5-pane.top-pane.height*.43)/Math.max(.01,scale);
+ viewport.scrollTo({top:Math.max(0,target),behavior});
+}
+function locateFontHandler(){
+ return codingViewLines.findIndex(item=>item.text.trim()==='function setGitFontMode(mode){');
+}
+function hasRealEditorSource(){
+ return codingViewLines.some(item=>item.text.trim()==='function setGitFontMode(mode){');
 }
 async function loadLiveCodingData(){
  const base='https://api.github.com/repos/'+CODE_REPO;
@@ -1400,14 +1449,21 @@ async function loadLiveCodingData(){
    readme.dataset.source='unavailable';
   }
  }
+ // Source code is loaded from the ACTUAL deployed index.html.
+ // Editor and preview consequently use the same revision, including on Pages.
  try{
-  const response=await fetch('https://raw.githubusercontent.com/'+CODE_REPO+'/main/scripts/fetch_news.py',{signal:AbortSignal.timeout(10000),cache:'no-store'});
-  if(!response.ok)throw Error('Source HTTP '+response.status);
-  codingRawSource=await response.text();
-  renderRealSource(codingRawSource);
-  if(loader)loader.textContent='GITHUB  /  MAIN  /  SCRIPTS/FETCH_NEWS.PY  /  SYNCED';
+  const sourceURL=new URL('index.html',location.href);
+  const response=await fetch(sourceURL.href,{cache:'no-store',signal:AbortSignal.timeout(8000)});
+  if(!response.ok)throw Error('Main page HTTP '+response.status);
+  const raw=await response.text();
+  if(mode==='auto'&&scene==='coding'&&codingDemoCompleted>0){
+   // Don't erase the in-progress editor presentation if the fetch finishes late.
+  }else if(!renderRealSource(raw)){
+   throw Error('GitHub font handler not found in live index.html');
+  }
  }catch(err){
-  if(loader)loader.textContent='GITHUB  /  MAIN  /  SCRIPTS/FETCH_NEWS.PY  /  OFFLINE';
+  if(!hasRealEditorSource()&&loader)
+   loader.textContent='INDEX.HTML  /  JAVASCRIPT  /  目前無法取得原始碼';
  }
 }
 function resetCodingDemo(){
@@ -1415,8 +1471,9 @@ function resetCodingDemo(){
  for(const el of [question,think,answer])if(el)el.hidden=true;
  const steps=document.getElementById('agentSteps');if(steps)steps.replaceChildren();
  const prompt=document.getElementById('agentPromptLine');if(prompt)prompt.textContent='請描述想新增的功能…';
- const changes=document.getElementById('agentCodeChanges');if(changes){changes.replaceChildren();changes.hidden=true}
- const count=document.getElementById('editorChangeCount');if(count)count.textContent='✓ 0';
+ codingDemoCompleted=0;
+ if(codingRawSource)renderRealSource(codingRawSource,{embedded:true});
+ const count=document.getElementById('editorChangeCount');if(count)count.textContent='✓ 未修改';
  const terminal=document.getElementById('codingTerminalStatus');if(terminal)terminal.textContent='目前沒有待套用的示範修改';
 }
 function codingScrollTo(selector,top){
