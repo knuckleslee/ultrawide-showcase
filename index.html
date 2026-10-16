@@ -76,7 +76,39 @@ git:()=>`<div class="git"><div class="section-title">ISSUES & COMMITS</div><div 
 };
 function newsHTML(){let list=newsData.length?newsData:fakeHeadlines;return list.slice(0,7).map((item,i)=>`<div class="story"><div class="story-photo t${1+i%4}">▤</div><div class="story-copy"><div class="story-title">${escapeHTML(item[0])}</div><div class="story-meta">${escapeHTML(item[1]||'')}</div></div></div>`).join('')}
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function loadNews(){try{const r=await fetch('/api/news',{signal:AbortSignal.timeout(6500)});if(!r.ok)throw Error('RSS error');const data=await r.json();if(!Array.isArray(data.items)||!data.items.length)throw Error('empty');newsData=data.items.map(v=>[v.title,v.source+' · '+(v.time||'最新')]);newsIsLive=true;if(windowNodes.news){$('#newsStories').innerHTML=newsHTML();$('#newsBadge').textContent='Google News RSS';}}catch(e){newsIsLive=false;}}
+// Use the API on the optional localhost Python server; elsewhere load a static
+// snapshot generated hourly by GitHub Actions. No re-fetch during the presentation.
+async function loadNews(){
+  const localServer=['localhost','127.0.0.1'].includes(location.hostname)&&location.protocol!=='file:';
+  const path=localServer?'/api/news':'./news.json';
+  try{
+    const url=new URL(path,location.href);
+    url.searchParams.set('onload',String(Date.now()));
+    const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw Error('News unavailable ('+r.status+')');
+    const data=await r.json();
+    if(!Array.isArray(data.items)||!data.items.length)throw Error('No news snapshot yet');
+    newsData=data.items.filter(v=>v&&typeof v.title==='string'&&v.title.trim()).map(v=>[
+      v.title,String(v.source||'Google News')+' · '+String(v.time||'')
+    ]);
+    if(!newsData.length)throw Error('Empty headlines');
+    newsIsLive=true;
+    let label='Google News RSS';
+    if(data.updated_at){
+      const updated=new Date(data.updated_at);
+      if(!Number.isNaN(updated.getTime())){
+        label='資料更新 '+updated.toLocaleString('zh-TW',{
+          timeZone:'Asia/Taipei',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false
+        });
+      }
+    }
+    if(windowNodes.news){$('#newsStories').innerHTML=newsHTML();$('#newsBadge').textContent=label;}
+  }catch(e){
+    newsData=[];newsIsLive=false;
+    if(windowNodes.news){$('#newsStories').innerHTML=newsHTML();$('#newsBadge').textContent='展示資料（新聞暫不可用）';}
+    console.warn('News snapshot unavailable:',e);
+  }
+}
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
 function applyGeometry(el,g,animate=false){if(animate)el.classList.add('animating');else el.classList.remove('animating');el.style.left=g[0]+'px';el.style.top=g[1]+'px';el.style.width=g[2]+'px';el.style.height=g[3]+'px';}
 function layoutEntry(id){return customLayouts[scene].find(g=>g[0]===id)}
