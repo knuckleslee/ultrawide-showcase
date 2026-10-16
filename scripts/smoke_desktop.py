@@ -16,10 +16,12 @@ import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_WINDOWS = 14
+EXPECTED_WINDOWS = 13
 INITIAL_SCENE = {"news", "chat", "video", "calendar", "notes"}
 SCENES = {"daily", "editing", "coding", "gaming"}
 EDITING_WINDOWS = {"premiere"}
+CODING_WINDOWS = {"aiagent", "editor", "git", "terminal"}
+GAMING_WINDOWS = {"discord", "game", "bahamut"}
 PREMIERE_PANELS = {"effects", "source", "program", "project", "timeline", "meter", "scopes", "markers"}
 
 
@@ -47,6 +49,9 @@ class DesktopParser(HTMLParser):
         self.effect_dividers = 0
         self.cursor_tip_pulses = 0
         self.interactive_check = ""
+        self.game_sources: list[str] = []
+        self.github_font_modes: set[str] = set()
+        self.coding_features: set[str] = set()
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
@@ -91,6 +96,14 @@ class DesktopParser(HTMLParser):
         if data.get("data-pp-panel"):
             self.premiere_panels.add(data["data-pp-panel"])
             self.premiere_panel_order.append(data["data-pp-panel"])
+        if tag == "iframe" and data.get("id") == "gamingFrame":
+            self.game_sources.append(data.get("src") or "")
+        if data.get("data-font-mode"):
+            self.github_font_modes.add(data["data-font-mode"])
+        for label in ("agentQuestion", "agentThinking", "agentSteps", "agentCodeChanges",
+                      "codingScroll", "gitLiveScroll", "realCodeLines", "gitLiveFiles"):
+            if data.get("id") == label:
+                self.coding_features.add(label)
         if tag == "iframe" and data.get("id") == "youtubeFrame":
             self.youtube_sources.append(data.get("src") or "")
         if tag == "button" and data.get("data-scene"):
@@ -197,6 +210,38 @@ def main() -> int:
             if program_w < 360 or program_h < 200:
                 problems.append(f"Program preview insufficient for right-hand 40% workspace: {program_w}x{program_h}")
 
+
+    # Confirm that the revamped 03 layout has 4 real windows, full-source/editor
+    # scrolling, a scripted five-step AI response and five scoped uppercase modes.
+    for scene_name, expected in (("coding", CODING_WINDOWS), ("gaming", GAMING_WINDOWS)):
+        scene_dom = subprocess.run(
+            command[:-1] + [source + "?scene=" + scene_name],
+            text=True, capture_output=True, timeout=35,
+        )
+        if scene_dom.returncode != 0:
+            problems.append(f"Chrome failed to render {scene_name} scene")
+            continue
+        scene_parser = DesktopParser()
+        scene_parser.feed(scene_dom.stdout)
+        visible_scene = {name for name, classes in scene_parser.windows.items()
+                         if "offscreen" not in classes}
+        if visible_scene != expected:
+            problems.append(f"{scene_name} visible windows: {sorted(visible_scene)}")
+        if scene_name == "coding":
+            required_features = {"agentQuestion", "agentThinking", "agentSteps",
+                                 "agentCodeChanges", "codingScroll", "gitLiveScroll",
+                                 "realCodeLines", "gitLiveFiles"}
+            if scene_parser.github_font_modes != {"XS", "SM", "MD", "LG", "XL"}:
+                problems.append("GitHub 5 uppercase font modes XS/SM/MD/LG/XL missing")
+            if not required_features.issubset(scene_parser.coding_features):
+                problems.append("Coding AI AGENT/editor/live GitHub components missing")
+        else:
+            if len(scene_parser.game_sources) != 1:
+                problems.append("Gaming YouTube player missing")
+            elif ("1or3YILu28M" not in scene_parser.game_sources[0] or
+                  "start=87" not in scene_parser.game_sources[0]):
+                problems.append("Gaming video ID and 01:27 start parameter missing")
+
     # Functional browser probe: really click the Premiere transport button, let
     # the timecode progress, pause it, and verify the SVG arrow-tip coordinates.
     # A temporary HTML file keeps test code out of the deployed website.
@@ -214,8 +259,16 @@ def main() -> int:
       if(probeButton)probeButton.click();
       const probeStopped=probeButton?.getAttribute('aria-pressed')==='false'
          && !document.querySelector('.pp-program')?.classList.contains('pp-is-playing');
+      const gitPanel=document.querySelector('.live-github');
+      const originalEditorSize=getComputedStyle(document.getElementById('codingScroll')).fontSize;
+      setGitFontMode('XL');
+      const isolatedFonts=gitPanel?.dataset.gitFont==='XL'
+         && getComputedStyle(document.getElementById('codingScroll')).fontSize===originalEditorSize;
+      const renderedMonth=document.querySelector('.cal-month-label')?.textContent;
+      const rightMonth=(new Date().getMonth()+1);
+      const calendarCurrent=renderedMonth?.includes(String(rightMonth)+' 月');
       document.documentElement.setAttribute('data-interactive-check',
-        probeStarted && probeTip && probeBefore !== probeAfter && probeAnimating && probeStopped
+        probeStarted && probeTip && probeBefore !== probeAfter && probeAnimating && probeStopped && isolatedFonts && calendarCurrent
         ? 'pass' : 'fail:'+JSON.stringify({probeStarted,probeTip,probeBefore,probeAfter,probeAnimating,probeStopped}));
     },1400);
     </script>
