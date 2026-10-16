@@ -134,7 +134,9 @@ def main() -> int:
         if len(editing_parser.monitor_dimensions) != 2:
             problems.append("Monitor media dimensions were not assigned on load")
         for width, height in editing_parser.monitor_dimensions:
-            if width < 20 or height < 20 or abs(width / height - 16 / 9) > .012:
+            if width < 270 or height < 150:
+                problems.append(f"Premiere monitor is too small: {width:.1f}x{height:.1f}; expected larger 16:9 previews")
+            if not height or abs(width / height - 16 / 9) > .012:
                 problems.append(f"Monitor video ratio should be 16:9, received {width}x{height}")
         if len(editing_parser.monitor_dimensions) == 2:
             source_height, program_height = [d[1] for d in editing_parser.monitor_dimensions]
