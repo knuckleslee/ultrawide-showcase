@@ -20,7 +20,7 @@
 @container (max-height: 150px){.assets,.effects,.docs,.app-preview{padding:6px}.asset-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.asset-thumb{height:30px}.docs h3{font-size:12px}.app-preview h3{font-size:12px;margin:3px 0}.metric-row{display:none}.news-header{margin-bottom:3px}.story{padding:4px 0;min-height:40px}.story-photo{height:30px;width:50px;min-width:50px}.chat-head{height:24px;padding:4px 8px}}
 @container (max-width: 280px){.files-tree{display:none}.metric-row{display:none}.docs h3{font-size:14px}.story-title{font-size:10px}.calendar{padding:7px}.notes h3{font-size:12px}}
 /* guide cursor, overlays */
-#guideCursor{position:absolute;z-index:30000;left:0;top:0;width:80px;height:80px;pointer-events:none;opacity:0;transform:translate3d(0,0,0);transition:transform .7s cubic-bezier(.12,.72,.16,1),opacity .25s}#guideCursor.show{opacity:1}#guideCursor svg{width:63px;height:65px;overflow:visible;filter:drop-shadow(0 3px 3px #000a)}#guideCursor .halo{transition:opacity .25s;opacity:.9}#guideCursor.clicking .halo{animation:pulse .42s ease-out}#guideCursor.dragging svg{filter:drop-shadow(0 0 9px #f4e99e)}@keyframes pulse{0%{transform:scale(.75);opacity:1}100%{transform:scale(1.7);opacity:0}}#guideCursor .halo{transform-origin:35px 35px}
+#guideCursor{position:absolute;z-index:30000;left:0;top:0;width:80px;height:80px;pointer-events:none;opacity:0;transform:translate3d(0,0,0);transition:transform .7s cubic-bezier(.12,.72,.16,1),opacity .25s}#guideCursor.show{opacity:1}#guideCursor svg{width:80px;height:80px;overflow:visible;filter:drop-shadow(0 3px 3px #000a)}#guideCursor .halo{transition:opacity .25s;opacity:.9}#guideCursor .tip-pulse{opacity:0;transform-box:view-box;transform-origin:24px 14px}#guideCursor.clicking .tip-pulse{animation:pulse .42s ease-out}#guideCursor.dragging svg{filter:drop-shadow(0 0 9px #f4e99e)}@keyframes pulse{0%{transform:scale(.75);opacity:1}100%{transform:scale(1.7);opacity:0}}#guideCursor .halo{transform-box:view-box;transform-origin:35px 35px}
 #hint{position:absolute;z-index:21000;bottom:49px;left:28px;max-width:530px;display:flex;gap:9px;align-items:center;background:#091725df;border:1px solid #7ce7d74d;border-radius:8px;padding:9px 14px;color:#d9f3f3;font-size:12px;box-shadow:0 10px 30px #0008;backdrop-filter:blur(6px)}#hint .hint-symbol{display:grid;place-items:center;height:22px;width:22px;border-radius:50%;background:#245c62;color:#b8fff2}.hidden{display:none!important}.toast{position:absolute;z-index:26000;right:23px;bottom:52px;width:250px;padding:10px 13px;color:#dceaf7;background:#183248ed;border:1px solid #64d5c966;border-radius:8px;font-size:11px;box-shadow:0 9px 25px #0009;transition:opacity .4s,transform .4s}.toast strong{display:block;font-size:12px;margin-bottom:5px}.toast.out{opacity:0;transform:translateX(15px)}
 #help{position:absolute;z-index:35000;top:57px;right:24px;background:#11253af5;border:1px solid #618293;border-radius:10px;padding:14px 18px;width:326px;box-shadow:0 18px 45px #000a;color:#d9e7f2;font-size:12px;line-height:1.75}#help strong{font-size:14px}.key{background:#233e55;color:#d6fcfb;border:1px solid #4a6a85;padding:1px 5px;border-radius:4px;font:11px Consolas,monospace}
 #desktop.manual{cursor:default}#desktop.manual .titlebar,#desktop.manual .resize-grip{touch-action:none}#desktop.demo{cursor:none}#desktop.demo #topbar,#desktop.demo #taskbar{cursor:none}
@@ -622,6 +622,35 @@
 .messenger-rows{scroll-behavior:smooth;overscroll-behavior:contain}
 @container (max-width: 450px){.news-article{left:0}}
 
+
+/* Animate only the demo playhead, actors and strumming hands while simulated playback runs. */
+.pp-fx-splitter{flex:0 0 5px;align-self:stretch;background:linear-gradient(90deg,#4c5158,#262b31);border-left:1px solid #78818d5a;cursor:col-resize;z-index:2}
+.pp-fx-layout.pp-demo-resizing .pp-fx-splitter{background:#78b6e8;box-shadow:0 0 10px #48a4d780}
+.pp-fx-layout .pp-fx-properties{transition:flex-basis .85s cubic-bezier(.19,.7,.17,1)}
+.pp-fx-layout.pp-demo-resizing .pp-fx-keyframes{box-shadow:inset 2px 0 #71ace0}
+.pp-program .pp-shot-svg .pp-actor-one,.pp-program .pp-shot-svg .pp-actor-two{transform-box:fill-box;transform-origin:center center}
+.pp-program .pp-shot-svg .pp-picking-arm-a,.pp-program .pp-shot-svg .pp-picking-arm-b{transform-box:fill-box;transform-origin:center center}
+.pp-program.pp-is-playing .pp-actor-one{animation:pp-musician-one 1.25s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-actor-two{animation:pp-musician-two 1.05s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-picking-arm-a{animation:pp-pick-one .48s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-picking-arm-b{animation:pp-pick-two .42s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-scope-chart svg{animation:pp-scope-wave .72s ease-in-out infinite alternate}
+.pp-program .pp-monitor-actions{gap:8px}
+.pp-demo-play{border:1px solid #494d53;background:#30353a;border-radius:4px;padding:0 9px;color:#e1e7eb;font-size:12px;line-height:17px;cursor:pointer}
+.pp-demo-play:hover,.pp-demo-play:focus-visible{border-color:#6eade2;background:#3e4b5b}
+.pp-program.pp-is-playing .pp-demo-play{color:#79d7a5;background:#294336}
+.pp-demo-indicator{font:10px Consolas,monospace;color:#90a4b7;min-width:48px}
+.pp-program.pp-is-playing .pp-demo-indicator{color:#5ddd91}
+@keyframes pp-musician-one{0%{transform:translateY(1px) rotate(-1.3deg)}100%{transform:translateY(-5px) rotate(1.4deg)}}
+@keyframes pp-musician-two{0%{transform:translateY(-3px) rotate(1.6deg)}100%{transform:translateY(2px) rotate(-1.2deg)}}
+@keyframes pp-pick-one{0%{transform:rotate(-7deg)}100%{transform:rotate(9deg)}}
+@keyframes pp-pick-two{0%{transform:rotate(7deg)}100%{transform:rotate(-10deg)}}
+@keyframes pp-scope-wave{from{opacity:.72;transform:translateY(2px)}to{opacity:1;transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){
+ .pp-program.pp-is-playing .pp-actor-one,.pp-program.pp-is-playing .pp-actor-two,
+ .pp-program.pp-is-playing .pp-picking-arm-a,.pp-program.pp-is-playing .pp-picking-arm-b{animation:none}
+}
+
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -634,7 +663,7 @@
 </header>
 <main id="windows"></main><div id="hint"><span class="hint-symbol">✦</span><span id="hintText">自由操作：拖曳標題列可移動視窗，拖曳右下角可縮放。</span></div>
 <div id="taskbar"><div class="taskbar-left"><span class="winlogo"><b></b><b></b><b></b><b></b></span><span id="taskLabel">日常使用 · 工作空間</span></div><div id="taskicons" style="display:flex;gap:7px"></div><div class="taskbar-time" id="clock"></div></div>
-<div id="guideCursor" aria-hidden="true"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle class="halo" cx="35" cy="35" r="27" fill="#f7d76f" fill-opacity=".14" stroke="#ffdf78" stroke-opacity=".9" stroke-width="2.6"/><path d="M24 14V61L35 50L48 72L57 67L43 46L61 44Z" fill="#fff" stroke="#07131c" stroke-width="4" stroke-linejoin="round"/></svg></div>
+<div id="guideCursor" aria-hidden="true"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle class="halo" cx="35" cy="35" r="27" fill="#f7d76f" fill-opacity=".14" stroke="#ffdf78" stroke-opacity=".9" stroke-width="2.6"/><circle class="tip-pulse" cx="24" cy="14" r="14" fill="#fff4b2" fill-opacity=".65" stroke="#ffe383" stroke-width="2.4"/><path d="M24 14V61L35 50L48 72L57 67L43 46L61 44Z" fill="#fff" stroke="#07131c" stroke-width="4" stroke-linejoin="round"/></svg></div>
 <div id="toast" class="toast hidden"><strong id="toastTitle">新訊息</strong><span id="toastBody"></span></div>
 <div id="help" class="hidden"><strong>操作說明</strong><div style="margin-top:8px">拖曳標題列：移動視窗<br>拖曳右下角：調整視窗大小<br>雙擊標題列：最大化／還原<br>點擊工作列圖示：開啟或置頂視窗<br>自動整理：排列目前所有視窗<br>切換場景：保留各場景自己的自由版面</div><div style="margin-top:10px"><span class="key">1</span> <span class="key">2</span> <span class="key">3</span> <span class="key">4</span> 切換場景　<span class="key">Space</span> 暫停／繼續<br><span class="key">R</span> 重設　<span class="key">F</span> 全螢幕　<span class="key">H</span> 提示開關<br><span class="key">Esc</span> 離開全螢幕</div><div style="margin-top:10px;color:#97b6c8">所有應用程式內容僅用於多工展示，無須登入；新聞支援讀取即時 RSS。</div></div>
 </div></div>
@@ -745,7 +774,7 @@ premiere:()=>`<div class="pp-shell">
     <div class="pp-fx-properties">
       <div class="pp-fx-heading">▾　◉ Motion <span>♢</span></div>
       <div class="pp-fx-row"><span>Position</span><b>960.0　540.0</b><i>◇</i></div>
-      <div class="pp-fx-row"><span>Scale</span><b>100.0</b><i>◇</i></div>
+      <div class="pp-fx-row"><span>Scale</span><b data-pp-scale>100.0</b><i>◇</i></div>
       <div class="pp-fx-row"><span>Rotation</span><b>0.0°</b><i>◇</i></div>
       <div class="pp-fx-row"><span>Anchor Point</span><b>960.0　540.0</b><i>◇</i></div>
       <div class="pp-fx-heading">▾　◉ Opacity <span>♢</span></div>
@@ -753,6 +782,7 @@ premiere:()=>`<div class="pp-shell">
       <div class="pp-fx-heading">▾　◉ Time Remapping <span>♢</span></div>
       <div class="pp-fx-row"><span>Speed</span><b>100.0%</b><i>◇</i></div>
     </div>
+    <div class="pp-fx-splitter" aria-label="Effect Controls 面板分隔線"></div>
     <div class="pp-fx-keyframes">
       <div class="pp-fx-ruler"><span>00:00:00</span><span>00:00:03</span><span>00:00:06</span><span>00:00:08</span></div>
       <div class="pp-fx-curve"><div class="pp-fx-grid"></div>
@@ -809,14 +839,14 @@ premiere:()=>`<div class="pp-shell">
 <defs><linearGradient id="ppp-wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#28130f"/><stop offset=".48" stop-color="#6e3825"/><stop offset="1" stop-color="#1b1110"/></linearGradient></defs>
 <rect width="960" height="540" fill="url(#ppp-wall)"/><rect y="420" width="960" height="120" fill="#291b18"/>
 <g opacity=".75"><rect x="68" y="29" width="165" height="190" fill="#301a12" stroke="#67422f" stroke-width="13"/><rect x="299" y="0" width="280" height="114" fill="#21150f"/><rect x="306" y="70" width="266" height="13" fill="#8a5d3b"/><path d="M356 65v-48h30v48M419 65V13h30v52M482 65V6h20v59" fill="#995b37"/><circle cx="826" cy="70" r="42" fill="#211612" stroke="#886041" stroke-width="7"/></g>
-<g><path d="M166 540Q167 338 230 266L375 280Q452 367 470 540Z" fill="#647882"/><path d="M198 295Q265 328 367 534" stroke="#40515d" stroke-width="10"/><path d="M274 280Q357 362 395 540" stroke="#a1b1b8" stroke-width="5" opacity=".7"/>
+<g class="pp-actor-one"><path d="M166 540Q167 338 230 266L375 280Q452 367 470 540Z" fill="#647882"/><path d="M198 295Q265 328 367 534" stroke="#40515d" stroke-width="10"/><path d="M274 280Q357 362 395 540" stroke="#a1b1b8" stroke-width="5" opacity=".7"/>
 <ellipse cx="279" cy="212" rx="58" ry="68" fill="#c28d6b"/><path d="M214 184Q217 95 303 126L356 172L327 188Z" fill="#1b1c1d"/>
 <path d="M250 245Q287 268 320 244L299 286L267 289Z" fill="#372a26"/>
-<ellipse cx="296" cy="409" rx="90" ry="62" fill="#9a5e32" transform="rotate(-20 296 409)"/><ellipse cx="290" cy="408" rx="58" ry="41" fill="#c7985e" transform="rotate(-20 290 408)"/><circle cx="285" cy="409" r="20" fill="#332016"/><path d="M327 394L526 303" stroke="#ac733c" stroke-width="22"/><path d="M211 352L263 390" stroke="#c59a77" stroke-width="26"/></g>
-<g><path d="M530 540Q530 331 608 278L765 277Q869 368 901 540Z" fill="#b8afb1"/><path d="M646 283Q677 380 737 536" stroke="#3d3a3d" stroke-width="10"/><path d="M736 297Q817 359 834 523" stroke="#514f50" stroke-width="9"/>
+<ellipse cx="296" cy="409" rx="90" ry="62" fill="#9a5e32" transform="rotate(-20 296 409)"/><ellipse cx="290" cy="408" rx="58" ry="41" fill="#c7985e" transform="rotate(-20 290 408)"/><circle cx="285" cy="409" r="20" fill="#332016"/><path d="M327 394L526 303" stroke="#ac733c" stroke-width="22"/><path class="pp-picking-arm-a" d="M211 352L263 390" stroke="#c59a77" stroke-width="26"/></g>
+<g class="pp-actor-two"><path d="M530 540Q530 331 608 278L765 277Q869 368 901 540Z" fill="#b8afb1"/><path d="M646 283Q677 380 737 536" stroke="#3d3a3d" stroke-width="10"/><path d="M736 297Q817 359 834 523" stroke="#514f50" stroke-width="9"/>
 <ellipse cx="687" cy="211" rx="54" ry="64" fill="#bb8463"/><path d="M630 167Q657 103 730 138L747 194L712 169L681 183L649 176Z" fill="#30231e"/>
 <path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/>
-<ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
+<ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path class="pp-picking-arm-b" d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
 <g opacity=".75"><rect x="34" y="473" width="141" height="58" rx="6" fill="#0f1418"/><rect x="793" y="448" width="125" height="84" rx="5" fill="#16171b"/></g>
 </svg></div><aside class="pp-program-scopes" data-pp-panel="scopes" aria-label="Lumetri Scopes">
  <div class="pp-scope-tabs">Lumetri Scopes <span>⋯</span></div>
@@ -831,7 +861,7 @@ premiere:()=>`<div class="pp-shell">
   </svg>
  </div><div class="pp-scope-row"><span>Program</span><b>1080p</b></div><div class="pp-scope-row"><span>Color</span><b>Rec.709</b></div>
  <div class="pp-scope-row"><span>FPS</span><b>23.976</b></div>
-</aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
+</aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions"><span>↶　✂　⌁　|◀　◀</span><button type="button" class="pp-demo-play" aria-label="模擬播放 Premiere 預覽" aria-pressed="false" title="模擬播放／暫停">▶</button><span>▶|　▱　▣　⊕</span><span class="pp-demo-indicator">PAUSED</span></div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
 docs:()=>`<div class="docs"><h3>UltraWide Studio</h3><p><b>knuckleslee/ultrawide-showcase</b><br>32:9 Virtual Desktop Showcase</p><p>這個畫面直接以展示網站本身的 GitHub 專案為範本。</p><h4>Project files</h4><p>▤ index.html — 桌面與視窗動畫<br>▤ scripts/fetch_news.py — Google 新聞<br>▤ news.json — 靜態新聞快照<br>▤ .github/workflows — 排程與部署</p><h4>Run locally</h4><div class="code-snippet">git clone github.com/knuckleslee/ultrawide-showcase<br>cd ultrawide-showcase<br>python server.py</div><p><a class="repo-link" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ View source on GitHub</a></p><p style="font-size:10px;color:#627e94">原始碼為展示用節錄，程式操作並未實際執行。</p></div>`,
