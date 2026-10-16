@@ -59,6 +59,7 @@ class DesktopParser(HTMLParser):
         self.github_font_modes: set[str] = set()
         self.coding_features: set[str] = set()
         self.coding_ui_check = ""
+        self.editor_format_check = ""
         self.default_layout_check = ""
         self.scene_notice_check = ""
         self.auto_start_check = ""
@@ -73,6 +74,7 @@ class DesktopParser(HTMLParser):
             self.interactive_check = data.get("data-interactive-check") or ""
             self.game_interactive_check = data.get("data-game-interactive-check") or ""
             self.coding_ui_check = data.get("data-coding-ui-check") or ""
+            self.editor_format_check = data.get("data-editor-format-check") or ""
             self.default_layout_check = data.get("data-default-layout-check") or ""
             self.scene_notice_check = data.get("data-scene-notice-check") or ""
             self.auto_start_check = data.get("data-auto-start-check") or ""
@@ -467,6 +469,75 @@ def main() -> int:
                                 + (coding_parser.default_layout_check or "no response"))
     except subprocess.TimeoutExpired:
         problems.append("Coding UI probe timed out")
+
+    # Exercise all five real UI editing steps without waiting through the
+    # presentation pacing. This checks continuous line numbers, valid JS,
+    # and green modified rows located inside index.html's code excerpt.
+    editor_probe_js = """
+    <script>
+    (async()=>{
+      const oldDelay=delay,oldMode=mode,oldRun=runId;
+      try{
+        delay=async()=>true;
+        mode='auto';runId+=1;
+        const before=codingViewLines.map(item=>item.text).join('\\n');
+        let success=true;
+        for(const step of AGENT_EDITS){
+          if(!await applyDemoCodeStep(step,runId)){success=false;break}
+        }
+        const rows=[...document.querySelectorAll('#realCodeLines .source-code-line')];
+        const added=rows.filter(row=>row.classList.contains('demo-added'));
+        const sequential=rows.every((row,index)=>
+          Number(row.querySelector('.line-num')?.textContent)===codingSourceStartLine+index);
+        const after=codingViewLines.map(item=>item.text);
+        const handler=after.findIndex(line=>line.trim()==='function setupCodingInteractions(){');
+        let validSyntax=false;
+        try{
+          if(handler>0){new Function(after.slice(0,handler).join('\\n'));validSyntax=true}
+        }catch(e){}
+        const noDetachedLabels=!document.querySelector('#realCodeLines .editor-demo-note')
+          && !document.getElementById('agentCodeChanges')
+          && rows.every(row=>!row.textContent.includes('模擬人工編修'));
+        const correctFile=document.querySelector('.repo-file-tab')?.textContent.includes('index.html')
+          && before.includes('function setGitFontMode(mode){');
+        const refactored=after.some(line=>line.trim()==='applyGitHubFontSize(mode);')
+          && after.some(line=>line.includes("const GITHUB_FONT_SIZES = Object.freeze({"));
+        const passed=success&&codingDemoCompleted===5&&AGENT_EDITS.length===5
+          && added.length===10&&sequential&&validSyntax&&noDetachedLabels
+          && correctFile&&refactored;
+        document.documentElement.setAttribute('data-editor-format-check',
+          passed?'pass':'fail:'+JSON.stringify({
+            success,codingDemoCompleted,added:added.length,sequential,
+            validSyntax,noDetachedLabels,correctFile,refactored
+          }));
+      }catch(e){
+        document.documentElement.setAttribute('data-editor-format-check',
+          'error:'+String(e).slice(0,200));
+      }finally{
+        delay=oldDelay;mode=oldMode;runId=oldRun;
+      }
+    })();
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = Path(temp_dir) / "index.html"
+            html = (ROOT / "index.html").read_text(encoding="utf-8")
+            file_path.write_text(html.replace("</body>", editor_probe_js + "</body>"),
+                                 encoding="utf-8")
+            editor_result = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=5000",
+                                file_path.as_uri()+"?scene=coding"],
+                capture_output=True, text=True, timeout=35,
+            )
+            edited_parser = DesktopParser()
+            edited_parser.feed(editor_result.stdout)
+            if editor_result.returncode != 0 or edited_parser.editor_format_check != "pass":
+                problems.append("Real JavaScript editing and line-number format probe: "
+                                + (edited_parser.editor_format_check or "no response"))
+                print("Editor probe diagnostics:", editor_result.stderr[-1600:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("JavaScript editor formatting probe timed out")
 
     # Scene hints should appear only on actual scene switches, on the upper
     # right, and fade automatically 5 seconds later without blocking clicks.
