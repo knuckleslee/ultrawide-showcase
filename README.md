@@ -85,4 +85,4 @@ README.md            # 使用說明
 
 ## 02 Premiere 工作區配置
 
-預設兩個可拖曳縮放的頂層視窗：左側 `premiere`（1503 × 437 虛擬像素），右側 `editnotes`（352 × 437 虛擬像素）。Premiere 內部為 Docked Panels，並不拆成獨立視窗。上半部從左至右為 **Effect Controls（含 Motion、Opacity、Time Remapping 與關鍵影格時間軸）→ Source → Program**。Source 和 Program 影像各自維持 **16:9、相同原始顯示高度並緊貼排列**；多餘的水平空間全部集中給最左邊的 Effect Controls，**不會在預覽周圍加入額外資訊欄或大片黑邊**。縮小主視窗時保留比例並等比縮小預覽，較窄時會收合部分非核心面板。自動整理與重設會恢復相同配置。雙預覽使用本專案內嵌的 SVG 插畫示意音樂教學素材，並非使用者所提供的影像原檔，也非 Adobe 官方編輯器。
+預設兩個可拖曳縮放的頂層視窗：左側 `premiere`（1503 × 437 虛擬像素），右側 `editnotes`（352 × 437 虛擬像素）。Premiere 內部為 Docked Panels，並不拆成獨立視窗。上半部從左至右為 **Effect Controls（含 Motion、Opacity、Time Remapping 與關鍵影格時間軸）→ Source → Program**。Source 和 Program 影像各自維持 **16:9、相同高度並緊貼排列**；上半部高度增加到約 **72%**，讓兩個預覽明顯放大，左側 Effect Controls 隨之縮窄；多餘的水平空間仍集中在最左邊的 Effect Controls，**不會在預覽周圍加入額外資訊欄或大片黑邊**。縮小主視窗時保留比例並等比縮小預覽，較窄時會收合部分非核心面板。自動整理與重設會恢復相同配置。雙預覽使用本專案內嵌的 SVG 插畫示意音樂教學素材，並非使用者所提供的影像原檔，也非 Adobe 官方編輯器。
