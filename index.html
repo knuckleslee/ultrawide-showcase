@@ -547,6 +547,26 @@
  .pp-scope-tabs{padding:2px 4px}
  .pp-program-output{display:none}
 }
+
+/* Source markers and a real Effects-browser facsimile fill narrow unused docks. */
+.pp-source .pp-monitor-view{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:3px;overflow:hidden}
+.pp-source .pp-monitor-shot{flex:none}
+.pp-source-markers{flex:1 1 0;min-width:0;align-self:stretch;overflow:hidden;background:#27282b;color:#c1c8cd;border:1px solid #43464c;display:flex;flex-direction:column;font:9px/1.2 'Segoe UI',sans-serif}
+.pp-source-markers-title{background:#37393d;color:#d7dde1;padding:4px 5px;font-size:9px;font-weight:650;white-space:nowrap}
+.pp-source-marker-row{display:flex;align-items:flex-start;gap:5px;padding:5px 4px 2px;border-bottom:1px solid #3e4146;min-width:0}
+.pp-source-marker-row>span{color:#79b8d6;font-size:9px}
+.pp-source-marker-row>div{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.pp-source-marker-row b{color:#bfcfdf;font-size:9px;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-source-marker-row small{color:#8d9ca9;font-size:8px}
+.pp-source-markers-foot{margin-top:auto;background:#34363a;padding:3px 4px;white-space:nowrap;font-size:8px}
+.pp-effects-list{flex:1;min-height:0;overflow:auto;background:#26272a;padding:2px 3px;font:10px/1.2 'Segoe UI',sans-serif;scrollbar-width:thin}
+.pp-effect-category{color:#c8cdd1;font-weight:700;padding:5px 4px;border-bottom:1px solid #33363a}
+.pp-effect-folder{padding:4px 5px 3px 11px;color:#aeb7c1}
+.pp-effect-entry{padding:4px 5px 4px 24px;color:#96a5b5}
+.pp-clip.video.pink{background:linear-gradient(#b76ecb,#e98bd7);color:#29142f;border-color:#bd5fce}
+.pp-clip.audio.violet{background:repeating-linear-gradient(90deg,#bd82da 0,#ba7ad7 3px,#9156ac 4px,#9156ac 7px);color:#281331;border-color:#965cbb}
+@container (max-width: 850px){.pp-source-markers{display:none}}
+@container (max-height: 270px){.pp-source-marker-row{padding:2px 3px}.pp-source-marker-row:nth-of-type(n+4){display:none}.pp-effect-category{padding:2px 4px}.pp-effect-folder,.pp-effect-entry{padding-top:2px;padding-bottom:2px}}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -700,16 +720,22 @@ premiere:()=>`<div class="pp-shell">
 <g stroke="#eee1c3" stroke-width="1.4"><path d="M448 475L934 259M454 480L940 264M461 484L944 268M472 488L947 274"/></g>
 <path d="M297 416Q348 344 415 374L505 421L490 454L374 431L306 469Z" fill="#b78667"/>
 <path d="M584 360Q641 344 675 377L731 409L710 433L661 417L599 410Z" fill="#b88464"/>
-</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+</svg></div><aside class="pp-source-markers" data-pp-panel="markers" aria-label="Clip Markers">
+ <div class="pp-source-markers-title">Clip Markers　⌄</div>
+ <div class="pp-source-marker-row"><span>◆</span><div><b>In Point</b><small>00:00:00:12</small></div></div>
+ <div class="pp-source-marker-row"><span>◆</span><div><b>Guitar Close-up</b><small>00:00:02:14</small></div></div>
+ <div class="pp-source-marker-row"><span>◆</span><div><b>Cut to wide</b><small>00:00:06:03</small></div></div>
+ <div class="pp-source-markers-foot">1920 × 1080 · 23.976 fps</div>
+</aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
 
 </div>
 <div class="pp-bottom-left">
-<section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span class="pp-selected">Project: panels.prproj</span><span>Media Browser</span><span>Libraries</span><span>Info</span><span>Effects</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" value="" placeholder="Search project" readonly><span>▤　☰</span></div><div class="pp-project-header"><span>Name</span><span>Frame Rate</span><span>Media Start</span></div><div class="pp-project-list"><div class="pp-project-row folder">▾　▣ Camino Fuente <small>—</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 1. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 2. <small>23.976</small></div><div class="pp-project-row selected"><i></i> Camino Fuente Cam 3. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 4. <small>23.976</small></div><div class="pp-project-row folder">▾　▣ titles</div><div class="pp-project-row lesson"><i></i> Lesson <small>23.976</small></div></div><div class="pp-project-bottom">▦　☰　↔　 ⊕　 ▣　 ☑</div></section>
+<section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span>Project: Lesson</span><span>Media Browser</span><span class="pp-selected">Effects</span><span>Markers</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" placeholder="Search Effects" readonly><span>▤　☰</span></div><div class="pp-effects-list"><div class="pp-effect-category">▾　Video Effects</div><div class="pp-effect-folder">▾　Adjust</div><div class="pp-effect-entry">▣　Auto Color</div><div class="pp-effect-entry">▣　Auto Contrast</div><div class="pp-effect-entry">▣　Levels</div><div class="pp-effect-folder">▾　Blur &amp; Sharpen</div><div class="pp-effect-entry">▣　Gaussian Blur</div><div class="pp-effect-entry">▣　Sharpen</div><div class="pp-effect-folder">▾　Color Correction</div><div class="pp-effect-entry">▣　Lumetri Color</div><div class="pp-effect-folder">▸　Distort</div><div class="pp-effect-folder">▸　Keying</div><div class="pp-effect-category">▸　Audio Effects</div><div class="pp-effect-category">▸　Video Transitions</div></div><div class="pp-project-bottom">▤　Effects　·　Search &amp; apply</div></section>
 <section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
 <div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
 <div class="pp-track-row"><div class="pp-track-name">⌁　V2</div><div class="pp-track-content"></div></div>
-<div class="pp-track-row"><div class="pp-track-name active">▣　V1</div><div class="pp-track-content"><div class="pp-clip video" style="width:33%">▣　Camino Fuente Cam 3</div><div class="pp-clip video" style="width:19%">▣　Camino Fuente Cam 4</div></div></div>
-<div class="pp-track-row"><div class="pp-track-name active">♫　A1</div><div class="pp-track-content"><div class="pp-clip audio" style="width:33%">▥　Camino Fuente</div><div class="pp-clip audio" style="width:19%">▥　Camino Fuente</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">▣　V1</div><div class="pp-track-content"><div class="pp-clip video pink" style="width:38%">▣　Gameplay Capture · Camera 01</div><div class="pp-clip video pink" style="width:29%">▣　Gameplay Capture · Camera 02</div></div></div>
+<div class="pp-track-row"><div class="pp-track-name active">♫　A1</div><div class="pp-track-content"><div class="pp-clip audio violet" style="width:38%">▥　Game Audio 01</div><div class="pp-clip audio violet" style="width:29%">▥　Game Audio 02</div></div></div>
 <div class="pp-track-row"><div class="pp-track-name">♫　A2</div><div class="pp-track-content"></div></div>
 <div class="pp-track-row"><div class="pp-track-name">♫　A3</div><div class="pp-track-content"></div></div>
 </div><div class="pp-playhead" style="left:38%"><b>▼</b></div></div><div class="pp-timeline-footer">▦　 Editing　│　23.976 fps　│　Sequence Lesson</div></section>
