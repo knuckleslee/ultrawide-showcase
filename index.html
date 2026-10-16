@@ -402,9 +402,26 @@
 .pp-panel-tabs>span{height:100%;display:flex;align-items:center;flex:none}
 .pp-panel-tabs>.pp-selected{color:#dcdde0;border-bottom:1px solid #7eb1d5;font-weight:650}.pp-ellipses{color:#8c8e91}
 .pp-monitor{display:flex;flex-direction:column}
-.pp-monitor-view{flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#0e0e0f;padding:3px 12px 0;container-type:size}
-.pp-monitor-shot{width:min(100%,177.777778cqh);height:auto;aspect-ratio:16 / 9;max-width:100%;max-height:100%;min-width:0;min-height:0;flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000}
-.pp-shot-svg{display:block;width:100%;height:100%;aspect-ratio:16 / 9;object-fit:contain}
+/* The media is always 16:9. Any spare real estate is a genuine UI region, never a letterbox. */
+.pp-monitor-view{flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:4px;align-items:center;justify-content:flex-start;background:#27282b;padding:4px;overflow:hidden;container-type:size}
+.pp-monitor-view.pp-stack-aux{flex-direction:column}
+.pp-monitor-shot{box-sizing:border-box;flex:none;aspect-ratio:16 / 9;min-width:0;min-height:0;max-width:100%;max-height:100%;width:100%;height:auto;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#121013}
+.pp-shot-svg{display:block;width:100%;height:100%;aspect-ratio:16 / 9;object-fit:fill}
+.pp-monitor-aux{background:#2b2c30;border:1px solid #47494c;color:#c9cbd0;align-self:stretch;min-width:0;min-height:0;flex:1;overflow:hidden;font:9px/1.35 'Segoe UI',sans-serif}
+.pp-aux-title{height:19px;background:#34353a;padding:3px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #4c4d51;font-size:9px;white-space:nowrap}
+.pp-aux-title span{color:#9ca5b4}
+.pp-aux-content{padding:5px 8px;overflow:auto;scrollbar-width:thin;max-height:calc(100% - 19px)}
+.pp-aux-line{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:3px;border-bottom:1px solid #424347;padding:3px 0}
+.pp-aux-line span{color:#9ca2a9}.pp-aux-line b{font-weight:550;color:#d4d8df;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pp-aux-subtitle{color:#b5d2ea;margin-top:6px;font-weight:700}
+.pp-aux-marker{border-left:2px solid #74b8d9;background:#35383e;padding:3px 5px;margin-top:3px;color:#c6d2df}
+.pp-aux-scope{color:#66c5a8;font:bold 15px Consolas,monospace;white-space:nowrap;overflow:hidden}
+.pp-monitor-view.pp-stack-aux .pp-monitor-aux{width:100%;flex:1;align-self:auto}
+.pp-monitor-view.pp-stack-aux .pp-aux-content{display:flex;gap:9px;flex-wrap:wrap;align-items:center;max-height:calc(100% - 18px)}
+.pp-monitor-view.pp-stack-aux .pp-aux-line{display:inline-flex;border:0;padding:1px 0;gap:4px}
+.pp-monitor-view.pp-stack-aux .pp-aux-subtitle,.pp-monitor-view.pp-stack-aux .pp-aux-marker,.pp-monitor-view.pp-stack-aux .pp-aux-scope{display:none}
+@container (max-height: 90px){.pp-aux-content{padding:2px 5px}.pp-aux-line{padding:1px 0}.pp-aux-subtitle,.pp-aux-marker,.pp-aux-scope{display:none}}
+
 .pp-monitor-details{height:18px;display:flex;align-items:center;gap:13px;padding:0 7px;background:#26272a;flex:none;color:#a4aaae;font-size:9px}
 .pp-timecode{color:#7ac8ed;font:700 10px 'Consolas',monospace}
 .pp-metadata{margin-left:auto;color:#9a9ba1}
@@ -577,7 +594,7 @@ premiere:()=>`<div class="pp-shell">
 <g stroke="#eee1c3" stroke-width="1.4"><path d="M448 475L934 259M454 480L940 264M461 484L944 268M472 488L947 274"/></g>
 <path d="M297 416Q348 344 415 374L505 421L490 454L374 431L306 469Z" fill="#b78667"/>
 <path d="M584 360Q641 344 675 377L731 409L710 433L661 417L599 410Z" fill="#b88464"/>
-</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+</svg></div><aside class="pp-monitor-aux pp-source-aux"><div class="pp-aux-title">Source · Clip metadata <span>⌄</span></div><div class="pp-aux-content"><div class="pp-aux-line"><span>File</span><b>Camino Fuente Cam 3.mp4</b></div><div class="pp-aux-line"><span>Resolution</span><b>1920 × 1080</b></div><div class="pp-aux-line"><span>Frame Rate</span><b>23.976 fps</b></div><div class="pp-aux-line"><span>Duration</span><b>00:00:08:21</b></div><div class="pp-aux-subtitle">Markers</div><div class="pp-aux-marker">◆ 00:00:02:14　Start picking</div><div class="pp-aux-marker">◆ 00:00:05:03　Guitar close-up</div></div></aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:18:02</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:08:21</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:30%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
 <section class="pp-panel pp-monitor pp-program" data-pp-panel="program"><div class="pp-panel-tabs"><span class="pp-selected">Program: Lesson</span><span>Metadata</span><span class="pp-ellipses">≡</span></div><div class="pp-monitor-view"><div class="pp-monitor-shot"><svg class="pp-shot-svg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><linearGradient id="ppp-wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#28130f"/><stop offset=".48" stop-color="#6e3825"/><stop offset="1" stop-color="#1b1110"/></linearGradient></defs>
 <rect width="960" height="540" fill="url(#ppp-wall)"/><rect y="420" width="960" height="120" fill="#291b18"/>
@@ -591,7 +608,7 @@ premiere:()=>`<div class="pp-shell">
 <path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/>
 <ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
 <g opacity=".75"><rect x="34" y="473" width="141" height="58" rx="6" fill="#0f1418"/><rect x="793" y="448" width="125" height="84" rx="5" fill="#16171b"/></g>
-</svg></div></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
+</svg></div><aside class="pp-monitor-aux pp-program-aux"><div class="pp-aux-title">Program · Sequence <span>⌄</span></div><div class="pp-aux-content"><div class="pp-aux-line"><span>Sequence</span><b>Lesson</b></div><div class="pp-aux-line"><span>Frame Size</span><b>1920 × 1080</b></div><div class="pp-aux-line"><span>Timebase</span><b>23.976 fps</b></div><div class="pp-aux-line"><span>Preview</span><b>Full quality</b></div><div class="pp-aux-subtitle">Lumetri · Levels</div><div class="pp-aux-scope"><span>▁▃▅▇▆▄▇▅▃▂▅▇</span></div><div class="pp-aux-line"><span>Safe margins</span><b>Enabled</b></div></div></aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions">↶　✂　⌁　|◀　◀　▶　▶|　▱　▣　⊕</div></section>
 <section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span class="pp-selected">Project: panels.prproj</span><span>Media Browser</span><span>Libraries</span><span>Info</span><span>Effects</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" value="" placeholder="Search project" readonly><span>▤　☰</span></div><div class="pp-project-header"><span>Name</span><span>Frame Rate</span><span>Media Start</span></div><div class="pp-project-list"><div class="pp-project-row folder">▾　▣ Camino Fuente <small>—</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 1. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 2. <small>23.976</small></div><div class="pp-project-row selected"><i></i> Camino Fuente Cam 3. <small>23.976</small></div><div class="pp-project-row"><i></i> Camino Fuente Cam 4. <small>23.976</small></div><div class="pp-project-row folder">▾　▣ titles</div><div class="pp-project-row lesson"><i></i> Lesson <small>23.976</small></div></div><div class="pp-project-bottom">▦　☰　↔　 ⊕　 ▣　 ☑</div></section>
 <section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
 <div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
@@ -697,6 +714,42 @@ async function loadNews(){
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
 function applyGeometry(el,g,animate=false){if(animate)el.classList.add('animating');else el.classList.remove('animating');el.style.left=g[0]+'px';el.style.top=g[1]+'px';el.style.width=g[2]+'px';el.style.height=g[3]+'px';}
 function layoutEntry(id){return customLayouts[scene].find(g=>g[0]===id)}
+/* Fit 16:9 video and let information panels consume the remaining space.
+   ResizeObserver follows freely resized windows as well as scene transitions. */
+function arrangePremiereMonitors(){
+ const monitors=document.querySelectorAll('.pp-monitor-view');
+ for(const view of monitors){
+   const media=view.querySelector('.pp-monitor-shot'),aux=view.querySelector('.pp-monitor-aux');
+   if(!media||!aux)continue;
+   const cw=view.clientWidth,ch=view.clientHeight;
+   if(cw<2||ch<2)continue;
+   const style=getComputedStyle(view);
+   const horizontalPadding=parseFloat(style.paddingLeft)+parseFloat(style.paddingRight);
+   const verticalPadding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
+   const gap=parseFloat(style.gap)||4;
+   const w=Math.max(1,cw-horizontalPadding),hh=Math.max(1,ch-verticalPadding);
+   // Prefer a side inspector when the monitor is wider than a 16:9 frame.
+   let layoutSide=w/hh>1.95;
+   view.classList.toggle('pp-stack-aux',!layoutSide);
+   let mediaWidth,mediaHeight;
+   if(layoutSide){
+     const room=Math.min(120,Math.max(40,w*.2));
+     mediaWidth=Math.max(1,Math.min(w-gap-room,hh*16/9));
+     mediaHeight=mediaWidth*9/16;
+   }else{
+     const toolHeight=Math.min(45,Math.max(19,hh*.22));
+     mediaWidth=Math.max(1,Math.min(w,(hh-toolHeight-gap)*16/9));
+     mediaHeight=mediaWidth*9/16;
+   }
+   media.style.width=mediaWidth+'px';
+   media.style.height=mediaHeight+'px';
+ }
+}
+const premiereResizeObserver=new ResizeObserver(()=>arrangePremiereMonitors());
+function watchPremiereMonitors(){
+ document.querySelectorAll('.pp-monitor-view').forEach(el=>premiereResizeObserver.observe(el));
+ arrangePremiereMonitors();
+}
 function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
 }
 function syncTaskbar(){const entries=S[scene],icons=$('#taskicons');icons.innerHTML='';for(const [id] of entries){const b=document.createElement('button');b.className='taskicon';b.title='顯示 '+META[id][0];b.style.background=META[id][2];b.textContent=META[id][1];b.addEventListener('click',()=>{if(mode!=='manual')return;const el=windowNodes[id];el.classList.remove('offscreen');raise(el);if(id==='video')syncEmbeddedVideo(scene);});icons.append(b)}$('#taskLabel').textContent={daily:'日常使用',editing:'影片剪輯',coding:'程式設計',gaming:'遊戲娛樂'}[scene]+' · 工作空間'}
@@ -815,5 +868,5 @@ window.addEventListener('resize',scaleDesktop);document.addEventListener('fullsc
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true});hint('已切換場景；你可以調整每個視窗的大小與位置。')}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;$('#hint').classList.toggle('hidden',!showHints)}else if(k==='escape'){$('#help').classList.add('hidden')}});
-createWindows();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
+createWindows();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
 </script></body></html>
