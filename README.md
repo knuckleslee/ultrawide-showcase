@@ -97,9 +97,9 @@ README.md            # 使用說明
 
 ## 03 AI AGENT 協作自動展示
 
-1. AI AGENT 自動輸入「How do I add five local font-size options to my GitHub panel?」，顯示三段 Thinking 進度，再逐步輸出五步修改建議（預先編排，不是真正的 AI 推論）。
-2. Editor 從 `raw.githubusercontent.com` 載入真實的 `scripts/fetch_news.py`；使用者可以捲動查看。自動展示會五次捲動並**逐字打出**五段僅存在於展示 UI 的示範程式碼。
-3. 右上角 GitHub 面板從公開 API 讀取此儲存庫的資料與目錄，依序切換 **XS / SM / MD / LG / XL**，僅改變面板內文大小，其他軟體字級不受影響。
+1. AI AGENT 的輸入列已向上調整約兩至三行高度，避免被視窗底部遮住。自動展示會輸入「How do I add five local font-size options to my GitHub panel?」，顯示三段 Thinking 進度，再逐步輸出五步修改建議（預先編排，不是真正的 AI 推論）。
+2. Editor 從 `raw.githubusercontent.com` 載入真實的 `scripts/fetch_news.py`；來源資訊改為獨立的緊湊狀態列（如 `GITHUB / MAIN / FETCH_NEWS.PY / SYNCED`），避免來源中文標籤的字體和程式碼混雜。使用者可以捲動查看。自動展示會五次捲動並**逐字打出**五段僅存在於展示 UI 的示範程式碼。
+3. 右上角 GitHub 面板從公開 API 讀取此儲存庫的資料與目錄，並從 GitHub Raw 載入**真正的 README 文字**。自動展示會**先捲動到 README 文字較密集的區段**，再依序切換 **XS / SM / MD / LG / XL**；每次切換都維持 README 內容可見，僅改變 GitHub 面板內文大小。其他軟體字級不受影響。
 4. 退出自動展示後，還原 GitHub 原本字級與編輯器捲動位置；沒有真正的程式寫入、Git 提交或伺服器修改。
 
 GitHub 完整網站通常禁止被第三方 iframe 嵌入，因此這裡載入的是官方 API / Raw 的真實內容，而不是假裝放入整個 GitHub 網站。資料取得失敗會明確標示，並提供可點擊的原站連結。
