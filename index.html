@@ -518,9 +518,26 @@
 .pp-program-scopes{min-width:0;flex:1 1 0;align-self:stretch;min-height:0;display:flex;flex-direction:column;overflow:hidden;background:#202326;border:1px solid #3f4348;color:#b9c0c6;font:9px/1.3 'Segoe UI',sans-serif}
 .pp-scope-tabs{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;background:#35373c;color:#d4d8dd;font-size:10px;font-weight:600;white-space:nowrap}
 .pp-scope-label{margin:6px 5px 2px;color:#81b1b3;font-size:8px;white-space:nowrap;overflow:hidden}
-.pp-scope-chart{flex:1;min-height:0;padding:2px;background:#202325}
-.pp-scope-row{display:flex;justify-content:space-between;gap:4px;padding:4px 6px;border-top:1px solid #3f454b;white-space:nowrap;overflow:hidden}
-.pp-scope-row>b{color:#d9dfe5;font-weight:550}
+/* Lumetri-style RGB Curves panel: diagonal tonal mapping with editable control point. */
+.pp-curves-panel{background:#24262a}
+.pp-curve-title{display:flex;justify-content:space-between;align-items:center;gap:5px;padding:5px 6px 2px;font-size:10px;color:#e1e6ee;font-weight:700}
+.pp-curve-title span{color:#81919f;font-weight:450;font-size:8px}
+.pp-curve-channels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:3px 5px 6px}
+.pp-curve-channel{min-width:0;cursor:pointer;border:1px solid #4b5561;border-radius:3px;background:#30343a;color:#a9b5c0;font:bold 9px/15px Consolas,monospace;padding:1px 0}
+.pp-curve-channel.selected{border-color:#83bdeb;background:#33465a;color:white}
+.pp-curve-channel[data-curve-channel="R"].selected{color:#ff9aa5;border-color:#d86a7b}
+.pp-curve-channel[data-curve-channel="G"].selected{color:#8fe1b0;border-color:#5eaf84}
+.pp-curve-channel[data-curve-channel="B"].selected{color:#a5c0ff;border-color:#678bce}
+.pp-curve-chart{flex:1;min-height:45px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#171a1e;padding:2px}
+.pp-curve-svg{max-width:100%;max-height:100%;display:block;touch-action:none}
+.pp-curve-node{cursor:ns-resize;touch-action:none;filter:drop-shadow(0 0 3px #fff6)}
+.pp-curve-node:hover,.pp-curve-node:focus-visible{stroke:#f7b86c;stroke-width:3;outline:none}
+.pp-curve-tuning{display:flex;align-items:center;justify-content:space-between;padding:4px 7px;border-top:1px solid #3e434b;color:#9fb1c1;font-size:9px}
+.pp-curve-tuning b{color:#e6eff8;font:600 10px Consolas,monospace}
+.pp-curve-hint{padding:4px 6px;background:#31353a;color:#8197a9;text-align:center;font-size:8px}
+.pp-program .pp-monitor-shot{transition:filter .22s ease}
+.pp-program.pp-tone-adjusting .pp-curve-node{filter:drop-shadow(0 0 6px #e6bd7d)}
+
 .pp-program-output{height:24px;flex:none;background:#2d3033;color:#adbbc7;font:9px/1.2 'Segoe UI',sans-serif;display:flex;justify-content:space-around;align-items:center;gap:5px;padding:0 5px;white-space:nowrap;overflow:hidden}
 .pp-program .pp-monitor-details,.pp-program .pp-monitor-scrub{flex:none}
 .pp-program .pp-monitor-actions{flex:none}
@@ -640,7 +657,7 @@
 .pp-program.pp-is-playing .pp-actor-two{animation:pp-musician-two 1.05s ease-in-out infinite alternate}
 .pp-program.pp-is-playing .pp-picking-arm-a{animation:pp-pick-one .48s ease-in-out infinite alternate}
 .pp-program.pp-is-playing .pp-picking-arm-b{animation:pp-pick-two .42s ease-in-out infinite alternate}
-.pp-program.pp-is-playing .pp-scope-chart svg{animation:pp-scope-wave .72s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-curve-node{stroke:#d2dfed}
 .pp-program .pp-monitor-actions{gap:8px}
 .pp-demo-play{border:1px solid #494d53;background:#30353a;border-radius:4px;padding:0 9px;color:#e1e7eb;font-size:12px;line-height:17px;cursor:pointer}
 .pp-demo-play:hover,.pp-demo-play:focus-visible{border-color:#6eade2;background:#3e4b5b}
@@ -772,6 +789,40 @@
 .agent-shell .agent-input #agentPromptLine{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.45;max-height:2.9em;overflow:hidden;text-overflow:ellipsis;overflow-wrap:anywhere}
 .agent-question p{overflow-wrap:anywhere}
 .agent-step-body{font-family:'Segoe UI','Microsoft JhengHei',sans-serif;font-size:11px;line-height:1.6}
+
+/* Playback: noticeable musicians' gestures, alternate strums and a slow camera move. */
+.pp-program .pp-shot-svg .pp-head-one,.pp-program .pp-shot-svg .pp-head-two{transform-box:fill-box;transform-origin:center center}
+.pp-program .pp-shot-svg{transform-origin:50% 50%}
+.pp-program.pp-is-playing .pp-shot-svg{animation:pp-camera-reframe 3.8s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-head-one{animation:pp-head-bob .57s ease-in-out infinite alternate}
+.pp-program.pp-is-playing .pp-head-two{animation:pp-head-turn .69s ease-in-out infinite alternate}
+@keyframes pp-camera-reframe{
+  0%{transform:scale(1.0) translateX(0)}
+  38%{transform:scale(1.09) translateX(1.7%)}
+  75%{transform:scale(1.105) translateX(-1.9%)}
+  100%{transform:scale(1.055) translateX(-.5%)}
+}
+@keyframes pp-head-bob{0%{transform:rotate(-6deg) translateY(4px)}100%{transform:rotate(8deg) translateY(-6px)}}
+@keyframes pp-head-turn{0%{transform:rotate(7deg) translateX(3px)}100%{transform:rotate(-7deg) translateX(-4px)}}
+@keyframes pp-musician-one{
+  0%{transform:translate(-10px,8px) rotate(-4deg)}
+  28%{transform:translate(4px,-9px) rotate(3deg)}
+  58%{transform:translate(12px,2px) rotate(5deg)}
+  100%{transform:translate(-8px,-10px) rotate(-5deg)}
+}
+@keyframes pp-musician-two{
+  0%{transform:translate(12px,5px) rotate(5deg)}
+  33%{transform:translate(-8px,-9px) rotate(-4deg)}
+  70%{transform:translate(-14px,4px) rotate(-6deg)}
+  100%{transform:translate(10px,-7px) rotate(4deg)}
+}
+@keyframes pp-pick-one{0%{transform:translateY(-10px) rotate(-22deg)}100%{transform:translateY(12px) rotate(21deg)}}
+@keyframes pp-pick-two{0%{transform:translateY(10px) rotate(22deg)}100%{transform:translateY(-12px) rotate(-24deg)}}
+.pp-program.pp-is-playing .pp-actor-one{animation-duration:1.6s}
+.pp-program.pp-is-playing .pp-actor-two{animation-duration:1.45s}
+.pp-program.pp-is-playing .pp-picking-arm-a{animation-duration:.34s}
+.pp-program.pp-is-playing .pp-picking-arm-b{animation-duration:.29s}
+@media(prefers-reduced-motion:reduce){.pp-program.pp-is-playing .pp-shot-svg,.pp-program.pp-is-playing .pp-head-one,.pp-program.pp-is-playing .pp-head-two{animation:none}}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -964,27 +1015,43 @@ premiere:()=>`<div class="pp-shell">
 <rect width="960" height="540" fill="url(#ppp-wall)"/><rect y="420" width="960" height="120" fill="#291b18"/>
 <g opacity=".75"><rect x="68" y="29" width="165" height="190" fill="#301a12" stroke="#67422f" stroke-width="13"/><rect x="299" y="0" width="280" height="114" fill="#21150f"/><rect x="306" y="70" width="266" height="13" fill="#8a5d3b"/><path d="M356 65v-48h30v48M419 65V13h30v52M482 65V6h20v59" fill="#995b37"/><circle cx="826" cy="70" r="42" fill="#211612" stroke="#886041" stroke-width="7"/></g>
 <g class="pp-actor-one"><path d="M166 540Q167 338 230 266L375 280Q452 367 470 540Z" fill="#647882"/><path d="M198 295Q265 328 367 534" stroke="#40515d" stroke-width="10"/><path d="M274 280Q357 362 395 540" stroke="#a1b1b8" stroke-width="5" opacity=".7"/>
-<ellipse cx="279" cy="212" rx="58" ry="68" fill="#c28d6b"/><path d="M214 184Q217 95 303 126L356 172L327 188Z" fill="#1b1c1d"/>
-<path d="M250 245Q287 268 320 244L299 286L267 289Z" fill="#372a26"/>
+<g class="pp-head-one"><ellipse cx="279" cy="212" rx="58" ry="68" fill="#c28d6b"/><path d="M214 184Q217 95 303 126L356 172L327 188Z" fill="#1b1c1d"/>
+<path d="M250 245Q287 268 320 244L299 286L267 289Z" fill="#372a26"/></g>
 <ellipse cx="296" cy="409" rx="90" ry="62" fill="#9a5e32" transform="rotate(-20 296 409)"/><ellipse cx="290" cy="408" rx="58" ry="41" fill="#c7985e" transform="rotate(-20 290 408)"/><circle cx="285" cy="409" r="20" fill="#332016"/><path d="M327 394L526 303" stroke="#ac733c" stroke-width="22"/><path class="pp-picking-arm-a" d="M211 352L263 390" stroke="#c59a77" stroke-width="26"/></g>
 <g class="pp-actor-two"><path d="M530 540Q530 331 608 278L765 277Q869 368 901 540Z" fill="#b8afb1"/><path d="M646 283Q677 380 737 536" stroke="#3d3a3d" stroke-width="10"/><path d="M736 297Q817 359 834 523" stroke="#514f50" stroke-width="9"/>
-<ellipse cx="687" cy="211" rx="54" ry="64" fill="#bb8463"/><path d="M630 167Q657 103 730 138L747 194L712 169L681 183L649 176Z" fill="#30231e"/>
-<path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/>
+<g class="pp-head-two"><ellipse cx="687" cy="211" rx="54" ry="64" fill="#bb8463"/><path d="M630 167Q657 103 730 138L747 194L712 169L681 183L649 176Z" fill="#30231e"/>
+<path d="M653 230Q701 260 741 221" stroke="#2a2523" stroke-width="16"/></g>
 <ellipse cx="725" cy="409" rx="83" ry="56" fill="#a4683e" transform="rotate(20 725 409)"/><ellipse cx="719" cy="403" rx="54" ry="38" fill="#c59453" transform="rotate(20 719 403)"/><circle cx="720" cy="402" r="18" fill="#291b19"/><path d="M756 418L926 342" stroke="#b98249" stroke-width="23"/><path class="pp-picking-arm-b" d="M623 365L688 392" stroke="#bc866c" stroke-width="23"/></g>
 <g opacity=".75"><rect x="34" y="473" width="141" height="58" rx="6" fill="#0f1418"/><rect x="793" y="448" width="125" height="84" rx="5" fill="#16171b"/></g>
-</svg></div><aside class="pp-program-scopes" data-pp-panel="scopes" aria-label="Lumetri Scopes">
- <div class="pp-scope-tabs">Lumetri Scopes <span>⋯</span></div>
- <div class="pp-scope-label">RGB PARADE　·　REC.709</div>
- <div class="pp-scope-chart">
-  <svg viewBox="0 0 120 210" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pp-scope-fade" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#92cebc" stop-opacity=".75"/><stop offset="1" stop-color="#5c9489" stop-opacity=".08"/></linearGradient></defs>
-   <g stroke="#43494b" stroke-width=".65"><path d="M0 42H120M0 84H120M0 126H120M0 168H120M24 0V210M48 0V210M72 0V210M96 0V210"/></g>
-   <path d="M0 142Q8 126 15 137T32 102T48 132T64 66T80 98T100 53T120 86V210H0Z" fill="url(#pp-scope-fade)"/>
-   <path d="M0 142Q8 126 15 137T32 102T48 132T64 66T80 98T100 53T120 86" fill="none" stroke="#61cba7" stroke-width="1.8"/>
-   <path d="M0 179Q18 173 32 162T58 137T88 149T120 119" fill="none" stroke="#82a8e2" stroke-width="1.4"/>
-   <path d="M0 119Q20 126 42 110T78 132T120 92" fill="none" stroke="#d17e79" stroke-width="1.2"/>
+</svg></div><aside class="pp-program-scopes pp-curves-panel" data-pp-panel="scopes" aria-label="Lumetri 色階曲線控制">
+ <div class="pp-scope-tabs"><span>Lumetri 色彩</span><span>▾</span></div>
+ <div class="pp-curve-title">RGB 曲線 <span>色階調整</span></div>
+ <div class="pp-curve-channels" role="group" aria-label="RGB 曲線通道">
+  <button type="button" class="pp-curve-channel selected" data-curve-channel="RGB" aria-pressed="true">RGB</button>
+  <button type="button" class="pp-curve-channel" data-curve-channel="R" aria-pressed="false">R</button>
+  <button type="button" class="pp-curve-channel" data-curve-channel="G" aria-pressed="false">G</button>
+  <button type="button" class="pp-curve-channel" data-curve-channel="B" aria-pressed="false">B</button>
+ </div>
+ <div class="pp-curve-chart">
+  <svg class="pp-curve-svg" viewBox="0 0 228 232" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可拖曳的 RGB 色階曲線圖，左下為暗部，右上為亮部">
+   <defs><linearGradient id="pp-curve-bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#070707"/><stop offset="1" stop-color="#fff"/></linearGradient><linearGradient id="pp-curve-vertical" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#070707"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
+   <rect x="19" y="12" width="196" height="196" fill="#14171b" stroke="#50545a" stroke-width="1"/>
+   <g stroke="#414850" stroke-width=".7"><path d="M19 61H215M19 110H215M19 159H215M68 12V208M117 12V208M166 12V208"/></g>
+   <path d="M19 208L215 12" stroke="#7c858f" stroke-width="1" stroke-dasharray="4 4" fill="none" opacity=".75"/>
+   <path class="pp-tone-line" data-curve-path="R" d="M19 208L215 12" fill="none" stroke="#e16e75" stroke-width="1.35" opacity=".63"/>
+   <path class="pp-tone-line" data-curve-path="G" d="M19 208L215 12" fill="none" stroke="#76c994" stroke-width="1.35" opacity=".63"/>
+   <path class="pp-tone-line" data-curve-path="B" d="M19 208L215 12" fill="none" stroke="#79a4ed" stroke-width="1.35" opacity=".63"/>
+   <path class="pp-tone-line pp-curve-master" data-curve-path="RGB" d="M19 208L215 12" fill="none" stroke="#f1f4f8" stroke-width="2.6"/>
+   <circle class="pp-curve-node" data-curve-point cx="117" cy="110" r="8" fill="#f0f4f8" stroke="#233140" stroke-width="2" tabindex="0" role="slider" aria-label="調整中間色調曲線" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0"/>
+   <circle cx="19" cy="208" r="3.2" fill="#e1e7ee"/><circle cx="215" cy="12" r="3.2" fill="#e1e7ee"/>
+   <rect x="19" y="212" width="196" height="8" fill="url(#pp-curve-bar)"/>
+   <rect x="7" y="12" width="8" height="196" fill="url(#pp-curve-vertical)"/>
+   <text x="19" y="230" fill="#9fa9b6" font-size="7">暗部</text><text x="199" y="230" fill="#a5b0be" font-size="7">亮部</text>
   </svg>
- </div><div class="pp-scope-row"><span>Program</span><b>1080p</b></div><div class="pp-scope-row"><span>Color</span><b>Rec.709</b></div>
- <div class="pp-scope-row"><span>FPS</span><b>23.976</b></div>
+ </div>
+ <div class="pp-curve-tuning"><span>中間色調</span><b data-curve-value>0</b></div>
+ <div class="pp-curve-tuning"><span>對比</span><b data-curve-contrast>100%</b></div>
+ <div class="pp-curve-hint">拖曳曲線節點調整畫面</div>
 </aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions"><span>↶　✂　⌁　|◀　◀</span><button type="button" class="pp-demo-play" aria-label="模擬播放 Premiere 預覽" aria-pressed="false" title="模擬播放／暫停">▶</button><span>▶|　▱　▣　⊕</span><span class="pp-demo-indicator">PAUSED</span></div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
