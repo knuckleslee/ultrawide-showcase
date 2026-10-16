@@ -979,7 +979,7 @@ discord:()=>`<div class="discord2">
 </div>`,
 game:()=>`<div class="game-app yt-game">
 <div class="game-frame-16x9" id="gamingVideoHost">
-  <iframe id="gamingFrame" title="遊戲實況影片 · YouTube 1or3YILu28M (1:27)" src="https://www.youtube-nocookie.com/embed/1or3YILu28M?start=87&amp;autoplay=1&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;enablejsapi=1&amp;rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+  <iframe id="gamingFrame" title="遊戲實況影片 · YouTube 1or3YILu28M (1:27)" src="https://www.youtube-nocookie.com/embed/1or3YILu28M?start=87&amp;autoplay=0&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;enablejsapi=1&amp;rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
   <div class="game-video-cover" id="gamingVideoCover" aria-live="polite"><span class="game-video-spinner">▶</span><strong id="gamingVideoLabel">正在定位影片至 01:27…</strong><small>YouTube 官方播放器 · 靜音預載，等待停格</small><button type="button" id="gameResumeButton">▶ 繼續播放</button></div>
 </div>
 <a class="game-video-attribution" href="https://www.youtube.com/watch?v=1or3YILu28M&amp;t=87s" target="_blank" rel="noopener noreferrer">YouTube 原始影片 ↗</a>
@@ -1337,6 +1337,132 @@ async function runCodingAuto(id){
  return await delay(650,id);
 }
 
+
+/* A real YouTube IFrame API player: initialize muted, seek to 01:27 and pause
+   once a frame is decoded. Embedding/autoplay restrictions can prevent this,
+   in which case the linked original video remains available. */
+const GAME_VIDEO_ID='1or3YILu28M',GAME_START_SECONDS=87;
+let gameYTPlayer=null,gameAPIReady=false,gameFrameReady=false,gameInitialFrame=false;
+let gameWantsPlaying=false,gameInitialTimer=null,gamePlayerPending=false;
+function labelGameVideo(message,blocked=false){
+ const cover=document.getElementById('gamingVideoCover');
+ const label=document.getElementById('gamingVideoLabel');
+ if(label)label.textContent=message;
+ if(cover)cover.classList.toggle('is-blocked',blocked);
+}
+function sendGameYT(method,...args){
+ if(gameFrameReady&&gameYTPlayer&&typeof gameYTPlayer[method]==='function'){
+  try{gameYTPlayer[method](...args);return true}catch(err){console.debug('YT player command failed',method,err)}
+ }
+ return false;
+}
+function resetGameVideo({seek=true}={}){
+ gameWantsPlaying=false;
+ if(gameInitialTimer){clearTimeout(gameInitialTimer);gameInitialTimer=null}
+ sendGameYT('pauseVideo');
+ if(seek&&gameFrameReady)sendGameYT('seekTo',GAME_START_SECONDS,true);
+ const cover=document.getElementById('gamingVideoCover');
+ if(gameInitialFrame&&cover){cover.classList.add('is-paused');cover.classList.remove('is-blocked')}
+}
+function gameOnReady(event){
+ gameFrameReady=true;
+ try{
+  event.target.mute();
+  event.target.seekTo(GAME_START_SECONDS,true);
+  if(gameWantsPlaying){
+   gameInitialFrame=true;
+   document.getElementById('gamingVideoCover')?.classList.add('is-paused');
+   event.target.playVideo();
+  }else{
+   // The paused seek may not decode a video frame until muted playback starts.
+   // Start temporarily muted to materialize the requested still at 1:27.
+   event.target.playVideo();
+  }
+ }catch(err){labelGameVideo('請點擊播放器開始定位 1:27',true)}
+}
+function gameOnStateChange(event){
+ if(!window.YT)return;
+ const player=event.target;
+ if(event.data===YT.PlayerState.PLAYING){
+  if(!gameWantsPlaying&&!gameInitialFrame){
+   if(gameInitialTimer)clearTimeout(gameInitialTimer);
+   gameInitialTimer=setTimeout(()=>{
+    if(gameWantsPlaying)return;
+    gameInitialFrame=true;
+    player.pauseVideo();
+    const cover=document.getElementById('gamingVideoCover');
+    if(cover){cover.classList.add('is-paused');cover.classList.remove('is-blocked')}
+    labelGameVideo('已停格於 01:27');
+   },230);
+  }else if(gameWantsPlaying){
+   gameInitialFrame=true;
+   const cover=document.getElementById('gamingVideoCover');
+   if(cover){cover.classList.add('is-paused');cover.classList.remove('is-blocked')}
+  }
+ }
+}
+function initializeGameYTPlayer(){
+ if(gameYTPlayer||!window.YT||!YT.Player)return;
+ gameAPIReady=true;
+ try{
+  gameYTPlayer=new YT.Player('gamingFrame',{
+   events:{
+    onReady:gameOnReady,
+    onStateChange:gameOnStateChange,
+    onAutoplayBlocked:()=>labelGameVideo('自動播放受瀏覽器限制，點擊下方按鈕啟動',true),
+    onError:()=>labelGameVideo('此影片目前無法嵌入，請使用原始影片連結',true)
+   }
+  });
+ }catch(err){labelGameVideo('播放器載入受限制，請使用原始影片連結',true)}
+}
+function ensureGameVideo(){
+ if(gamePlayerPending){if(gameAPIReady)initializeGameYTPlayer();return}
+ gamePlayerPending=true;
+ window.onYouTubeIframeAPIReady=()=>{gameAPIReady=true;initializeGameYTPlayer()};
+ if(window.YT?.Player){initializeGameYTPlayer();return}
+ const api=document.createElement('script');
+ api.src='https://www.youtube.com/iframe_api';
+ api.async=true;
+ api.onerror=()=>labelGameVideo('無法載入 YouTube API，仍可使用影片原始連結',true);
+ document.head.append(api);
+}
+function resumeGameVideo(){
+ gameWantsPlaying=true;
+ ensureGameVideo();
+ if(gameFrameReady){
+  sendGameYT('mute');
+  if(!gameInitialFrame)sendGameYT('seekTo',GAME_START_SECONDS,true);
+  sendGameYT('playVideo');
+ }
+}
+function setupGameInteractions(){
+ document.getElementById('gameResumeButton')?.addEventListener('click',resumeGameVideo);
+}
+async function runGamingAuto(id){
+ if(!await action(id,'04 / 遊戲娛樂','中央載入實際 YouTube 遊戲影片，從 01:27 繼續播放。'))return false;
+ if(!await focusAction('game',id))return false;
+ const viewport=document.getElementById('gamingVideoHost');
+ if(viewport){
+  const p=demoElementCoords(viewport);cursorAt(p.x,p.y,600);
+  if(!await delay(650,id))return false;
+  clickCursor();
+ }
+ resumeGameVideo();
+ if(!await delay(2900,id))return false;
+ if(!await action(id,'Discord 社群','左側捲動頻道列表，看看不同的文字與語音頻道。'))return false;
+ if(!await focusAction('discord',id))return false;
+ const discord=document.querySelector('.discord2-channel-scroll');
+ if(!await demoScroll(discord,155,id))return false;
+ if(!await demoScroll(discord,125,id))return false;
+ if(!await action(id,'巴哈姆特哈啦區','接著捲動右側哈啦區，瀏覽更多遊戲討論。'))return false;
+ if(!await focusAction('bahamut',id))return false;
+ const forum=document.querySelector('.baha2-scroll');
+ if(!await demoScroll(forum,230,id))return false;
+ if(!await demoScroll(forum,220,id))return false;
+ resetGameVideo({seek:true});
+ return await delay(650,id);
+}
+
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
 function applyGeometry(el,g,animate=false){if(animate)el.classList.add('animating');else el.classList.remove('animating');el.style.left=g[0]+'px';el.style.top=g[1]+'px';el.style.width=g[2]+'px';el.style.height=g[3]+'px';}
 function layoutEntry(id){return customLayouts[scene].find(g=>g[0]===id)}
@@ -1479,7 +1605,7 @@ function syncEmbeddedVideo(sceneName){
     stopEmbeddedVideo();
   }
 }
-function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;if(next!=='editing')resetPremierePlayback();scene=next;syncEmbeddedVideo(next);$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();}
+function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;if(next!=='editing')resetPremierePlayback();if(scene==='gaming'&&next!=='gaming')resetGameVideo({seek:true});scene=next;syncEmbeddedVideo(next);if(next==='gaming')ensureGameVideo();$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();}
 function raise(el){zIndex+=1;el.style.zIndex=zIndex;focused=el.dataset.id;updateFocus()}
 function updateFocus(){for(const [id,el] of Object.entries(windowNodes))el.classList.toggle('focused',focused===id)}
 function attachInteractions(el,id){const header=el.querySelector('.titlebar');header.addEventListener('pointerdown',e=>{if(e.target.closest('.win-controls')||mode!=='manual')return;pointerStart(e,el,'move')});el.querySelector('.resize-grip').addEventListener('pointerdown',e=>{if(mode!=='manual')return;pointerStart(e,el,'resize')});header.addEventListener('dblclick',e=>{if(mode!=='manual'||e.target.closest('.win-controls'))return;toggleMax(el)});el.addEventListener('pointerdown',()=>{if(mode==='manual')raise(el)});el.querySelector('.maximize').addEventListener('click',()=>{if(mode==='manual')toggleMax(el)});el.querySelector('.minimize').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});el.querySelector('.close').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});}
@@ -1676,14 +1802,7 @@ if(!await delay(1100,id))return;
 }else if(sn==='coding'){
 if(!await runCodingAuto(id))return;
 }else{
-if(!await action(id,'04 / 遊戲娛樂','遊戲固定 16:9 比例；左側 Discord 聊天，右側巴哈姆特查攻略。'))return;
-if(!await focusAction('game',id))return;if(!await delay(1000,id))return;
-if(!await action(id,'遊戲之外的空間','不暫停遊戲，也能同時查看隊友訊息與攻略。'))return;
-if(!await focusAction('discord',id))return;
-if(!await focusAction('bahamut',id))return;
-if(!await action(id,'維持 16:9','調整視窗大小，遊戲畫面仍保持 16:9，不被拉伸。'))return;
-if(!await showcaseResize('game',id,-120,-65))return;
-if(!await delay(1100,id))return;
+if(!await runGamingAuto(id))return;
 }}
 if(!await action(id,'展示完成','四種使用情境展示完畢，即將重新播放。'))return;if(!await delay(1350,id))return;first=false;
 }}
@@ -1706,5 +1825,5 @@ window.addEventListener('resize',scaleDesktop);document.addEventListener('fullsc
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true});hint('已切換場景；你可以調整每個視窗的大小與位置。')}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;$('#hint').classList.toggle('hidden',!showHints)}else if(k==='escape'){$('#help').classList.add('hidden')}});
-createWindows();setupPremiereInteractions();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
+createWindows();setupGameInteractions();setupCodingInteractions();loadLiveCodingData();setupPremiereInteractions();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
 </script></body></html>
