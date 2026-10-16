@@ -59,6 +59,7 @@ class DesktopParser(HTMLParser):
         self.github_font_modes: set[str] = set()
         self.coding_features: set[str] = set()
         self.coding_ui_check = ""
+        self.default_layout_check = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
@@ -67,6 +68,7 @@ class DesktopParser(HTMLParser):
             self.interactive_check = data.get("data-interactive-check") or ""
             self.game_interactive_check = data.get("data-game-interactive-check") or ""
             self.coding_ui_check = data.get("data-coding-ui-check") or ""
+            self.default_layout_check = data.get("data-default-layout-check") or ""
         if data.get("id") == "gamingVideoHost":
             self.game_start_seconds = data.get("data-start-seconds") or ""
             self.game_video_id = data.get("data-video-id") or ""
@@ -312,6 +314,42 @@ def main() -> int:
         && !runAuto.toString().includes('focusPremierePanel(')
         && runGamingAuto.toString().includes('demoTap(document.getElementById')
         && demoTap.toString().includes('el.click()');
+      // All three screenshot-based main windows have identical central seams.
+      // Their surrounding windows must remain inside the 1920x540 desktop.
+      const mainRects=[['daily','video'],['coding','editor'],['gaming','game']]
+        .map(([name,id])=>S[name].find(item=>item[0]===id));
+      const matchingSeams=mainRects.every(g=>g[1]===484 && g[2]===62
+        && g[3]===952 && g[4]===437 && g[1]+g[3]===1436);
+      const withinScreen=['daily','coding','gaming'].every(name=>S[name].every(
+        ([id,x,y,w,h])=>x>=0 && y>=51 && w>0 && h>0
+          && x+w<=1920 && y+h<=501
+      ));
+      const noOverlap=(left,right)=>left[1]+left[3]<=right[1];
+      const sidesSafe=noOverlap(S.daily[0],S.daily[1])
+        && noOverlap(S.daily[1],S.daily[2])
+        && noOverlap(S.daily[2],S.daily[4])
+        && noOverlap(S.coding[0],S.coding[1])
+        && noOverlap(S.coding[1],S.coding[2])
+        && noOverlap(S.gaming[0],S.gaming[1])
+        && noOverlap(S.gaming[1],S.gaming[2]);
+      // Manual mode allows changing a window without changing its default;
+      // "Reset" must restore the screenshot layout, including its width.
+      const activeLayout=layoutEntry('editor');
+      const oldRect=activeLayout.slice(1);
+      const sourceRect=S.coding.find(row=>row[0]==='editor').slice(1);
+      activeLayout.splice(1,4,oldRect[0]+18,oldRect[1],oldRect[2]-18,oldRect[3]);
+      applyGeometry(windowNodes.editor,activeLayout.slice(1),false);
+      const manualChange=mode==='manual' && windowNodes.editor.classList.contains('free')
+        && activeLayout[1]===oldRect[0]+18 && sourceRect[0]===484
+        && parseInt(windowNodes.editor.style.left,10)===oldRect[0]+18;
+      resetScene();
+      const resetRestores=JSON.stringify(layoutEntry('editor').slice(1))
+        ===JSON.stringify(sourceRect);
+      const layoutsOkay=matchingSeams && withinScreen && sidesSafe
+        && manualChange && resetRestores;
+      document.documentElement.setAttribute('data-default-layout-check',
+        layoutsOkay?'pass':'fail:'+JSON.stringify({matchingSeams,withinScreen,
+          sidesSafe,manualChange,resetRestores,mainRects}));
       const success=clearance>=31 && bannerSeparate && compactBanner
         && readmeInScroll && isolatedFont && agentLocalized && meaningfulClicksOnly;
       document.documentElement.setAttribute('data-coding-ui-check',
@@ -338,6 +376,9 @@ def main() -> int:
                 problems.append("Coding prompt/source text/README font probe: "
                                 + (coding_parser.coding_ui_check or "no response"))
                 print("Coding UI diagnostics:", coding_result.stderr[-1500:], file=sys.stderr)
+            if coding_parser.default_layout_check != "pass":
+                problems.append("Screenshot-aligned default geometry/manual reset probe: "
+                                + (coding_parser.default_layout_check or "no response"))
     except subprocess.TimeoutExpired:
         problems.append("Coding UI probe timed out")
 
