@@ -1724,12 +1724,125 @@ function resetPremierePlayback(){
   if(meters[0])meters[0].style.height='58%';
   if(meters[1])meters[1].style.height='72%';
  }
+ resetPremiereToneCurve();
 }
+
+/* 可互動的 Lumetri RGB 色階曲線。四個通道分別儲存控制點，
+   操作僅作用於 Program 預覽，Source 原始畫面不變。 */
+const premiereToneLevels={RGB:0,R:0,G:0,B:0};
+let premiereToneChannel='RGB';
+const toneClamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+function premiereCurvePath(value){
+ const v=toneClamp(value,-1,1);
+ const y=n=>Math.round(n*10)/10;
+ return 'M 19 208 C 58 '+y(171+v*15)+' 93 '+y(129-v*34)+
+        ' 117 '+y(110-v*60)+' S 185 '+y(38-v*13)+' 215 12';
+}
+function updatePremiereToneCurve(value,channel=premiereToneChannel){
+ const host=windowNodes.premiere;
+ if(!host||!Object.prototype.hasOwnProperty.call(premiereToneLevels,channel))return;
+ const level=toneClamp(Number(value)||0,-1,1);
+ premiereToneLevels[channel]=level;
+ const program=host.querySelector('.pp-program');
+ for(const [key,grade] of Object.entries(premiereToneLevels)){
+  const path=program?.querySelector('[data-curve-path="'+key+'"]');
+  if(path)path.setAttribute('d',premiereCurvePath(grade));
+ }
+ const selected=premiereToneLevels[premiereToneChannel];
+ const point=program?.querySelector('[data-curve-point]');
+ if(point){
+  point.setAttribute('cy',String(Math.round((110-selected*60)*10)/10));
+  point.setAttribute('aria-valuenow',String(Math.round(selected*100)));
+  point.setAttribute('aria-valuetext',(selected>=0?'提升 ':'降低 ')+Math.abs(Math.round(selected*100))+'%');
+  const colors={RGB:'#f2f6fc',R:'#ee7d89',G:'#81db9e',B:'#8fb6fa'};
+  point.setAttribute('fill',colors[premiereToneChannel]);
+ }
+ const label=host.querySelector('[data-curve-value]');
+ if(label)label.textContent=(selected>0?'+':'')+Math.round(selected*100);
+ const master=premiereToneLevels.RGB;
+ const contrast=1+master*.48;
+ const brightness=1+master*.24;
+ const saturate=Math.max(.45,1+master*.48+premiereToneLevels.G*.18);
+ const hue=premiereToneLevels.R*12-premiereToneLevels.B*17;
+ const image=host.querySelector('.pp-program .pp-monitor-shot');
+ if(image){
+  image.style.filter='brightness('+brightness.toFixed(3)+') contrast('+contrast.toFixed(3)+
+    ') saturate('+saturate.toFixed(3)+') hue-rotate('+hue.toFixed(1)+'deg)';
+  image.dataset.toneGrade=String(Math.round(master*100));
+ }
+ const contrastLabel=host.querySelector('[data-curve-contrast]');
+ if(contrastLabel)contrastLabel.textContent=Math.round(contrast*100)+'%';
+}
+function selectPremiereToneChannel(channel){
+ const host=windowNodes.premiere;
+ if(!host||!Object.prototype.hasOwnProperty.call(premiereToneLevels,channel))return;
+ premiereToneChannel=channel;
+ host.querySelectorAll('.pp-curve-channel').forEach(button=>{
+  const active=button.dataset.curveChannel===channel;
+  button.classList.toggle('selected',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+ for(const key of ['RGB','R','G','B']){
+  const path=host.querySelector('[data-curve-path="'+key+'"]');
+  if(path){
+   path.style.opacity=key===channel?'1':(channel==='RGB'?'.55':'.24');
+   path.style.strokeWidth=key===channel?'3':'1.2';
+  }
+ }
+ updatePremiereToneCurve(premiereToneLevels[channel],channel);
+}
+function resetPremiereToneCurve(){
+ for(const key of Object.keys(premiereToneLevels))premiereToneLevels[key]=0;
+ selectPremiereToneChannel('RGB');
+ updatePremiereToneCurve(0,'RGB');
+}
+function setupPremiereCurveInteractions(){
+ const host=windowNodes.premiere;
+ const point=host?.querySelector('[data-curve-point]');
+ const svg=host?.querySelector('.pp-curve-svg');
+ if(!point||!svg)return;
+ host.querySelectorAll('.pp-curve-channel').forEach(button=>{
+  button.addEventListener('click',()=>selectPremiereToneChannel(button.dataset.curveChannel));
+ });
+ let dragging=false;
+ function pointerLevel(event){
+  const matrix=svg.getScreenCTM();
+  if(!matrix)return premiereToneLevels[premiereToneChannel];
+  const p=svg.createSVGPoint();
+  p.x=event.clientX;p.y=event.clientY;
+  const local=p.matrixTransform(matrix.inverse());
+  return toneClamp((110-local.y)/60,-1,1);
+ }
+ point.addEventListener('pointerdown',event=>{
+  if(mode!=='manual')return;
+  event.preventDefault();event.stopPropagation();
+  dragging=true;
+  point.setPointerCapture(event.pointerId);
+  host.querySelector('.pp-program')?.classList.add('pp-tone-adjusting');
+  updatePremiereToneCurve(pointerLevel(event));
+ });
+ point.addEventListener('pointermove',event=>{if(dragging)updatePremiereToneCurve(pointerLevel(event))});
+ const endDrag=()=>{
+  dragging=false;
+  host.querySelector('.pp-program')?.classList.remove('pp-tone-adjusting');
+ };
+ point.addEventListener('pointerup',endDrag);
+ point.addEventListener('pointercancel',endDrag);
+ point.addEventListener('keydown',event=>{
+  if(mode!=='manual'||!['ArrowUp','ArrowDown','Home'].includes(event.key))return;
+  event.preventDefault();
+  const next=event.key==='Home'?0:premiereToneLevels[premiereToneChannel]+(event.key==='ArrowUp'?.1:-.1);
+  updatePremiereToneCurve(next);
+ });
+ selectPremiereToneChannel('RGB');
+}
+
 function setupPremiereInteractions(){
  const play=windowNodes.premiere?.querySelector('.pp-demo-play');
  if(play)play.addEventListener('click',()=>{
   setPremierePlaying(!premierePlaybackTimer);
  });
+ setupPremiereCurveInteractions();
 }
 function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
 }
@@ -1835,8 +1948,34 @@ async function demoDragPremiereEffects(id){
   fx.classList.remove('pp-demo-resizing');
  }
 }
+async function demoPremiereToneCurve(id){
+ const program=windowNodes.premiere?.querySelector('.pp-program');
+ const node=program?.querySelector('[data-curve-point]');
+ if(!node)return false;
+ if(!await action(id,'Lumetri RGB 色階曲線','拖動曲線控制點，讓 Program 預覽依序變亮、變暗，最後保留自然的色階效果。'))return false;
+ selectPremiereToneChannel('RGB');
+ const start=demoElementCoords(node);
+ cursorAt(start.x,start.y,510);
+ if(!await delay(620,id))return false;
+ $('#guideCursor').classList.add('dragging');
+ program.classList.add('pp-tone-adjusting');
+ try{
+  for(const [level,hold] of [[.32,220],[.84,650],[-.17,230],[-.62,600],[.43,330],[.22,650]]){
+   if(runId!==id||mode!=='auto')return false;
+   updatePremiereToneCurve(level);
+   const p=demoElementCoords(node);
+   cursorAt(p.x,p.y,400);
+   if(!await delay(hold,id))return false;
+  }
+  return true;
+ }finally{
+  $('#guideCursor').classList.remove('dragging');
+  program.classList.remove('pp-tone-adjusting');
+ }
+}
+
 async function demoPremierePlayback(id){
- if(!await action(id,'模擬影片播放','按下 Premiere 播放鍵，時間碼與 Timeline 播放頭向前；兩位吉他手會微微搖擺、撥弦。'))return false;
+ if(!await action(id,'模擬影片播放','按下 Premiere 播放鍵，鏡頭推近，吉他手會更明顯地擺動、點頭與撥弦；時間碼與播放頭同步前進。'))return false;
  const play=windowNodes.premiere?.querySelector('.pp-demo-play');
  if(!play)return false;
  if(!await demoTap(play,id,400))return false;
@@ -1952,7 +2091,8 @@ if(!await runDailyAuto(id))return;
 if(!await action(id,'02 / Premiere Pro','簡化操作：先拖曳 Effect Controls 分隔線，再實際播放與暫停 Program 預覽。'))return;
 if(!await demoDragPremiereEffects(id))return;
 if(!await demoPremierePlayback(id))return;
-if(!await delay(550,id))return;
+if(!await demoPremiereToneCurve(id))return;
+if(!await delay(650,id))return;
 }else if(sn==='coding'){
 if(!await runCodingAuto(id))return;
 }else{
