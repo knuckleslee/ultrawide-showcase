@@ -60,6 +60,7 @@ class DesktopParser(HTMLParser):
         self.coding_features: set[str] = set()
         self.coding_ui_check = ""
         self.default_layout_check = ""
+        self.scene_notice_check = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
@@ -69,6 +70,7 @@ class DesktopParser(HTMLParser):
             self.game_interactive_check = data.get("data-game-interactive-check") or ""
             self.coding_ui_check = data.get("data-coding-ui-check") or ""
             self.default_layout_check = data.get("data-default-layout-check") or ""
+            self.scene_notice_check = data.get("data-scene-notice-check") or ""
         if data.get("id") == "gamingVideoHost":
             self.game_start_seconds = data.get("data-start-seconds") or ""
             self.game_video_id = data.get("data-video-id") or ""
@@ -381,6 +383,64 @@ def main() -> int:
                                 + (coding_parser.default_layout_check or "no response"))
     except subprocess.TimeoutExpired:
         problems.append("Coding UI probe timed out")
+
+    # Scene hints should appear only on actual scene switches, on the upper
+    # right, and fade automatically 5 seconds later without blocking clicks.
+    scene_hint_probe_js = """
+    <script>
+    (() => {
+      const tip=document.getElementById('hint');
+      hideSceneHint();
+      const initiallyHidden=!tip.classList.contains('is-visible');
+      setScene('editing',{animation:false});
+      const switched=tip.classList.contains('is-visible')
+         && document.getElementById('hintText').textContent.includes('02 影片剪輯');
+      const originalTimer=sceneHintTimeout;
+      const originalText=document.getElementById('hintText').textContent;
+      hint('與場景無關的操作提示');
+      const ignoredUnrelated=document.getElementById('hintText').textContent===originalText;
+      setScene('editing',{animation:false});
+      const notRestarted=sceneHintTimeout===originalTimer;
+      const style=getComputedStyle(tip);
+      const relocated=parseFloat(style.top)>=54&&parseFloat(style.right)>=20
+         && style.bottom==='auto'&&style.pointerEvents==='none';
+      setTimeout(()=>{
+        const expired=!tip.classList.contains('is-visible')&&sceneHintTimeout===null;
+        const originalHints=showHints;
+        showHints=false;
+        setScene('gaming',{animation:false});
+        const suppressed=!tip.classList.contains('is-visible');
+        showHints=originalHints;
+        document.documentElement.setAttribute('data-scene-notice-check',
+          initiallyHidden&&switched&&ignoredUnrelated&&notRestarted
+          &&relocated&&expired&&suppressed?'pass':
+          'fail:'+JSON.stringify({initiallyHidden,switched,ignoredUnrelated,
+            notRestarted,relocated,expired,suppressed}));
+      },5400);
+    })();
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            probe_page = Path(temp_dir) / "index.html"
+            original_html = (ROOT / "index.html").read_text(encoding="utf-8")
+            probe_page.write_text(
+                original_html.replace("</body>", scene_hint_probe_js + "</body>"),
+                encoding="utf-8",
+            )
+            scene_result = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=6500",
+                                probe_page.as_uri()+"?scene=coding"],
+                capture_output=True, text=True, timeout=35,
+            )
+            notice_parser = DesktopParser()
+            notice_parser.feed(scene_result.stdout)
+            if scene_result.returncode != 0 or notice_parser.scene_notice_check != "pass":
+                problems.append("Scene hint positioning and 5-second fade probe: "
+                                + (notice_parser.scene_notice_check or "no response"))
+                print("Scene hint diagnostics:", scene_result.stderr[-1500:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("Scene hint fade probe timed out")
 
     # Functional probe with the official YT.Player interface mocked locally.
     # This verifies thumbnail-first, Play from 87s, and restoring the poster,
