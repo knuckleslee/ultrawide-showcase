@@ -19,7 +19,7 @@ EXPECTED_WINDOWS = 14
 INITIAL_SCENE = {"news", "chat", "video", "calendar", "notes"}
 SCENES = {"daily", "editing", "coding", "gaming"}
 EDITING_WINDOWS = {"premiere"}
-PREMIERE_PANELS = {"effects", "source", "program", "project", "timeline", "meter", "scopes"}
+PREMIERE_PANELS = {"effects", "source", "program", "project", "timeline", "meter", "scopes", "markers"}
 
 
 class DesktopParser(HTMLParser):
@@ -128,6 +128,8 @@ def main() -> int:
             problems.append("Missing 60/40 editing split or useful Lumetri Scopes")
         if editing_parser.monitor_aux_panels:
             problems.append("Obsolete per-monitor metadata panels remain")
+        if "markers" not in editing_parser.premiere_panel_order:
+            problems.append("Source marker panel missing from unused upper-left space")
         if len(editing_parser.monitor_dimensions) != 2:
             problems.append("Source and Program media dimensions were not assigned")
         for width, height in editing_parser.monitor_dimensions:
