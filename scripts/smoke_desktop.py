@@ -58,6 +58,7 @@ class DesktopParser(HTMLParser):
         self.game_interactive_check = ""
         self.github_font_modes: set[str] = set()
         self.coding_features: set[str] = set()
+        self.coding_ui_check = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
@@ -65,6 +66,7 @@ class DesktopParser(HTMLParser):
         if tag == "html":
             self.interactive_check = data.get("data-interactive-check") or ""
             self.game_interactive_check = data.get("data-game-interactive-check") or ""
+            self.coding_ui_check = data.get("data-coding-ui-check") or ""
         if data.get("id") == "gamingVideoHost":
             self.game_start_seconds = data.get("data-start-seconds") or ""
             self.game_video_id = data.get("data-video-id") or ""
@@ -116,7 +118,7 @@ class DesktopParser(HTMLParser):
             self.game_sources.append(data.get("src") or "")
         if data.get("data-font-mode"):
             self.github_font_modes.add(data["data-font-mode"])
-        for label in ("agentQuestion", "agentThinking", "agentSteps", "agentCodeChanges",
+        for label in ("agentQuestion", "agentThinking", "agentSteps", "agentCodeChanges", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
                       "codingScroll", "gitLiveScroll", "realCodeLines", "gitLiveFiles"):
             if data.get("id") == label:
                 self.coding_features.add(label)
@@ -244,7 +246,7 @@ def main() -> int:
         if visible_scene != expected:
             problems.append(f"{scene_name} visible windows: {sorted(visible_scene)}")
         if scene_name == "coding":
-            required_features = {"agentQuestion", "agentThinking", "agentSteps",
+            required_features = {"agentQuestion", "agentThinking", "agentSteps", "gitReadmeContent", "gitReadmeHeading", "agentPromptLine", "editorLoadState",
                                  "agentCodeChanges", "codingScroll", "gitLiveScroll",
                                  "realCodeLines", "gitLiveFiles"}
             if scene_parser.github_font_modes != {"XS", "SM", "MD", "LG", "XL"}:
@@ -263,6 +265,68 @@ def main() -> int:
                 "i.ytimg.com/vi/1or3YILu28M/" not in scene_parser.game_poster_sources[0]
             ):
                 problems.append("Original YouTube video thumbnail is not displayed")
+
+    # Coding layout probe: the source status must be compact and outside the
+    # scrolling code, the AI prompt has 2–3 text rows of bottom breathing room,
+    # and the GitHub README remains visible while fonts change locally.
+    coding_probe_js = """
+    <script>
+    (() => {
+      const shell=document.querySelector('.agent-shell');
+      const input=document.querySelector('.agent-input');
+      const source=document.getElementById('editorLoadState');
+      const editor=document.getElementById('codingScroll');
+      const github=document.querySelector('.live-github');
+      const readme=document.getElementById('gitReadmeContent');
+      if(!shell||!input||!source||!editor||!github||!readme)return;
+      // Offline test fixture only. The production site loads actual README.
+      for(let n=0;n<18;n++){
+        const p=document.createElement('p');
+        p.textContent='Public README paragraph with enough words to preview the typography. #'+n;
+        p.className='git-readme-line';
+        readme.append(p);
+      }
+      const clearance=shell.getBoundingClientRect().bottom-input.getBoundingClientRect().bottom;
+      const bannerSeparate=!editor.contains(source)&&source.parentElement===editor.parentElement;
+      const statusStyle=getComputedStyle(source);
+      const compactBanner=parseFloat(statusStyle.fontSize)<=11
+        && statusStyle.letterSpacing==='normal'
+        && source.offsetHeight<=27;
+      const editorFont=getComputedStyle(editor).fontSize;
+      alignGitHubReadme('instant');
+      setGitFontMode('XL');
+      alignGitHubReadme('instant');
+      const readmeInScroll=github.dataset.gitFont==='XL'
+        && document.getElementById('gitLiveScroll').scrollTop>0
+        && readme.children.length>=18;
+      const isolatedFont=getComputedStyle(editor).fontSize===editorFont;
+      const success=clearance>=31 && bannerSeparate && compactBanner
+        && readmeInScroll && isolatedFont;
+      document.documentElement.setAttribute('data-coding-ui-check',
+        success?'pass':'fail:'+JSON.stringify({clearance,bannerSeparate,
+         compactBanner,readmeInScroll,isolatedFont,statusHeight:source.offsetHeight}));
+    })();
+    </script>
+    """
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            page = Path(temp_dir) / "index.html"
+            source_html = (ROOT / "index.html").read_text(encoding="utf-8")
+            page.write_text(source_html.replace("</body>", coding_probe_js + "</body>"),
+                            encoding="utf-8")
+            coding_result = subprocess.run(
+                command[:-1] + ["--virtual-time-budget=3500",
+                                page.as_uri()+"?scene=coding"],
+                capture_output=True, text=True, timeout=35,
+            )
+            coding_parser = DesktopParser()
+            coding_parser.feed(coding_result.stdout)
+            if coding_result.returncode != 0 or coding_parser.coding_ui_check != "pass":
+                problems.append("Coding prompt/source text/README font probe: "
+                                + (coding_parser.coding_ui_check or "no response"))
+                print("Coding UI diagnostics:", coding_result.stderr[-1500:], file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        problems.append("Coding UI probe timed out")
 
     # Functional probe with the official YT.Player interface mocked locally.
     # This verifies thumbnail-first, Play from 87s, and restoring the poster,
