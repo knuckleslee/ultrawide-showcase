@@ -1515,14 +1515,9 @@ function setupGameInteractions(){
 async function runGamingAuto(id){
  if(!await action(id,'04 / 遊戲娛樂','中央載入實際 YouTube 遊戲影片，從 01:27 繼續播放。'))return false;
  if(!await focusAction('game',id))return false;
- const viewport=document.getElementById('gamingVideoHost');
- if(viewport){
-  const p=demoElementCoords(viewport);cursorAt(p.x,p.y,600);
-  if(!await delay(650,id))return false;
-  clickCursor();
- }
- resumeGameVideo();
- if(!await delay(2900,id))return false;
+ // Click the real play button, rather than showing a click on an inert area.
+ if(!await demoTap(document.getElementById('gameResumeButton'),id,500))return false;
+ if(!await delay(2400,id))return false;
  if(!await action(id,'Discord 社群','左側捲動頻道列表，看看不同的文字與語音頻道。'))return false;
  if(!await focusAction('discord',id))return false;
  const discord=document.querySelector('.discord2-channel-scroll');
@@ -1694,29 +1689,22 @@ function cursorAt(x,y,ms=740){const cur=$('#guideCursor');cur.style.transitionDu
 function clickCursor(){const cur=$('#guideCursor');cur.classList.remove('clicking');void cur.offsetWidth;cur.classList.add('clicking');setTimeout(()=>cur.classList.remove('clicking'),450)}
 async function delay(ms,id){let remaining=ms;while(remaining>0){if(runId!==id||mode!=='auto')return false;if(paused){await new Promise(r=>setTimeout(r,100));continue;}let slice=Math.min(100,remaining);await new Promise(r=>setTimeout(r,slice));remaining-=slice}return runId===id&&mode==='auto'}
 async function action(id,title,body){if(!await delay(450,id))return false;hint(body);$('#statusText').textContent=title;return true}
-async function clickAt(x,y,id){cursorAt(x,y,600);if(!await delay(700,id))return false;clickCursor();return await delay(370,id)}
-async function focusAction(app,id){const el=windowNodes[app],g=customLayouts[scene].find(v=>v[0]===app);if(!g)return false;if(!await clickAt(g[1]+Math.min(95,g[3]/2),g[2]+14,id))return false;raise(el);el.classList.add('spotlight');await delay(470,id);el.classList.remove('spotlight');return true}
-async function demoLayout(sceneId,id){if(sceneId==='daily')resetDailyForDemo();customLayouts[sceneId]=clone(S[sceneId]);setScene(sceneId,{animation:true,force:true});return await delay(1200,id)}
-async function showcaseDrag(app,id,deltaX,deltaY){let el=windowNodes[app],g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+95,y+14,550);if(!await delay(650,id))return false;$('#guideCursor').classList.add('dragging');const nx=clamp(x+deltaX,0,BASE_W-w),ny=clamp(y+deltaY,51,BOTTOM-h);cursorAt(nx+95,ny+14,950);g.splice(1,4,nx,ny,w,h);raise(el);applyGeometry(el,[nx,ny,w,h],true);if(!await delay(1150,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
-async function showcaseResize(app,id,dx,dy){const g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+w-7,y+h-7,600);if(!await delay(710,id))return false;$('#guideCursor').classList.add('dragging');let nw=clamp(w+dx,165,BASE_W-x),nh=clamp(h+dy,105,BOTTOM-y);cursorAt(x+nw-7,y+nh-7,900);g.splice(1,4,x,y,nw,nh);applyGeometry(windowNodes[app],[x,y,nw,nh],true);if(!await delay(1080,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
-
-async function focusPremierePanel(panel,id){
- const host=windowNodes.premiere;
- if(!host)return false;
- const area=host.querySelector('[data-pp-panel="'+panel+'"]');
- if(!area)return false;
- const desktop=$('#desktop').getBoundingClientRect(),rect=area.getBoundingClientRect();
- const scale=desktop.width/BASE_W;
- const x=(rect.left-desktop.left+Math.min(rect.width*0.4,155*scale))/scale;
- const y=(rect.top-desktop.top+Math.min(25*scale,rect.height*.3))/scale;
- cursorAt(x,y,610);
- if(!await delay(700,id))return false;
- clickCursor();
- host.querySelectorAll('[data-pp-panel]').forEach(p=>p.classList.toggle('pp-auto-focus',p===area));
- if(!await delay(750,id))return false;
- area.classList.remove('pp-auto-focus');
- return true;
+/* 聚焦視窗不等於點擊：只移動游標並短暫高亮。
+   點擊動畫僅供實際觸發按鈕的 demoTap() 使用。 */
+async function focusAction(app,id){
+ const el=windowNodes[app],g=customLayouts[scene].find(v=>v[0]===app);
+ if(!el||!g)return false;
+ cursorAt(g[1]+Math.min(95,g[3]/2),g[2]+14,480);
+ if(!await delay(560,id))return false;
+ raise(el);
+ el.classList.add('spotlight');
+ try{return await delay(340,id)}
+ finally{el.classList.remove('spotlight')}
 }
+async function demoLayout(sceneId,id){if(sceneId==='daily')resetDailyForDemo();customLayouts[sceneId]=clone(S[sceneId]);setScene(sceneId,{animation:true,force:true});return await delay(1200,id)}
+async function showcaseDrag(app,id,deltaX,deltaY){let el=windowNodes[app],g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+95,y+14,550);if(!await delay(650,id))return false;$('#guideCursor').classList.add('dragging');const nx=clamp(x+deltaX,0,BASE_W-w),ny=clamp(y+deltaY,51,BOTTOM-h);cursorAt(nx+95,ny+14,950);g.splice(1,4,nx,ny,w,h);raise(el);applyGeometry(el,[nx,ny,w,h],true);if(!await delay(1150,id))return false;$('#guideCursor').classList.remove('dragging');return true}
+async function showcaseResize(app,id,dx,dy){const g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+w-7,y+h-7,600);if(!await delay(710,id))return false;$('#guideCursor').classList.add('dragging');let nw=clamp(w+dx,165,BASE_W-x),nh=clamp(h+dy,105,BOTTOM-y);cursorAt(x+nw-7,y+nh-7,900);g.splice(1,4,x,y,nw,nh);applyGeometry(windowNodes[app],[x,y,nw,nh],true);if(!await delay(1080,id))return false;$('#guideCursor').classList.remove('dragging');return true}
+
 async function demoDragPremiereEffects(id){
  const host=windowNodes.premiere;
  const fx=host?.querySelector('.pp-fx-layout');
@@ -1741,7 +1729,6 @@ async function demoDragPremiereEffects(id){
   if(scaleValue)scaleValue.textContent='102.0';
   cursorAt(x+10,y,770);
   if(!await delay(1000,id))return false;
-  clickCursor();
   return await delay(400,id);
  }finally{
   $('#guideCursor').classList.remove('dragging');
@@ -1780,12 +1767,15 @@ async function demoTap(el,id,wait=650){
 }
 async function demoScroll(el,amount,id){
  if(!el)return false;
- const p=demoElementCoords(el);
- cursorAt(p.x+Math.min(el.clientWidth*.28,95),p.y,580);
- if(!await delay(660,id))return false;
  const limit=Math.max(0,el.scrollHeight-el.clientHeight);
- el.scrollTo({top:clamp(el.scrollTop+amount,0,limit),behavior:'smooth'});
- return await delay(1200,id);
+ const target=clamp(el.scrollTop+amount,0,limit);
+ // If this list cannot scroll, skip the empty cursor movement.
+ if(Math.abs(target-el.scrollTop)<2)return true;
+ const p=demoElementCoords(el);
+ cursorAt(p.x+Math.min(el.clientWidth*.28,95),p.y,520);
+ if(!await delay(530,id))return false;
+ el.scrollTo({top:target,behavior:'smooth'});
+ return await delay(930,id);
 }
 function sendYouTubeCommand(command){
  const frame=$('#youtubeFrame');
@@ -1859,20 +1849,10 @@ async function runDailyAuto(id){
 async function runAuto(id){let first=true;while(mode==='auto'&&runId===id){for(const sn of ['daily','editing','coding','gaming']){if(runId!==id||mode!=='auto')return;if(!await demoLayout(sn,id))return;if(sn==='daily'){
 if(!await runDailyAuto(id))return;
 }else if(sn==='editing'){
-if(!await action(id,'02 / Premiere Pro','約六成剪輯工作區搭配右側大型 16:9 Program 預覽。'))return;
-if(!await focusAction('premiere',id))return;
-if(!await focusPremierePanel('program',id))return;
-if(!await action(id,'大型預覽與即時色階','Program 占右側約四成，旁邊顯示 Lumetri Scopes。'))return;
-if(!await focusPremierePanel('scopes',id))return;
-if(!await focusPremierePanel('source',id))return;
-if(!await focusPremierePanel('effects',id))return;
-if(!await action(id,'拖曳 Effect Controls','游標輕拉參數與關鍵影格面板之間的分隔線，並微調 Scale。'))return;
+if(!await action(id,'02 / Premiere Pro','簡化操作：先拖曳 Effect Controls 分隔線，再實際播放與暫停 Program 預覽。'))return;
 if(!await demoDragPremiereEffects(id))return;
-if(!await action(id,'剪輯工作區','左上調整效果與來源，左下直接操作素材和時間軸。'))return;
-if(!await focusPremierePanel('project',id))return;
-if(!await focusPremierePanel('timeline',id))return;
 if(!await demoPremierePlayback(id))return;
-if(!await delay(1100,id))return;
+if(!await delay(550,id))return;
 }else if(sn==='coding'){
 if(!await runCodingAuto(id))return;
 }else{
