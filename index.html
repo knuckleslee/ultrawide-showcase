@@ -1076,7 +1076,12 @@ function syncTaskbar(){const entries=S[scene],icons=$('#taskicons');icons.innerH
 // cannot continue after leaving Daily. Restores the same video, paused at 0:00.
 function stopEmbeddedVideo(){
   const frame=document.getElementById('youtubeFrame');
-  if(frame && frame.hasAttribute('src'))frame.removeAttribute('src');
+  if(frame){
+    frame.onload=null;
+    if(frame.hasAttribute('src'))frame.removeAttribute('src');
+  }
+  const detail=document.querySelector('.yt-detail>span');
+  if(detail)detail.textContent='官方嵌入影片 · 可手動播放';
 }
 function syncEmbeddedVideo(sceneName){
   const frame=document.getElementById('youtubeFrame');
@@ -1103,7 +1108,7 @@ async function delay(ms,id){let remaining=ms;while(remaining>0){if(runId!==id||m
 async function action(id,title,body){if(!await delay(450,id))return false;hint(body);$('#statusText').textContent=title;return true}
 async function clickAt(x,y,id){cursorAt(x,y,600);if(!await delay(700,id))return false;clickCursor();return await delay(370,id)}
 async function focusAction(app,id){const el=windowNodes[app],g=customLayouts[scene].find(v=>v[0]===app);if(!g)return false;if(!await clickAt(g[1]+Math.min(95,g[3]/2),g[2]+14,id))return false;raise(el);el.classList.add('spotlight');await delay(470,id);el.classList.remove('spotlight');return true}
-async function demoLayout(sceneId,id){customLayouts[sceneId]=clone(S[sceneId]);setScene(sceneId,{animation:true,force:true});return await delay(1200,id)}
+async function demoLayout(sceneId,id){if(sceneId==='daily')resetDailyForDemo();customLayouts[sceneId]=clone(S[sceneId]);setScene(sceneId,{animation:true,force:true});return await delay(1200,id)}
 async function showcaseDrag(app,id,deltaX,deltaY){let el=windowNodes[app],g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+95,y+14,550);if(!await delay(650,id))return false;$('#guideCursor').classList.add('dragging');const nx=clamp(x+deltaX,0,BASE_W-w),ny=clamp(y+deltaY,51,BOTTOM-h);cursorAt(nx+95,ny+14,950);g.splice(1,4,nx,ny,w,h);raise(el);applyGeometry(el,[nx,ny,w,h],true);if(!await delay(1150,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
 async function showcaseResize(app,id,dx,dy){const g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+w-7,y+h-7,600);if(!await delay(710,id))return false;$('#guideCursor').classList.add('dragging');let nw=clamp(w+dx,165,BASE_W-x),nh=clamp(h+dy,105,BOTTOM-y);cursorAt(x+nw-7,y+nh-7,900);g.splice(1,4,x,y,nw,nh);applyGeometry(windowNodes[app],[x,y,nw,nh],true);if(!await delay(1080,id))return false;$('#guideCursor').classList.remove('dragging');clickCursor();return true}
 
@@ -1136,14 +1141,103 @@ async function advancePremierePlayhead(id){
  head.style.left='38%';
  return true;
 }
+
+/* Guided DOM interactions: cursor is visual, but each click/scroll updates the real mock UI. */
+function demoElementCoords(el){
+ const rect=el.getBoundingClientRect(),root=$('#desktop').getBoundingClientRect();
+ const scale=root.width/BASE_W;
+ return {x:clamp((rect.left+rect.width*.52-root.left)/scale,0,BASE_W),
+         y:clamp((rect.top+rect.height*.52-root.top)/scale,0,BASE_H)};
+}
+async function demoTap(el,id,wait=650){
+ if(!el)return false;
+ const {x,y}=demoElementCoords(el);
+ cursorAt(x,y,480);
+ if(!await delay(620,id))return false;
+ clickCursor();
+ el.click();
+ return await delay(wait,id);
+}
+async function demoScroll(el,amount,id){
+ if(!el)return false;
+ const p=demoElementCoords(el);
+ cursorAt(p.x+Math.min(el.clientWidth*.28,95),p.y,580);
+ if(!await delay(660,id))return false;
+ const limit=Math.max(0,el.scrollHeight-el.clientHeight);
+ el.scrollTo({top:clamp(el.scrollTop+amount,0,limit),behavior:'smooth'});
+ return await delay(1200,id);
+}
+function sendYouTubeCommand(command){
+ const frame=$('#youtubeFrame');
+ if(!frame?.contentWindow)return;
+ try{frame.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}), '*')}
+ catch(error){console.debug('YouTube iframe command unavailable',error)}
+}
+async function startMutedDemoVideo(id){
+ const frame=$('#youtubeFrame');
+ if(!frame)return false;
+ const playerBase=frame.dataset.embedSrc;
+ frame.onload=()=>{
+  if(runId!==id||mode!=='auto'||scene!=='daily')return;
+  sendYouTubeCommand('mute');
+  sendYouTubeCommand('playVideo');
+ };
+ // YouTube allows muted autoplay in many browsers, but ultimately controls permission.
+ let playerURL=playerBase+'&autoplay=1&mute=1&enablejsapi=1';
+ if(/^https?:/.test(location.protocol))playerURL+='&origin='+encodeURIComponent(location.origin);
+ frame.src=playerURL;
+ const status=document.querySelector('.yt-detail>span');
+ if(status)status.textContent='嘗試靜音播放 · 若受瀏覽器限制請手動點擊';
+ if(!await delay(1600,id))return false;
+ sendYouTubeCommand('mute');
+ sendYouTubeCommand('playVideo');
+ return await delay(1100,id);
+}
+async function runDailyAuto(id){
+ if(!await action(id,'01 / Google 新聞','實際捲動最新標題，並點開一則新聞預覽。'))return false;
+ if(!await focusAction('news',id))return false;
+ const feed=document.querySelector('.news-main');
+ if(!await demoScroll(feed,230,id))return false;
+ const row=$('#newsStories').querySelector('.story[data-news-index="4"]')||
+           $('#newsStories').querySelector('.story[data-news-index="2"]');
+ if(!row)return false;
+ row.scrollIntoView({block:'center',behavior:'smooth'});
+ if(!await delay(850,id))return false;
+ if(!await demoTap(row,id,1500))return false;
+ if(!await demoTap($('#newsArticle .news-article-close'),id,440))return false;
+
+ if(!await action(id,'YouTube 影片播放','啟動真正的 YouTube 靜音播放器，並瀏覽更多示範推薦。'))return false;
+ if(!await focusAction('video',id))return false;
+ const player=$('#youtubeFrame');
+ if(player){
+  const pos=demoElementCoords(player);
+  cursorAt(pos.x,pos.y,640);
+ }
+ if(!await startMutedDemoVideo(id))return false;
+ if(!await action(id,'瀏覽推薦影片','推薦影片擴充為 12 筆，向下捲動右側推薦清單。'))return false;
+ if(!await demoScroll(document.querySelector('.yt-next'),180,id))return false;
+ if(!await demoScroll(document.querySelector('.yt-next'),185,id))return false;
+
+ if(!await action(id,'完成今日待辦','勾選「完成剪輯初版」，已完成數量會立即更新。'))return false;
+ if(!await focusAction('notes',id))return false;
+ if(!await demoTap(document.querySelector('.todo-check[data-todo="2"]'),id,1000))return false;
+
+ if(!await action(id,'行事曆翻頁','實際切換到下一個月，再返回原先月份。'))return false;
+ if(!await focusAction('calendar',id))return false;
+ if(!await demoTap(document.querySelector('.cal-next'),id,680))return false;
+ if(!await demoTap(document.querySelector('.cal-next'),id,680))return false;
+ if(!await demoTap(document.querySelector('.cal-prev'),id,680))return false;
+
+ if(!await action(id,'通訊軟體捲動','查看其他好友和工作群組，聯絡人清單向下滑動。'))return false;
+ if(!await focusAction('chat',id))return false;
+ toast('Messages · 工作群組','設計工作群：下次會議時間已更新');
+ const contacts=document.querySelector('.messenger-rows');
+ if(!await demoScroll(contacts,285,id))return false;
+ if(!await demoScroll(contacts,245,id))return false;
+ return await delay(1000,id);
+}
 async function runAuto(id){let first=true;while(mode==='auto'&&runId===id){for(const sn of ['daily','editing','coding','gaming']){if(runId!==id||mode!=='auto')return;if(!await demoLayout(sn,id))return;if(sn==='daily'){
-if(!await action(id,'01 / 日常使用','新聞、聊天、影音與行程集中在同一畫面。'))return;
-if(!await focusAction('news',id))return;if(!await delay(900,id))return;
-if(!await action(id,'通知提醒','不切換桌面，也能立刻查看新訊息。'))return;toast('Messages · 專案討論群','安妮：等一下方便幫忙確認剪輯預覽嗎？');
-if(!await focusAction('chat',id))return;
-if(!await action(id,'視窗自由編排','拖曳聊天視窗，讓需要的工作內容同時可見。'))return;
-if(!await showcaseDrag('chat',id,-85,-18))return;
-if(!await focusAction('video',id))return;if(!await delay(1700,id))return;
+if(!await runDailyAuto(id))return;
 }else if(sn==='editing'){
 if(!await action(id,'02 / Premiere Pro','約六成剪輯工作區搭配右側大型 16:9 Program 預覽。'))return;
 if(!await focusAction('premiere',id))return;
@@ -1176,11 +1270,16 @@ if(!await action(id,'展示完成','四種使用情境展示完畢，即將重�
 }}
 function setMode(next){if(next===mode){if(next==='auto')togglePause();return}if(next==='auto'){
 stopEmbeddedVideo();
+savedDailyContent=captureDailyState();
+resetDailyForDemo();
 savedFreeLayouts=clone(customLayouts);mode='auto';paused=false;runId++;$('#desktop').classList.replace('manual','demo');$('#autoMode').classList.add('active');$('#freeMode').classList.remove('active');$('#statusDot').classList.remove('off');$('#arrangeBtn').disabled=true;$('#resetBtn').disabled=true;$('#arrangeBtn').style.opacity='.45';$('#resetBtn').style.opacity='.45';$$('.window').forEach(el=>el.classList.remove('free'));hint('自動展示已開始；大游標將帶領視窗切換與重新排列。');const id=runId;runAuto(id);
 }else{mode='manual';runId++;paused=false;$('#guideCursor').classList.remove('show','dragging');$('#desktop').classList.replace('demo','manual');$('#autoMode').classList.remove('active');$('#freeMode').classList.add('active');$('#statusDot').classList.add('off');$('#statusText').textContent='自由操作中';$('#arrangeBtn').disabled=false;$('#resetBtn').disabled=false;$('#arrangeBtn').style.opacity='1';$('#resetBtn').style.opacity='1';// restore the manually arranged workspaces after an automated tour
 if(savedFreeLayouts){customLayouts=savedFreeLayouts;savedFreeLayouts=null;}
+stopEmbeddedVideo();
+restoreDailyState(savedDailyContent);
+savedDailyContent=null;
 setScene(scene,{animation:false});hint('自由操作：拖曳標題列移動，右下角縮放，內容會依新尺寸自適應。');}}
-function togglePause(){if(mode!=='auto')return;paused=!paused;$('#statusText').textContent=paused?'已暫停展示':'展示播放中';hint(paused?'自動展示已暫停。按 Space 或「自動展示」繼續。':'自動展示繼續播放。')}
+function togglePause(){if(mode!=='auto')return;paused=!paused;if(scene==='daily')sendYouTubeCommand(paused?'pauseVideo':'playVideo');$('#statusText').textContent=paused?'已暫停展示':'展示播放中';hint(paused?'自動展示已暫停。按 Space 或「自動展示」繼續。':'自動展示繼續播放。')}
 async function toggleFullscreen(){const root=$('#frame');try{if(document.fullscreenElement)await document.exitFullscreen();else await root.requestFullscreen()}catch(err){toast('無法進入全螢幕','請嘗試按 F11，或使用 Chrome / Edge。')}scaleDesktop()}
 function updateClock(){let t=new Date();$('#clock').textContent=new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false}).format(t)}
 window.addEventListener('resize',scaleDesktop);document.addEventListener('fullscreenchange',()=>{scaleDesktop();$('#fullscreenBtn').textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕'});
