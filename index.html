@@ -1341,12 +1341,13 @@ async function runCodingAuto(id){
    only after a real click or the auto-tour starts. Playback begins at 01:27. */
 const GAME_VIDEO_ID='1or3YILu28M',GAME_START_SECONDS=87;
 let gameYTPlayer=null,gameFrameReady=false,gameWantsPlaying=false,gamePlaying=false;
-let gameAPIRequested=false;
+let gameAPIRequested=false,gameStartupTimer=null;
 function showGamePoster(){
  const poster=document.getElementById('gameResumeButton');
  if(poster)poster.hidden=false;
 }
 function resetGameVideo(){
+ if(gameStartupTimer){clearTimeout(gameStartupTimer);gameStartupTimer=null}
  gameWantsPlaying=false;
  gamePlaying=false;
  const player=gameYTPlayer;
@@ -1374,6 +1375,7 @@ function gameOnReady(event){
 function gameOnStateChange(event){
  if(!gameWantsPlaying||!window.YT?.PlayerState)return;
  if(event.data===YT.PlayerState.PLAYING){
+  if(gameStartupTimer){clearTimeout(gameStartupTimer);gameStartupTimer=null}
   gamePlaying=true;
   const poster=document.getElementById('gameResumeButton');
   if(poster)poster.hidden=true;
@@ -1397,7 +1399,7 @@ function initializeGameYTPlayer(){
    events:{
     onReady:gameOnReady,
     onStateChange:gameOnStateChange,
-    onAutoplayBlocked:showGamePoster,
+    onAutoplayBlocked:resetGameVideo,
     onError:resetGameVideo
    }
   });
@@ -1418,6 +1420,8 @@ function resumeGameVideo(){
  if(gameWantsPlaying)return;
  gameWantsPlaying=true;
  gamePlaying=false;
+ if(gameStartupTimer)clearTimeout(gameStartupTimer);
+ gameStartupTimer=setTimeout(()=>{if(gameWantsPlaying&&!gamePlaying)resetGameVideo()},10000);
  ensureGameVideo();
 }
 function setupGameInteractions(){
