@@ -7,6 +7,7 @@ It verifies that JavaScript actually populated the desktop window layer.
 from __future__ import annotations
 
 from html.parser import HTMLParser
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -28,9 +29,20 @@ class DesktopParser(HTMLParser):
         self.scenes: set[str] = set()
         self.youtube_sources: list[str] = []
         self.premiere_panels: set[str] = set()
+        self.monitor_dimensions: list[tuple[float, float]] = []
+        self.monitor_aux_panels: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
+        classes = set((data.get("class") or "").split())
+        if "pp-monitor-aux" in classes:
+            self.monitor_aux_panels.append(data.get("class") or "")
+        if "pp-monitor-shot" in classes:
+            inline = data.get("style") or ""
+            w = re.search(r"(?:^|;)\s*width:\s*([\d.]+)px", inline)
+            h = re.search(r"(?:^|;)\s*height:\s*([\d.]+)px", inline)
+            if w and h:
+                self.monitor_dimensions.append((float(w.group(1)), float(h.group(1))))
         if data.get("data-pp-panel"):
             self.premiere_panels.add(data["data-pp-panel"])
         if tag == "iframe" and data.get("id") == "youtubeFrame":
@@ -99,6 +111,13 @@ def main() -> int:
         if editing_parser.premiere_panels != PREMIERE_PANELS:
             problems.append(f"Premiere docked panels missing: "
                             f"{sorted(PREMIERE_PANELS - editing_parser.premiere_panels)}")
+        if len(editing_parser.monitor_aux_panels) != 2:
+            problems.append("Expected two monitor metadata/function panels")
+        if len(editing_parser.monitor_dimensions) != 2:
+            problems.append("Monitor media dimensions were not assigned on load")
+        for width, height in editing_parser.monitor_dimensions:
+            if not height or abs(width / height - 16 / 9) > .012:
+                problems.append(f"Monitor video ratio should be 16:9, received {width}x{height}")
 
     if problems:
         for problem in problems:
