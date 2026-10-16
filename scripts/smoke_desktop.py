@@ -15,11 +15,11 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_WINDOWS = 15
+EXPECTED_WINDOWS = 14
 INITIAL_SCENE = {"news", "chat", "video", "calendar", "notes"}
 SCENES = {"daily", "editing", "coding", "gaming"}
-EDITING_WINDOWS = {"premiere", "editnotes"}
-PREMIERE_PANELS = {"effects", "source", "program", "project", "timeline", "meter"}
+EDITING_WINDOWS = {"premiere"}
+PREMIERE_PANELS = {"effects", "source", "program", "project", "timeline", "meter", "scopes"}
 
 
 class DesktopParser(HTMLParser):
@@ -31,7 +31,7 @@ class DesktopParser(HTMLParser):
         self.premiere_panels: set[str] = set()
         self.monitor_dimensions: list[tuple[float, float]] = []
         self.monitor_aux_panels: list[str] = []
-        self.monitor_panel_widths: dict[str, float] = {}
+        self.premiere_layouts: set[str] = set()
         self.premiere_panel_order: list[str] = []
         self.premiere_top_rows = 0
 
@@ -40,12 +40,11 @@ class DesktopParser(HTMLParser):
         classes = set((data.get("class") or "").split())
         if "pp-top" in classes:
             self.premiere_top_rows += 1
+        for name in ("pp-edit-left", "pp-bottom-left", "pp-program-scopes"):
+            if name in classes:
+                self.premiere_layouts.add(name)
         if "pp-monitor-aux" in classes:
             self.monitor_aux_panels.append(data.get("class") or "")
-        if "pp-monitor" in classes and data.get("data-pp-panel") in ("source", "program"):
-            value = re.search(r"(?:^|;)\s*width:\s*([\d.]+)px", data.get("style") or "")
-            if value:
-                self.monitor_panel_widths[data["data-pp-panel"]] = float(value.group(1))
         if "pp-monitor-shot" in classes:
             inline = data.get("style") or ""
             w = re.search(r"(?:^|;)\s*width:\s*([\d.]+)px", inline)
@@ -122,26 +121,26 @@ def main() -> int:
             problems.append(f"Premiere docked panels missing: "
                             f"{sorted(PREMIERE_PANELS - editing_parser.premiere_panels)}")
         if editing_parser.premiere_top_rows != 1:
-            problems.append("Expected one common docked upper row")
-        if editing_parser.premiere_panel_order[:3] != ["effects", "source", "program"]:
-            problems.append("Top Premiere panels must be ordered Effect Controls, Source, Program")
+            problems.append("Expected an upper-left dock with Effect Controls and Source")
+        if editing_parser.premiere_panel_order[:2] != ["effects", "source"]:
+            problems.append("Upper-left area must contain Effect Controls followed by Source")
+        if not {"pp-edit-left", "pp-bottom-left", "pp-program-scopes"}.issubset(editing_parser.premiere_layouts):
+            problems.append("Missing 60/40 editing split or useful Lumetri Scopes")
         if editing_parser.monitor_aux_panels:
-            problems.append("Extra monitor-side panels remain (gap must be consolidated at left)")
-        if len(editing_parser.monitor_panel_widths) != 2:
-            problems.append("Both monitor panel widths must be assigned at runtime")
-        elif abs(editing_parser.monitor_panel_widths["source"] - editing_parser.monitor_panel_widths["program"]) > .8:
-            problems.append("Source and Program panels have different widths")
+            problems.append("Obsolete per-monitor metadata panels remain")
         if len(editing_parser.monitor_dimensions) != 2:
-            problems.append("Monitor media dimensions were not assigned on load")
+            problems.append("Source and Program media dimensions were not assigned")
         for width, height in editing_parser.monitor_dimensions:
-            if width < 270 or height < 150:
-                problems.append(f"Premiere monitor is too small: {width:.1f}x{height:.1f}; expected larger 16:9 previews")
+            if width < 120 or height < 60:
+                problems.append(f"Premiere media frame unexpectedly small: {width:.1f}x{height:.1f}")
             if not height or abs(width / height - 16 / 9) > .012:
-                problems.append(f"Monitor video ratio should be 16:9, received {width}x{height}")
+                problems.append(f"Monitor media ratio should be 16:9, received {width}x{height}")
         if len(editing_parser.monitor_dimensions) == 2:
-            source_height, program_height = [d[1] for d in editing_parser.monitor_dimensions]
-            if abs(source_height - program_height) > .8:
-                problems.append("Source and Program media must retain identical original height")
+            (source_w,source_h),(program_w,program_h)=editing_parser.monitor_dimensions
+            if program_w < source_w*1.65 or program_h < source_h*1.65:
+                problems.append("Right Program must be substantially larger than upper-left Source")
+            if program_w < 360 or program_h < 200:
+                problems.append(f"Program preview insufficient for right-hand 40% workspace: {program_w}x{program_h}")
 
     if problems:
         for problem in problems:
@@ -153,7 +152,8 @@ def main() -> int:
     print(f"PASS: {len(parser.windows)} desktop windows created; "
           f"daily scene visible = {sorted(visible)}; four scene tabs present; "
           f"editing workspace includes {sorted(EDITING_WINDOWS)} and "
-          f"{len(PREMIERE_PANELS)} docked Premiere panels.")
+          f"{len(PREMIERE_PANELS)} docked Premiere panels; "
+          f"large right Program preview at 16:9.")
     return 0
 
 
