@@ -794,7 +794,7 @@ const S={daily:[
 ],gaming:[
  ['discord',24,62,424,437],['game',460,62,777,437],['bahamut',1249,62,643,437]
 ]};
-const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],premiere:['Adobe Premiere Pro · Lesson','Pr','#5d52a2'],aiagent:['AI AGENT · Coding Assistant','✧','#7e63b3'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal · Demo','>_','#324b55'],git:['GitHub · Live Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
+const META={news:['Google News','N','#3582b8'],chat:['聊天 · 專案群組','●','#06c755'],video:['Video Player','▶','#b580b3'],calendar:['Calendar','▦','#4383bf'],notes:['Notes','✎','#cba45d'],premiere:['Adobe Premiere Pro · Lesson','Pr','#5d52a2'],aiagent:['AI AGENT · 程式開發助理','✧','#7e63b3'],editor:['Editor · fetch_news.py','{ }','#3277bc'],terminal:['Terminal · Demo','>_','#324b55'],git:['GitHub · Live Repository','⑂','#8165a8'],discord:['Discord · 遊戲社群','◉','#5865f2'],game:['遊戲畫面 · 16:9','▶','#4b7544'],bahamut:['巴哈姆特 · 攻略討論','巴','#0c6e75']};
 const clone=a=>JSON.parse(JSON.stringify(a));let customLayouts=clone(S),savedFreeLayouts=null,scene='daily',mode='manual',paused=false,runId=0,autoTask=null,zIndex=100,focused=null,showHints=true,windowNodes={},maxRestore={},newsData=[],newsIsLive=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
@@ -1186,7 +1186,7 @@ const AGENT_PLAN=[
 ];
 const AGENT_EDITS=[
  {title:'01／建立五種字級',code:"const GITHUB_FONT_MODES = ['XS','SM','MD','LG','XL'];"},
- {title:'02／保存視窗字級設定',code:"let githubFontMode = 'MD'; // 僅供 GitHub 視窗使用"},
+ {title:'02／儲存視窗字級設定',code:"let githubFontMode = 'MD'; // 僅供 GitHub 視窗使用"},
  {title:'03／建立切換按鈕',code:"const fontButtons = GITHUB_FONT_MODES.map(mode => makeButton(mode));"},
  {title:'04／僅調整 GitHub',code:"githubPanel.dataset.gitFont = githubFontMode;"},
  {title:'05／檢查 CSS 套用範圍',code:"// .live-github[data-git-font='XL'] { --git-content-size: 18px; }"}
