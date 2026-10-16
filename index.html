@@ -1508,6 +1508,55 @@ function alignGitHubReadme(behavior='auto'){
  if(scroller)scroller.scrollTo({top:gitReadmeDestination(),behavior});
 }
 
+/* A guided, in-memory refactor of the real index.html source excerpt.
+   Only code belongs in the editor: no step banners, pseudo line numbers, or
+   JavaScript appended to Python. Each edit is numbered like a real editor. */
+async function typeInEditorRow(row,index,code,id){
+ const output=row?.querySelector('.line-text');
+ if(!output)return false;
+ scrollEditorRowIntoView(row);
+ const p=demoElementCoords(row);
+ cursorAt(Math.min(p.x+70,BASE_W-28),p.y,430);
+ if(!await delay(500,id))return false;
+ // Type only into the selected source line; leave presentation labels in Agent.
+ for(let n=0;n<code.length;n+=5){
+  if(!await delay(30,id))return false;
+  output.textContent=code.slice(0,n+5)+'▌';
+ }
+ output.textContent=code;
+ codingViewLines[index].text=code;
+ return await delay(240,id);
+}
+async function applyDemoCodeStep(step,id){
+ if(!hasRealEditorSource())return false;
+ const scroller=document.getElementById('codingScroll');
+ if(step.lines){
+  for(const code of step.lines){
+   const insertion=locateFontHandler();
+   if(insertion<0)return false;
+   codingViewLines.splice(insertion,0,{text:'',added:true});
+   renderSourceLines();
+   const row=document.getElementById('realCodeLines')?.children[insertion];
+   if(!await typeInEditorRow(row,insertion,code,id))return false;
+  }
+ }else if(step.replaceLine){
+  // Refactor the existing handler rather than appending a disconnected snippet.
+  const index=codingViewLines.findIndex(item=>!item.added&&
+    item.text.trim()==='panel.dataset.gitFont=mode;');
+  if(index<0)return false;
+  codingViewLines[index].text='';
+  codingViewLines[index].added=true;
+  renderSourceLines();
+  const row=document.getElementById('realCodeLines')?.children[index];
+  if(!await typeInEditorRow(row,index,step.replaceLine,id))return false;
+ }else return false;
+ codingDemoCompleted++;
+ const progress=document.getElementById('editorChangeCount');
+ if(progress)progress.textContent='已完成 '+codingDemoCompleted+' / '+AGENT_EDITS.length+' 步（示範）';
+ const terminal=document.getElementById('codingTerminalStatus');
+ if(terminal)terminal.textContent='目前已示範 '+codingDemoCompleted+' 步；尚未寫回 GitHub';
+ return true;
+}
 async function runCodingAuto(id){
  resetCodingDemo();
  setGitFontMode('MD');
@@ -1545,34 +1594,13 @@ async function runCodingAuto(id){
  }
  if(!await action(id,'人工參照建議修改','參考五步計畫，在 index.html 的 JavaScript 區段直接展示五次人工編修。'))return false;
  if(!await focusAction('editor',id))return false;
- const scroll=document.getElementById('codingScroll'),changes=document.getElementById('agentCodeChanges');
- changes.hidden=false;
- const start=Math.min(scroll.scrollHeight,Math.max(0,scroll.scrollHeight*.18));
+ const scroll=document.getElementById('codingScroll');
+ if(!hasRealEditorSource())return false;
  for(let i=0;i<AGENT_EDITS.length;i++){
-  if(!await demoScroll(scroll,130,id))return false;
-  const position=demoElementCoords(scroll);
-  cursorAt(position.x+Math.min(90,scroll.clientWidth*.15),position.y+Math.min(25,scroll.clientHeight*.12),480);
-  if(!await delay(420,id))return false;
-  const row=document.createElement('div');row.className='source-code-line demo-added';
-  const line=document.createElement('span');line.className='line-num';line.textContent='+';
-  const body=document.createElement('span');body.className='line-text';
-  row.append(line,body);changes.append(row);
-  // Bring the newly inserted editor line into view BEFORE typing begins.
-  // Extra trailing space keeps the text several lines above the bottom frame.
-  codingScrollTo('#codingScroll',scroll.scrollHeight);
-  if(!await delay(490,id))return false;
-  const snippet=AGENT_EDITS[i].code;
-  for(let k=0;k<=snippet.length;k+=4){
-   if(!await delay(30,id))return false;
-   body.textContent=snippet.slice(0,k)+'▌';
-  }
-  body.textContent=snippet;
-  const banner=document.createElement('div');banner.className='editor-demo-note';banner.textContent=AGENT_EDITS[i].title+' · 模擬人工編修';
-  changes.append(banner);
-  document.getElementById('editorChangeCount').textContent='+ '+(i+1)+' 段示範修改';
-  document.getElementById('codingTerminalStatus').textContent='等待人工檢查 · '+(i+1)+' / '+AGENT_EDITS.length+' 段修改';
-  codingScrollTo('#codingScroll',scroll.scrollHeight);
-  if(!await delay(520,id))return false;
+  // Human-paced sequence: inspect nearby real code, then type an actual JS edit.
+  if(!await demoScroll(scroll,44,id))return false;
+  if(!await applyDemoCodeStep(AGENT_EDITS[i],id))return false;
+  if(!await delay(450,id))return false;
  }
  if(!await action(id,'GitHub 字級展示','先捲動到真實 README 的大量文字，再測試 GitHub 小視窗的五級字體大小。'))return false;
  if(!await focusAction('git',id))return false;
