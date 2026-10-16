@@ -658,7 +658,15 @@ const fakeHeadlines=[
  ['新聞示範：全球科技產業最新發展與市場觀察','示意資料 · 連線取得 RSS 後更新'],
  ['新聞示範：台灣生活與交通資訊重點整理','示意資料 · 連線取得 RSS 後更新'],
  ['新聞示範：人工智慧與科技應用趨勢','示意資料 · 連線取得 RSS 後更新'],
- ['新聞示範：國際重要新聞與今日焦點','示意資料 · 連線取得 RSS 後更新']];
+ ['新聞示範：國際重要新聞與今日焦點','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：文化展覽與城市活動','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：影視音樂與娛樂產業','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：電腦遊戲及創作社群','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：數位影音製作與技術','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：全球旅遊與交通發展','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：今日熱門討論主題','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：科學研究與太空發展','示意資料 · 連線取得 RSS 後更新'],
+ ['新聞示範：電動車與新技術應用','示意資料 · 連線取得 RSS 後更新']];
 const apps={
 news:()=>`<div class="news"><div class="news-browser"><div class="browser-tab"><span class="gnews-mark">◈</span> Google 新聞 <span class="browser-tab-close">×</span></div><div class="browser-tools"><span>‹　›　↻</span><div class="browser-address">🔒　news.google.com/home?hl=zh-TW</div><span>☆　⋯</span></div></div><div class="news-top"><span class="gnews-brand"><span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span><span class="gnews-text">新聞</span></span><span class="news-search">⌕　搜尋主題、地點和來源</span><span class="news-top-right">◯　⋮</span></div><div class="news-body"><aside class="news-nav"><div class="nav-entry selected">⌂　首頁</div><div class="nav-entry">◫　為你推薦</div><div class="nav-entry">☷　追蹤中</div><div class="nav-divider"></div><div class="nav-entry">◉　台灣</div><div class="nav-entry">◎　國際</div><div class="nav-entry">⌘　商業</div><div class="nav-entry">▣　科技</div><div class="nav-entry">◉　娛樂</div></aside><section class="news-main"><div class="news-page-heading"><div><strong>頭條新聞</strong><small>為你整理的最新新聞</small></div><div class="news-location">☀ 台灣</div></div><div class="news-category-tabs"><span class="active">焦點</span><span>為你推薦</span><span>台灣</span><span>科技</span><span>商業</span></div><div class="news-card-header"><strong>熱門新聞</strong><span class="news-badge" id="newsBadge">資料載入中</span></div><div id="newsStories">${newsHTML()}</div></section><aside class="news-article" id="newsArticle" hidden aria-label="新聞文章預覽"><div class="news-article-bar"><b>Google 新聞 · 閱讀文章</b><button class="news-article-close" type="button" aria-label="返回新聞列表">✕</button></div><div class="news-article-content"><div class="news-article-tag">新聞報導</div><h2 id="newsArticleTitle"></h2><p id="newsArticleSource"></p><div class="news-article-rule"></div><p class="news-article-note">這裡展示 RSS 新聞標題與來源，不會編造原文內容。可使用下方連結閱讀完整報導。</p><a id="newsArticleLink" target="_blank" rel="noopener noreferrer" hidden>前往新聞原文 ↗</a><p class="news-article-no-link" id="newsArticleNoLink">目前的新聞快照未包含原文連結。</p></div></aside></div></div>`,
 chat:()=>`<div class="desktop-messenger">
@@ -880,7 +888,10 @@ bahamut:()=>`<div class="baha2">
 <div class="baha2-disclaimer">介面與討論內容為示意，非巴哈姆特即時頁面</div>
 </div>`
 };
-function newsHTML(){let list=newsData.length?newsData:fakeHeadlines;return list.slice(0,7).map((item,i)=>`<div class="story"><div class="story-photo t${1+i%4}">▤</div><div class="story-copy"><div class="story-title">${escapeHTML(item[0])}</div><div class="story-meta">${escapeHTML(item[1]||'')}</div></div></div>`).join('')}
+function newsHTML(){
+ const list=newsData.length?newsData:fakeHeadlines;
+ return list.slice(0,12).map((item,i)=>'<button type="button" class="story" data-news-index="'+i+'"><div class="story-photo t'+(1+i%4)+'">▤</div><div class="story-copy"><div class="story-title">'+escapeHTML(item[0])+'</div><div class="story-meta">'+escapeHTML(item[1]||'')+'</div></div></button>').join('');
+}
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 // Use the API on the optional localhost Python server; elsewhere load a static
 // snapshot generated twice daily by GitHub Actions. No re-fetch during the presentation.
@@ -895,7 +906,7 @@ async function loadNews(){
     const data=await r.json();
     if(!Array.isArray(data.items)||!data.items.length)throw Error('No news snapshot yet');
     newsData=data.items.filter(v=>v&&typeof v.title==='string'&&v.title.trim()).map(v=>[
-      v.title,String(v.source||'Google News')+' · '+String(v.time||'')
+      v.title,String(v.source||'Google News')+' · '+String(v.time||''),typeof v.link==='string'?v.link:''
     ]);
     if(!newsData.length)throw Error('Empty headlines');
     newsIsLive=true;
@@ -914,6 +925,108 @@ async function loadNews(){
     if(windowNodes.news){$('#newsStories').innerHTML=newsHTML();$('#newsBadge').textContent='展示資料（新聞暫不可用）';}
     console.warn('News snapshot unavailable:',e);
   }
+}
+
+/* Shared manual controls and the exact same DOM interactions used by the auto tour. */
+let savedDailyContent=null;
+const dailyScrollSelectors=['.news-main','.yt-next','.messenger-rows'];
+function safeNewsLink(value){
+ try{const u=new URL(String(value||''));return u.protocol==='https:'||u.protocol==='http:'?u.href:''}
+ catch{return ''}
+}
+function openNewsStory(index){
+ const list=newsData.length?newsData:fakeHeadlines;
+ const item=list[Number(index)];
+ if(!item)return;
+ const article=$('#newsArticle'),link=$('#newsArticleLink');
+ $('#newsArticleTitle').textContent=item[0];
+ $('#newsArticleSource').textContent=item[1]||'Google 新聞';
+ const target=safeNewsLink(item[2]);
+ link.hidden=!target;
+ if(target)link.href=target;else link.removeAttribute('href');
+ $('#newsArticleNoLink').hidden=!!target;
+ article.dataset.newsIndex=String(index);
+ article.hidden=false;
+}
+function closeNewsStory(){
+ const article=$('#newsArticle');
+ article.hidden=true;
+ delete article.dataset.newsIndex;
+}
+function setTodoChecked(button,checked){
+ if(!button)return;
+ const done=!!checked;
+ button.setAttribute('aria-checked',String(done));
+ button.textContent=done?'☑':'☐';
+ button.closest('.todo-row')?.classList.toggle('done',done);
+ $('#todoProgress').textContent=String(document.querySelectorAll('.todo-check[aria-checked="true"]').length);
+}
+function renderCalendar(offset){
+ const el=document.querySelector('.calendar');
+ if(!el)return;
+ const shift=Math.max(-24,Math.min(24,Number(offset)||0));
+ const first=new Date(2026,9+shift,1);
+ const year=first.getFullYear(),month=first.getMonth(),start=first.getDay();
+ const days=new Date(year,month+1,0).getDate();
+ const total=Math.ceil((start+days)/7)*7;
+ const cells=['日','一','二','三','四','五','六'].map(day=>'<span class="heading">'+day+'</span>');
+ for(let i=0;i<total;i++){
+   const date=i-start+1;
+   const inMonth=date>=1&&date<=days;
+   const today=year===2026&&month===9&&date===16;
+   cells.push('<span'+(today?' class="today"':'')+'>'+(inMonth?date:'')+'</span>');
+ }
+ el.dataset.shift=String(shift);
+ el.querySelector('.cal-month-label').textContent=year+' 年 '+(month+1)+' 月';
+ el.querySelector('.cal-days').innerHTML=cells.join('');
+ const foot=el.querySelector('.cal-foot');
+ foot.textContent=shift===0?'● 14:30　專案進度同步':(month+1)+' 月 · 行程規劃與活動';
+}
+function captureDailyState(){
+ return {
+  todos:[...document.querySelectorAll('.todo-check')].map(b=>b.getAttribute('aria-checked')==='true'),
+  month:Number(document.querySelector('.calendar')?.dataset.shift||0),
+  scrolls:dailyScrollSelectors.map(s=>document.querySelector(s)?.scrollTop||0),
+  article:$('#newsArticle')?.hidden?null:$('#newsArticle')?.dataset.newsIndex||null
+ };
+}
+function setImmediateScroll(el,value){
+ if(!el)return;
+ el.style.scrollBehavior='auto';
+ el.scrollTop=value;
+ // Restore smooth scrolling after the instant reset, without interfering with rendering.
+ requestAnimationFrame(()=>{if(el.isConnected)el.style.scrollBehavior=''});
+}
+function resetDailyForDemo(){
+ closeNewsStory();
+ const checks=[...document.querySelectorAll('.todo-check')];
+ checks.forEach((b,i)=>setTodoChecked(b,i<2));
+ renderCalendar(0);
+ dailyScrollSelectors.forEach(s=>setImmediateScroll(document.querySelector(s),0));
+}
+function restoreDailyState(snapshot){
+ if(!snapshot)return;
+ closeNewsStory();
+ snapshot.todos?.forEach((checked,i)=>setTodoChecked(document.querySelectorAll('.todo-check')[i],checked));
+ renderCalendar(snapshot.month);
+ dailyScrollSelectors.forEach((s,i)=>setImmediateScroll(document.querySelector(s),snapshot.scrolls?.[i]||0));
+ if(snapshot.article!==null&&snapshot.article!==undefined)openNewsStory(snapshot.article);
+}
+function setupDailyInteractions(){
+ const stories=$('#newsStories');
+ stories.addEventListener('click',e=>{
+   const row=e.target.closest('.story[data-news-index]');
+   if(row)openNewsStory(row.dataset.newsIndex);
+ });
+ $('#newsArticle').querySelector('.news-article-close').addEventListener('click',closeNewsStory);
+ document.querySelector('.notes').addEventListener('click',e=>{
+   const checkbox=e.target.closest('.todo-check');
+   if(checkbox)setTodoChecked(checkbox,checkbox.getAttribute('aria-checked')!=='true');
+ });
+ const calendar=document.querySelector('.calendar');
+ calendar.querySelector('.cal-prev').addEventListener('click',()=>renderCalendar(Number(calendar.dataset.shift)-1));
+ calendar.querySelector('.cal-next').addEventListener('click',()=>renderCalendar(Number(calendar.dataset.shift)+1));
+ renderCalendar(0);
 }
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
 function applyGeometry(el,g,animate=false){if(animate)el.classList.add('animating');else el.classList.remove('animating');el.style.left=g[0]+'px';el.style.top=g[1]+'px';el.style.width=g[2]+'px';el.style.height=g[3]+'px';}
@@ -1074,5 +1187,5 @@ window.addEventListener('resize',scaleDesktop);document.addEventListener('fullsc
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true});hint('已切換場景；你可以調整每個視窗的大小與位置。')}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;$('#hint').classList.toggle('hidden',!showHints)}else if(k==='escape'){$('#help').classList.add('hidden')}});
-createWindows();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
+createWindows();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
 </script></body></html>
