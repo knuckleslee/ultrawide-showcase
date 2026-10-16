@@ -761,6 +761,11 @@
 .git-readme-line.is-list{padding-left:9px;border-left:2px solid #5e91b1}
 .git-live-scroll{scroll-padding-top:8px}
 @container (max-width:410px){.agent-shell .agent-input{margin:6px 8px 4px}.agent-bottom-bar{height:39px;min-height:39px;padding:8px 9px 0}}
+
+/* AI AGENT：正體中文介面及最多兩行的完整提問預覽。 */
+.agent-shell .agent-input #agentPromptLine{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.45;max-height:2.9em;overflow:hidden;text-overflow:ellipsis;overflow-wrap:anywhere}
+.agent-question p{overflow-wrap:anywhere}
+.agent-step-body{font-family:'Segoe UI','Microsoft JhengHei',sans-serif;font-size:11px;line-height:1.6}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -974,7 +979,7 @@ premiere:()=>`<div class="pp-shell">
 </aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions"><span>↶　✂　⌁　|◀　◀</span><button type="button" class="pp-demo-play" aria-label="模擬播放 Premiere 預覽" aria-pressed="false" title="模擬播放／暫停">▶</button><span>▶|　▱　▣　⊕</span><span class="pp-demo-indicator">PAUSED</span></div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
-aiagent:()=>`<div class="agent-shell"><div class="agent-head"><span class="agent-symbol">✧</span><div><b>AI AGENT</b><small>Development assistant · scripted demonstration</small></div><span class="agent-online">● DEMO</span></div><div class="agent-messages" id="agentMessages"><div class="agent-bubble agent-system"><b>UltraWide Studio</b><p>Repository: knuckleslee/ultrawide-showcase</p><small>AI 對話與思考是預先編排的示範，不是真實模型推論。</small></div><div class="agent-welcome">請描述想加入的程式功能。</div><div class="agent-question" id="agentQuestion" hidden><small>YOU · FEATURE REQUEST</small><p>How do I add a five-level font-size switcher to the GitHub panel without affecting other windows?</p></div><div class="agent-thinking" id="agentThinking" hidden><span class="agent-dots">● ● ●</span><b>Thinking…</b><small id="agentThinkDetail">Reviewing current coding workspace…</small></div><div class="agent-answer" id="agentAnswer" hidden><b>Suggested 5-step plan</b><div class="agent-steps" id="agentSteps"></div><div class="agent-finish">Suggested guidance only · manual review required.</div></div></div><div class="agent-input"><span>＋</span><span id="agentPromptLine">Ask how to add a feature…</span><span>➤</span></div><div class="agent-bottom-bar" aria-hidden="true"><span>DEMO MODE · INPUT PREVIEW</span><span>↵</span></div></div>`,
+aiagent:()=>`<div class="agent-shell"><div class="agent-head"><span class="agent-symbol">✧</span><div><b>AI AGENT</b><small>程式開發助理 · 情境示範</small></div><span class="agent-online">● 示範中</span></div><div class="agent-messages" id="agentMessages"><div class="agent-bubble agent-system"><b>UltraWide Studio</b><p>專案儲存庫：knuckleslee/ultrawide-showcase</p><small>這是事先編排的 AI 協作展示，並未實際呼叫模型。</small></div><div class="agent-welcome">請描述想加入的程式功能。</div><div class="agent-question" id="agentQuestion" hidden><small>你的提問 · 新增功能</small><p>請問如何替 GitHub 視窗加入五種字體大小，並確保不會影響其他視窗？</p></div><div class="agent-thinking" id="agentThinking" hidden><span class="agent-dots">● ● ●</span><b>正在分析…</b><small id="agentThinkDetail">檢查目前的程式設計工作區…</small></div><div class="agent-answer" id="agentAnswer" hidden><b>建議修改方案 · 五個步驟</b><div class="agent-steps" id="agentSteps"></div><div class="agent-finish">這是示範用的修改建議；實際套用前仍需人工檢查。</div></div></div><div class="agent-input"><span>＋</span><span id="agentPromptLine">請描述想新增的功能…</span><span>➤</span></div><div class="agent-bottom-bar" aria-hidden="true"><span>示範模式 · 指令輸入預覽</span><span>↵</span></div></div>`,
 editor:()=>`<div class="editor coding-editor"><div class="vscode-bar"><span class="selected">▤</span><span>⌕</span><span>⑂</span><span>⧉</span><span>⚙</span></div><aside class="files-tree">▾ ultrawide-showcase<br>　◈ index.html<br>　▤ news.json<br>　▾ scripts<br>　　<span class="file-selected">◈ fetch_news.py</span><br>　▾ .github<br>　　▾ workflows<br>　　　◈ update-news.yml<br>　▧ README.md<br>　◈ server.py</aside><div class="editor-main"><div class="repo-file-tab">● scripts/fetch_news.py <span>· actual public source</span></div><div id="editorLoadState" class="editor-load-state" role="status">GITHUB · MAIN · FETCH_NEWS.PY · LOADING</div><div class="editor-scroll" id="codingScroll"><div id="realCodeLines" class="real-code-lines"></div><div id="agentCodeChanges" class="agent-code-changes" hidden></div></div><div class="vscode-status"><span>⑂ main　<small id="editorChangeCount">✓ 0</small></span><span>Python　UTF-8　Spaces: 4</span></div></div></div>`,
 terminal:()=>`<div class="terminal coding-terminal"><div><span class="dim">PS projects/ultrawide-showcase &gt;</span> git status</div><div>On branch main</div><div id="codingTerminalStatus">Working tree: demo preview</div><div><span class="dim"># Inserted code in this scene is simulated, not committed.</span></div><div><span class="dim"># Public GitHub source and metadata are loaded separately.</span></div></div>`,
 git:()=>`<div class="git live-github" data-git-font="MD"><div class="git-heading"><span>⑂ GITHUB · LIVE REPOSITORY</span><span class="git-live-badge" id="gitLiveBadge">LOADING</span></div><div class="git-size-controls" role="group" aria-label="GitHub 字級切換"><button type="button" class="git-size-button" data-font-mode="XS">XS</button><button type="button" class="git-size-button" data-font-mode="SM">SM</button><button type="button" class="git-size-button active" data-font-mode="MD" aria-pressed="true">MD</button><button type="button" class="git-size-button" data-font-mode="LG">LG</button><button type="button" class="git-size-button" data-font-mode="XL">XL</button></div><div class="git-live-scroll" id="gitLiveScroll"><div class="git-repo-name" id="gitRepoName">knuckleslee / ultrawide-showcase</div><div class="git-repo-description" id="gitRepoDescription">從 GitHub API 載入實際公開資料…</div><div class="git-repo-stat"><span>⑂ <b id="gitDefaultBranch">main</b></span><span>★ <b id="gitStars">—</b></span><span>⑃ <b id="gitForks">—</b></span></div><div class="git-live-section">PROJECT FILES</div><div id="gitLiveFiles"><div class="git-file">▤　Loading repository files…</div></div><div class="git-live-section" id="gitReadmeHeading">README.md · ACTUAL CONTENT</div><div class="git-readme-excerpt" id="gitReadmeContent" aria-label="GitHub README 原始內容">Loading the project's actual README…</div><div class="git-live-section">REPOSITORY INFO</div><div class="git-repo-stat"><span>Updated</span><b id="gitUpdated">—</b></div></div><a class="repo-link github-external" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ Open GitHub website</a></div>`,
@@ -1173,18 +1178,18 @@ function setupDailyInteractions(){
    messages are explicitly scripted UI demonstrations, not real commits or AI calls. */
 const CODE_REPO='knuckleslee/ultrawide-showcase';
 const AGENT_PLAN=[
- 'Identify the GitHub panel and keep its typography separate from editor and terminal.',
- 'Define five uppercase sizes (XS, SM, MD, LG, XL) in the GitHub panel toolbar.',
- 'Store the selected size in a panel-scoped data-git-font attribute.',
- 'Apply one CSS custom property only to the GitHub panel content, never globally.',
- 'Verify all five modes, scroll behavior, and readability on the 32:9 desktop.'
+ '找出 GitHub 視窗的元件，確認文字樣式與編輯器、終端機彼此獨立。',
+ '在 GitHub 視窗上方加入 XS、SM、MD、LG、XL 五個字級切換按鈕。',
+ '使用視窗自己的 data-git-font 屬性，記錄目前選擇的字級。',
+ '只調整 GitHub 內容區的 CSS 字級變數，避免影響整個桌面的文字。',
+ '逐一測試五種字級，確認 README 捲動、換行與 32:9 畫面都正常。'
 ];
 const AGENT_EDITS=[
- {title:'01 / Define size options',code:"const GITHUB_FONT_MODES = ['XS','SM','MD','LG','XL'];"},
- {title:'02 / Add panel-local state',code:"let githubFontMode = 'MD'; // UI state, not a site-wide setting"},
- {title:'03 / Provide control buttons',code:"const fontButtons = GITHUB_FONT_MODES.map(mode => makeButton(mode));"},
- {title:'04 / Apply only within GitHub',code:"githubPanel.dataset.gitFont = githubFontMode;"},
- {title:'05 / Verify the scoped CSS',code:"// .live-github[data-git-font='XL'] { --git-content-size: 18px; }"}
+ {title:'01／建立五種字級',code:"const GITHUB_FONT_MODES = ['XS','SM','MD','LG','XL'];"},
+ {title:'02／保存視窗字級設定',code:"let githubFontMode = 'MD'; // 僅供 GitHub 視窗使用"},
+ {title:'03／建立切換按鈕',code:"const fontButtons = GITHUB_FONT_MODES.map(mode => makeButton(mode));"},
+ {title:'04／僅調整 GitHub',code:"githubPanel.dataset.gitFont = githubFontMode;"},
+ {title:'05／檢查 CSS 套用範圍',code:"// .live-github[data-git-font='XL'] { --git-content-size: 18px; }"}
 ];
 let codingDemoSaved=null,codingRawSource='';
 function setGitFontMode(mode){
@@ -1300,10 +1305,10 @@ function resetCodingDemo(){
  const question=document.getElementById('agentQuestion'),think=document.getElementById('agentThinking'),answer=document.getElementById('agentAnswer');
  for(const el of [question,think,answer])if(el)el.hidden=true;
  const steps=document.getElementById('agentSteps');if(steps)steps.replaceChildren();
- const prompt=document.getElementById('agentPromptLine');if(prompt)prompt.textContent='Ask how to add a feature…';
+ const prompt=document.getElementById('agentPromptLine');if(prompt)prompt.textContent='請描述想新增的功能…';
  const changes=document.getElementById('agentCodeChanges');if(changes){changes.replaceChildren();changes.hidden=true}
  const count=document.getElementById('editorChangeCount');if(count)count.textContent='✓ 0';
- const terminal=document.getElementById('codingTerminalStatus');if(terminal)terminal.textContent='Working tree: demo preview';
+ const terminal=document.getElementById('codingTerminalStatus');if(terminal)terminal.textContent='目前沒有待套用的示範修改';
 }
 function codingScrollTo(selector,top){
  const el=document.querySelector(selector);if(!el)return;
@@ -1340,7 +1345,7 @@ function alignGitHubReadme(behavior='auto'){
 async function runCodingAuto(id){
  resetCodingDemo();
  setGitFontMode('MD');
- const prompt='How do I add five local font-size options to my GitHub panel?';
+ const prompt='請問如何替 GitHub 視窗加入五種字體大小，並確保不會影響其他視窗？';
  if(!await action(id,'03 / AI 協作程式設計','AI AGENT 模擬收到新增功能的需求，先思考再提出五步修改方案。'))return false;
  if(!await focusAction('aiagent',id))return false;
  const promptLabel=document.getElementById('agentPromptLine');
@@ -1356,7 +1361,7 @@ async function runCodingAuto(id){
  const thinking=document.getElementById('agentThinking');
  const progress=document.getElementById('agentThinkDetail');
  thinking.hidden=false;
- for(const note of ['Reading repository structure…','Checking panel-specific typography…','Preparing a safe five-step implementation plan…']){
+ for(const note of ['正在檢查專案檔案與視窗配置…','正在確認 GitHub 字級設定不會影響其他視窗…','正在整理五個可逐步驗證的修改步驟…']){
   progress.textContent=note;
   codingScrollTo('#agentMessages',document.getElementById('agentMessages').scrollHeight);
   if(!await delay(850,id))return false;
@@ -1392,10 +1397,10 @@ async function runCodingAuto(id){
    body.textContent=snippet.slice(0,k)+'▌';
   }
   body.textContent=snippet;
-  const banner=document.createElement('div');banner.className='editor-demo-note';banner.textContent=AGENT_EDITS[i].title+' · simulated manual edit';
+  const banner=document.createElement('div');banner.className='editor-demo-note';banner.textContent=AGENT_EDITS[i].title+' · 模擬人工編修';
   changes.append(banner);
-  document.getElementById('editorChangeCount').textContent='+ '+(i+1)+' simulated edits';
-  document.getElementById('codingTerminalStatus').textContent='Pending review · '+(i+1)+' / 5 simulated edits';
+  document.getElementById('editorChangeCount').textContent='+ '+(i+1)+' 段示範修改';
+  document.getElementById('codingTerminalStatus').textContent='等待人工檢查 · '+(i+1)+' / 5 段修改';
   codingScrollTo('#codingScroll',scroll.scrollHeight);
   if(!await delay(520,id))return false;
  }
