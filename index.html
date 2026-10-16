@@ -786,14 +786,14 @@
 'use strict';
 const BASE_W=1920,BASE_H=540,RIGHT=1900,BOTTOM=501;
 // These are initial/reset layouts only, matching the user's screenshots.
-// The 01 and 04 main window boundaries both align at x=484 and x=1436.
+// In 01, 03 and 04, the central window starts at x=484 and ends at x=1436.
 // customLayouts clones this map; in Free mode every window remains draggable/resizable.
 const S={daily:[
  ['news',24,62,452,437],['video',484,62,952,437],['notes',1448,62,211,250],['calendar',1448,324,211,175],['chat',1671,62,229,437]
 ],editing:[
  ['premiere',18,54,1884,446]
 ],coding:[
- ['aiagent',24,62,416,437],['editor',452,62,868,437],['git',1332,62,560,244],['terminal',1332,318,560,181]
+ ['aiagent',24,62,448,437],['editor',484,62,952,437],['git',1448,62,452,244],['terminal',1448,318,452,181]
 ],gaming:[
  ['discord',24,62,448,437],['game',484,62,952,437],['bahamut',1448,62,452,437]
 ]};
