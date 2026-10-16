@@ -1098,6 +1098,84 @@ function watchPremiereMonitors(){
  if(desk)premiereResizeObserver.observe(desk);
  arrangePremiereMonitors();
 }
+
+/* Premiere's embedded preview is simulated, but play / pause and timeline
+   really update together. Playback animates each guitarist's pose subtly. */
+let premierePlaybackTimer=null,premiereElapsedSeconds=0,premiereStartedAt=0;
+let premiereResumeAfterTourPause=false;
+function updatePremierePlayback(){
+ const host=windowNodes.premiere;
+ if(!host)return;
+ const elapsed=Math.max(0,premiereElapsedSeconds+(premierePlaybackTimer?(performance.now()-premiereStartedAt)/1000:0));
+ const progress=Math.min(1,elapsed/10);
+ const seconds=Math.floor(17+elapsed),frames=Math.floor(((17+elapsed)%1)*24);
+ const mm=String(Math.floor(seconds/60)).padStart(2,'0');
+ const ss=String(seconds%60).padStart(2,'0');
+ const time='00:'+mm+':'+ss+':'+String(frames).padStart(2,'0');
+ const code=host.querySelector('.pp-program .pp-timecode');
+ const timelineCode=host.querySelector('.pp-timeline-head b');
+ if(code)code.textContent=time;
+ if(timelineCode)timelineCode.textContent=time;
+ const scrub=host.querySelector('.pp-program .pp-scrub-rail i');
+ if(scrub)scrub.style.left=(63+progress*28)+'%';
+ const timeline=host.querySelector('.pp-playhead');
+ if(timeline)timeline.style.left=(38+progress*29)+'%';
+ const effectPlayhead=host.querySelector('.pp-fx-playhead');
+ if(effectPlayhead)effectPlayhead.style.left=(39+progress*23)+'%';
+ const meters=host.querySelectorAll('.pp-meter-level');
+ if(meters.length===2){
+  const a=elapsed*6.3;
+  meters[0].style.height=(53+Math.round(18*Math.abs(Math.sin(a))))+'%';
+  meters[1].style.height=(47+Math.round(24*Math.abs(Math.sin(a+1.3))))+'%';
+ }
+}
+function setPremierePlaying(playing){
+ const host=windowNodes.premiere;
+ if(!host)return;
+ const program=host.querySelector('.pp-program');
+ const button=host.querySelector('.pp-demo-play');
+ if(playing){
+  if(!premierePlaybackTimer){
+   premiereStartedAt=performance.now();
+   premierePlaybackTimer=setInterval(updatePremierePlayback,110);
+  }
+ }else if(premierePlaybackTimer){
+  premiereElapsedSeconds+=(performance.now()-premiereStartedAt)/1000;
+  clearInterval(premierePlaybackTimer);
+  premierePlaybackTimer=null;
+ }
+ program?.classList.toggle('pp-is-playing',!!playing);
+ if(button){
+  button.textContent=playing?'Ⅱ':'▶';
+  button.setAttribute('aria-pressed',String(!!playing));
+  button.setAttribute('aria-label',playing?'暫停模擬 Premiere 預覽':'播放模擬 Premiere 預覽');
+ }
+ const indicator=host.querySelector('.pp-demo-indicator');
+ if(indicator)indicator.textContent=playing?'PLAYING':'PAUSED';
+ updatePremierePlayback();
+}
+function resetPremierePlayback(){
+ setPremierePlaying(false);
+ premiereElapsedSeconds=0;
+ premiereResumeAfterTourPause=false;
+ updatePremierePlayback();
+ const host=windowNodes.premiere;
+ if(host){
+  host.querySelector('.pp-fx-properties')?.style.removeProperty('flex-basis');
+  host.querySelector('.pp-fx-layout')?.classList.remove('pp-demo-resizing');
+  const scale=host.querySelector('[data-pp-scale]');
+  if(scale)scale.textContent='100.0';
+  const meters=host.querySelectorAll('.pp-meter-level');
+  if(meters[0])meters[0].style.height='58%';
+  if(meters[1])meters[1].style.height='72%';
+ }
+}
+function setupPremiereInteractions(){
+ const play=windowNodes.premiere?.querySelector('.pp-demo-play');
+ if(play)play.addEventListener('click',()=>{
+  setPremierePlaying(!premierePlaybackTimer);
+ });
+}
 function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
 }
 function syncTaskbar(){const entries=S[scene],icons=$('#taskicons');icons.innerHTML='';for(const [id] of entries){const b=document.createElement('button');b.className='taskicon';b.title='顯示 '+META[id][0];b.style.background=META[id][2];b.textContent=META[id][1];b.addEventListener('click',()=>{if(mode!=='manual')return;const el=windowNodes[id];el.classList.remove('offscreen');raise(el);if(id==='video')syncEmbeddedVideo(scene);});icons.append(b)}$('#taskLabel').textContent={daily:'日常使用',editing:'影片剪輯',coding:'程式設計',gaming:'遊戲娛樂'}[scene]+' · 工作空間'}
@@ -1122,7 +1200,7 @@ function syncEmbeddedVideo(sceneName){
     stopEmbeddedVideo();
   }
 }
-function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;scene=next;syncEmbeddedVideo(next);$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();}
+function setScene(next,{animation=true,force=false}={}){if(!S[next])return;if(mode==='auto'&&!force)return;if(next!=='editing')resetPremierePlayback();scene=next;syncEmbeddedVideo(next);$$('[data-scene]').forEach(b=>b.classList.toggle('active',b.dataset.scene===scene));for(const [id,el] of Object.entries(windowNodes)){const geom=layoutEntry(id);if(geom){const [,x,y,w,h]=geom;applyGeometry(el,[x,y,w,h],animation);el.classList.remove('offscreen');el.classList.toggle('free',mode==='manual');}else el.classList.add('offscreen');el.classList.remove('spotlight')};syncTaskbar();if(focused&&windowNodes[focused].classList.contains('offscreen'))focused=null;updateFocus();}
 function raise(el){zIndex+=1;el.style.zIndex=zIndex;focused=el.dataset.id;updateFocus()}
 function updateFocus(){for(const [id,el] of Object.entries(windowNodes))el.classList.toggle('focused',focused===id)}
 function attachInteractions(el,id){const header=el.querySelector('.titlebar');header.addEventListener('pointerdown',e=>{if(e.target.closest('.win-controls')||mode!=='manual')return;pointerStart(e,el,'move')});el.querySelector('.resize-grip').addEventListener('pointerdown',e=>{if(mode!=='manual')return;pointerStart(e,el,'resize')});header.addEventListener('dblclick',e=>{if(mode!=='manual'||e.target.closest('.win-controls'))return;toggleMax(el)});el.addEventListener('pointerdown',()=>{if(mode==='manual')raise(el)});el.querySelector('.maximize').addEventListener('click',()=>{if(mode==='manual')toggleMax(el)});el.querySelector('.minimize').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});el.querySelector('.close').addEventListener('click',()=>{if(mode==='manual')el.classList.add('offscreen')});}
@@ -1132,7 +1210,8 @@ function arrange(){if(mode!=='manual')return;if(scene==='editing'){customLayouts
 function resetScene(){if(mode==='auto')return;customLayouts[scene]=clone(S[scene]);Object.keys(maxRestore).forEach(k=>delete maxRestore[k]);setScene(scene,{animation:true});hint('已恢復預設視窗配置。')}
 function hint(s){if(!showHints)return;$('#hintText').textContent=s;$('#hint').classList.remove('hidden')}
 function toast(title,msg){$('#toastTitle').textContent=title;$('#toastBody').textContent=msg;let el=$('#toast');el.classList.remove('hidden','out');setTimeout(()=>el.classList.add('out'),2600);setTimeout(()=>el.classList.add('hidden'),3050)}
-function cursorAt(x,y,ms=740){const cur=$('#guideCursor');cur.style.transitionDuration=`${ms}ms`;cur.style.transform=`translate3d(${x-25}px,${y-25}px,0)`;cur.classList.add('show')}
+/* The pointer's actual SVG arrow tip is (24,14), not the halo center. */
+function cursorAt(x,y,ms=740){const cur=$('#guideCursor');cur.style.transitionDuration=`${ms}ms`;cur.style.transform=`translate3d(${x-24}px,${y-14}px,0)`;cur.classList.add('show')}
 function clickCursor(){const cur=$('#guideCursor');cur.classList.remove('clicking');void cur.offsetWidth;cur.classList.add('clicking');setTimeout(()=>cur.classList.remove('clicking'),450)}
 async function delay(ms,id){let remaining=ms;while(remaining>0){if(runId!==id||mode!=='auto')return false;if(paused){await new Promise(r=>setTimeout(r,100));continue;}let slice=Math.min(100,remaining);await new Promise(r=>setTimeout(r,slice));remaining-=slice}return runId===id&&mode==='auto'}
 async function action(id,title,body){if(!await delay(450,id))return false;hint(body);$('#statusText').textContent=title;return true}
@@ -1159,17 +1238,49 @@ async function focusPremierePanel(panel,id){
  area.classList.remove('pp-auto-focus');
  return true;
 }
-async function advancePremierePlayhead(id){
- const head=windowNodes.premiere?.querySelector('.pp-playhead');
- if(!head)return false;
- cursorAt(customLayouts.editing[0][1]+900,customLayouts.editing[0][2]+348,650);
- if(!await delay(550,id))return false;
- clickCursor();
- head.style.transition='left 1.25s ease-in-out';
- head.style.left='62%';
- if(!await delay(1500,id))return false;
- head.style.left='38%';
- return true;
+async function demoDragPremiereEffects(id){
+ const host=windowNodes.premiere;
+ const fx=host?.querySelector('.pp-fx-layout');
+ const divider=fx?.querySelector('.pp-fx-splitter');
+ const properties=fx?.querySelector('.pp-fx-properties');
+ const scaleValue=fx?.querySelector('[data-pp-scale]');
+ if(!divider||!properties)return false;
+ const oldWidth=properties.getBoundingClientRect().width / ($('#desktop').getBoundingClientRect().width/BASE_W);
+ const {x,y}=demoElementCoords(divider);
+ cursorAt(x,y,620);
+ if(!await delay(750,id))return false;
+ $('#guideCursor').classList.add('dragging');
+ fx.classList.add('pp-demo-resizing');
+ // Slightly drag the divider, expanding Motion/Opacity while narrowing keyframes.
+ const delta=Math.min(48,Math.max(18,fx.clientWidth*.09));
+ properties.style.flexBasis=(oldWidth+delta)+'px';
+ if(scaleValue)scaleValue.textContent='104.0';
+ cursorAt(x+delta,y,900);
+ try{
+  if(!await delay(1300,id))return false;
+  properties.style.flexBasis=(oldWidth+10)+'px';
+  if(scaleValue)scaleValue.textContent='102.0';
+  cursorAt(x+10,y,770);
+  if(!await delay(1000,id))return false;
+  clickCursor();
+  return await delay(400,id);
+ }finally{
+  $('#guideCursor').classList.remove('dragging');
+  fx.classList.remove('pp-demo-resizing');
+ }
+}
+async function demoPremierePlayback(id){
+ if(!await action(id,'模擬影片播放','按下 Premiere 播放鍵，時間碼與 Timeline 播放頭向前；兩位吉他手會微微搖擺、撥弦。'))return false;
+ const play=windowNodes.premiere?.querySelector('.pp-demo-play');
+ if(!play)return false;
+ if(!await demoTap(play,id,400))return false;
+ try{
+  if(!await delay(4300,id))return false;
+  if(!await demoTap(play,id,750))return false;
+  return true;
+ }finally{
+  setPremierePlaying(false);
+ }
 }
 
 /* Guided DOM interactions: cursor is visual, but each click/scroll updates the real mock UI. */
@@ -1276,10 +1387,12 @@ if(!await action(id,'大型預覽與即時色階','Program 占右側約四成，
 if(!await focusPremierePanel('scopes',id))return;
 if(!await focusPremierePanel('source',id))return;
 if(!await focusPremierePanel('effects',id))return;
+if(!await action(id,'拖曳 Effect Controls','游標輕拉參數與關鍵影格面板之間的分隔線，並微調 Scale。'))return;
+if(!await demoDragPremiereEffects(id))return;
 if(!await action(id,'剪輯工作區','左上調整效果與來源，左下直接操作素材和時間軸。'))return;
 if(!await focusPremierePanel('project',id))return;
 if(!await focusPremierePanel('timeline',id))return;
-if(!await advancePremierePlayhead(id))return;
+if(!await demoPremierePlayback(id))return;
 if(!await delay(1100,id))return;
 }else if(sn==='coding'){
 if(!await action(id,'03 / 程式設計','文件、程式編輯、終端機及即時預覽並排。'))return;
@@ -1299,22 +1412,23 @@ if(!await delay(1100,id))return;
 if(!await action(id,'展示完成','四種使用情境展示完畢，即將重新播放。'))return;if(!await delay(1350,id))return;first=false;
 }}
 function setMode(next){if(next===mode){if(next==='auto')togglePause();return}if(next==='auto'){
+resetPremierePlayback();
 stopEmbeddedVideo();
 savedDailyContent=captureDailyState();
 resetDailyForDemo();
 savedFreeLayouts=clone(customLayouts);mode='auto';paused=false;runId++;$('#desktop').classList.replace('manual','demo');$('#autoMode').classList.add('active');$('#freeMode').classList.remove('active');$('#statusDot').classList.remove('off');$('#arrangeBtn').disabled=true;$('#resetBtn').disabled=true;$('#arrangeBtn').style.opacity='.45';$('#resetBtn').style.opacity='.45';$$('.window').forEach(el=>el.classList.remove('free'));hint('自動展示已開始；大游標將帶領視窗切換與重新排列。');const id=runId;runAuto(id);
-}else{mode='manual';runId++;paused=false;$('#guideCursor').classList.remove('show','dragging');$('#desktop').classList.replace('demo','manual');$('#autoMode').classList.remove('active');$('#freeMode').classList.add('active');$('#statusDot').classList.add('off');$('#statusText').textContent='自由操作中';$('#arrangeBtn').disabled=false;$('#resetBtn').disabled=false;$('#arrangeBtn').style.opacity='1';$('#resetBtn').style.opacity='1';// restore the manually arranged workspaces after an automated tour
+}else{mode='manual';runId++;paused=false;resetPremierePlayback();$('#guideCursor').classList.remove('show','dragging');$('#desktop').classList.replace('demo','manual');$('#autoMode').classList.remove('active');$('#freeMode').classList.add('active');$('#statusDot').classList.add('off');$('#statusText').textContent='自由操作中';$('#arrangeBtn').disabled=false;$('#resetBtn').disabled=false;$('#arrangeBtn').style.opacity='1';$('#resetBtn').style.opacity='1';// restore the manually arranged workspaces after an automated tour
 if(savedFreeLayouts){customLayouts=savedFreeLayouts;savedFreeLayouts=null;}
 stopEmbeddedVideo();
 restoreDailyState(savedDailyContent);
 savedDailyContent=null;
 setScene(scene,{animation:false});hint('自由操作：拖曳標題列移動，右下角縮放，內容會依新尺寸自適應。');}}
-function togglePause(){if(mode!=='auto')return;paused=!paused;if(scene==='daily')sendYouTubeCommand(paused?'pauseVideo':'playVideo');$('#statusText').textContent=paused?'已暫停展示':'展示播放中';hint(paused?'自動展示已暫停。按 Space 或「自動展示」繼續。':'自動展示繼續播放。')}
+function togglePause(){if(mode!=='auto')return;paused=!paused;if(scene==='daily')sendYouTubeCommand(paused?'pauseVideo':'playVideo');if(scene==='editing'){if(paused){premiereResumeAfterTourPause=!!premierePlaybackTimer;setPremierePlaying(false)}else if(premiereResumeAfterTourPause){setPremierePlaying(true);premiereResumeAfterTourPause=false}}$('#statusText').textContent=paused?'已暫停展示':'展示播放中';hint(paused?'自動展示已暫停。按 Space 或「自動展示」繼續。':'自動展示繼續播放。')}
 async function toggleFullscreen(){const root=$('#frame');try{if(document.fullscreenElement)await document.exitFullscreen();else await root.requestFullscreen()}catch(err){toast('無法進入全螢幕','請嘗試按 F11，或使用 Chrome / Edge。')}scaleDesktop()}
 function updateClock(){let t=new Date();$('#clock').textContent=new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false}).format(t)}
 window.addEventListener('resize',scaleDesktop);document.addEventListener('fullscreenchange',()=>{scaleDesktop();$('#fullscreenBtn').textContent=document.fullscreenElement?'⛶ 離開全螢幕':'⛶ 全螢幕'});
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true});hint('已切換場景；你可以調整每個視窗的大小與位置。')}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;$('#hint').classList.toggle('hidden',!showHints)}else if(k==='escape'){$('#help').classList.add('hidden')}});
-createWindows();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
+createWindows();setupPremiereInteractions();setupDailyInteractions();watchPremiereMonitors();const sceneParam=new URLSearchParams(location.search).get('scene');const initialScene=S[sceneParam]?sceneParam:'daily';setScene(initialScene,{animation:false});raise(windowNodes[S[initialScene][0][0]]);scaleDesktop();updateClock();setInterval(updateClock,30000);loadNews();
 </script></body></html>
