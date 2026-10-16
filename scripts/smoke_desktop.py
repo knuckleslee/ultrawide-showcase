@@ -34,10 +34,31 @@ class DesktopParser(HTMLParser):
         self.premiere_layouts: set[str] = set()
         self.premiere_panel_order: list[str] = []
         self.premiere_top_rows = 0
+        self.daily_recommendations = 0
+        self.daily_contacts = 0
+        self.daily_todos: list[str] = []
+        self.daily_stories = 0
+        self.calendar_controls: set[str] = set()
+        self.news_reader_present = False
+        self.calendar_dates = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = dict(attrs)
         classes = set((data.get("class") or "").split())
+        if "yt-suggestion" in classes and data.get("data-rec-index") is not None:
+            self.daily_recommendations += 1
+        if "messenger-contact" in classes:
+            self.daily_contacts += 1
+        if "todo-check" in classes:
+            self.daily_todos.append(data.get("aria-checked") or "")
+        if "story" in classes and data.get("data-news-index") is not None:
+            self.daily_stories += 1
+        if "news-article" in classes and data.get("id") == "newsArticle":
+            self.news_reader_present = True
+        if tag == "button" and ("cal-prev" in classes or "cal-next" in classes):
+            self.calendar_controls.add(next(c for c in ("cal-prev", "cal-next") if c in classes))
+        if "cal-days" in classes:
+            self.calendar_dates += 1
         if "pp-top" in classes:
             self.premiere_top_rows += 1
         for name in ("pp-edit-left", "pp-bottom-left", "pp-program-scopes"):
@@ -100,6 +121,16 @@ def main() -> int:
         problems.append(f"Missing scene tabs: {sorted(SCENES - parser.scenes)}")
     if len(parser.youtube_sources) != 1 or "youtube-nocookie.com/embed/dQw4w9WgXcQ" not in parser.youtube_sources[0]:
         problems.append("Daily YouTube iframe missing or using the wrong video")
+    if parser.daily_recommendations != 12:
+        problems.append(f"Expected 12 scrollable YouTube recommendations, got {parser.daily_recommendations}")
+    if parser.daily_contacts < 12:
+        problems.append(f"Expected a scrollable chat list, got {parser.daily_contacts} contacts")
+    if parser.daily_stories < 10 or not parser.news_reader_present:
+        problems.append("Daily news requires 10+ clickable stories and an article reader")
+    if parser.daily_todos != ["true", "true", "false", "false", "false"]:
+        problems.append("Daily to-do checkboxes were not initialized correctly")
+    if parser.calendar_controls != {"cal-prev", "cal-next"} or parser.calendar_dates != 1:
+        problems.append("Calendar pagination controls or generated day grid missing")
 
     # Load the real editing scene through the public ?scene=editing deep link.
     # This catches accidental regressions where the 02 workspace is blank.
