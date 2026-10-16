@@ -403,7 +403,7 @@ def main() -> int:
       const notRestarted=sceneHintTimeout===originalTimer;
       const style=getComputedStyle(tip);
       const relocated=parseFloat(style.top)>=54&&parseFloat(style.right)>=20
-         && style.bottom==='auto'&&style.pointerEvents==='none';
+         && style.pointerEvents==='none';
       setTimeout(()=>{
         const expired=!tip.classList.contains('is-visible')&&sceneHintTimeout===null;
         const originalHints=showHints;
