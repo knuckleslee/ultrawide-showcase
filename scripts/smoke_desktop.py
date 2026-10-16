@@ -301,11 +301,23 @@ def main() -> int:
         && document.getElementById('gitLiveScroll').scrollTop>0
         && readme.children.length>=18;
       const isolatedFont=getComputedStyle(editor).fontSize===editorFont;
+      const agentLocalized=AGENT_PLAN.length===5
+        && AGENT_PLAN.every(text=>/[\u4e00-\u9fff]/.test(text))
+        && AGENT_EDITS.length===5
+        && AGENT_EDITS.every(step=>/[\u4e00-\u9fff]/.test(step.title))
+        && document.querySelector('#agentQuestion')?.textContent.includes('請問如何替 GitHub')
+        && document.querySelector('#agentThinking')?.textContent.includes('正在分析')
+        && document.querySelector('#agentAnswer')?.textContent.includes('建議修改方案');
+      const meaningfulClicksOnly=!focusAction.toString().includes('clickCursor(')
+        && !runAuto.toString().includes('focusPremierePanel(')
+        && runGamingAuto.toString().includes('demoTap(document.getElementById')
+        && demoTap.toString().includes('el.click()');
       const success=clearance>=31 && bannerSeparate && compactBanner
-        && readmeInScroll && isolatedFont;
+        && readmeInScroll && isolatedFont && agentLocalized && meaningfulClicksOnly;
       document.documentElement.setAttribute('data-coding-ui-check',
         success?'pass':'fail:'+JSON.stringify({clearance,bannerSeparate,
-         compactBanner,readmeInScroll,isolatedFont,statusHeight:source.offsetHeight}));
+         compactBanner,readmeInScroll,isolatedFont,agentLocalized,
+         meaningfulClicksOnly,statusHeight:source.offsetHeight}));
     })();
     </script>
     """
