@@ -504,10 +504,10 @@
 .pp-edit-left>.pp-top{grid-column:1;grid-row:1;min-width:0;min-height:0;display:flex;gap:2px}
 .pp-edit-left>.pp-top>.pp-effect-controls{min-width:0;flex:1 1 auto}
 .pp-edit-left>.pp-top>.pp-source{min-width:0;flex:0 0 35%;width:35%}
-.pp-edit-left>.pp-bottom-left{grid-column:1;grid-row:2;min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,32fr) minmax(0,63fr) minmax(19px,5fr);grid-template-rows:minmax(0,1fr);gap:2px;background:#111214}
+.pp-edit-left>.pp-bottom-left{grid-column:1;grid-row:2;min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,32fr) 5px minmax(0,63fr) minmax(19px,5fr);grid-template-rows:minmax(0,1fr);gap:2px;background:#111214}
 .pp-bottom-left>.pp-project{grid-column:1;grid-row:1;min-height:0}
-.pp-bottom-left>.pp-timeline{grid-column:2;grid-row:1;min-width:0;min-height:0}
-.pp-bottom-left>.pp-meter{grid-column:3;grid-row:1;display:flex;min-width:0;min-height:0}
+.pp-bottom-left>.pp-timeline{grid-column:3;grid-row:1;min-width:0;min-height:0}
+.pp-bottom-left>.pp-meter{grid-column:4;grid-row:1;display:flex;min-width:0;min-height:0}
 .pp-panels>.pp-program{grid-column:2;grid-row:1;min-width:0;min-height:0;display:flex;flex-direction:column}
 .pp-source .pp-panel-tabs{height:18px}
 .pp-program .pp-panel-tabs{height:19px}
@@ -553,7 +553,7 @@
  .pp-panels{grid-template-columns:minmax(0,56fr) minmax(0,44fr);grid-template-rows:minmax(0,1fr)}
  .pp-edit-left{grid-template-rows:minmax(0,42fr) minmax(0,58fr)}
  .pp-edit-left>.pp-top{grid-column:1;grid-row:1}
- .pp-bottom-left>.pp-project{display:none}
+ .pp-bottom-left>.pp-project{display:none}.pp-bottom-left>.pp-bottom-splitter{display:none}
  .pp-bottom-left{grid-template-columns:minmax(0,1fr) minmax(18px,24px)}
  .pp-bottom-left>.pp-timeline{grid-column:1;grid-row:1}
  .pp-bottom-left>.pp-meter{grid-column:2;grid-row:1}
@@ -651,6 +651,12 @@
 .pp-fx-layout.pp-demo-resizing .pp-fx-splitter{background:#78b6e8;box-shadow:0 0 10px #48a4d780}
 .pp-fx-layout .pp-fx-properties{transition:flex-basis .85s cubic-bezier(.19,.7,.17,1)}
 .pp-fx-layout.pp-demo-resizing .pp-fx-keyframes{box-shadow:inset 2px 0 #71ace0}
+.pp-bottom-splitter{grid-column:2;grid-row:1;align-self:stretch;min-height:0;border-left:1px solid #78818d5a;background:linear-gradient(90deg,#4c5158,#262b31);cursor:col-resize;z-index:3}
+.pp-bottom-left.pp-demo-resizing .pp-bottom-splitter{background:#78b6e8;box-shadow:0 0 10px #48a4d780}
+.pp-bottom-left.pp-demo-resizing{transition:grid-template-columns 1.45s cubic-bezier(.19,.7,.17,1)}
+.pp-fx-layout.pp-demo-resizing .pp-fx-properties{transition:flex-basis 1.45s cubic-bezier(.19,.7,.17,1)}
+.pp-fx-layout.pp-manual-resizing .pp-fx-properties,.pp-bottom-left.pp-manual-resizing{transition:none}
+@container (max-width:850px){.pp-bottom-left>.pp-bottom-splitter{display:none}}
 .pp-program .pp-shot-svg .pp-actor-one,.pp-program .pp-shot-svg .pp-actor-two{transform-box:fill-box;transform-origin:center center}
 .pp-program .pp-shot-svg .pp-picking-arm-a,.pp-program .pp-shot-svg .pp-picking-arm-b{transform-box:fill-box;transform-origin:center center}
 .pp-program.pp-is-playing .pp-actor-one{animation:pp-musician-one 1.25s ease-in-out infinite alternate}
@@ -1018,6 +1024,7 @@ premiere:()=>`<div class="pp-shell">
 </div>
 <div class="pp-bottom-left">
 <section class="pp-panel pp-project" data-pp-panel="project"><div class="pp-panel-tabs"><span>Project: Lesson</span><span>Media Browser</span><span class="pp-selected">Effects</span><span>Markers</span></div><div class="pp-project-tools">⌕　<input tabindex="-1" placeholder="Search Effects" readonly><span>▤　☰</span></div><div class="pp-effects-list"><div class="pp-effect-category">▾　Video Effects</div><div class="pp-effect-folder">▾　Adjust</div><div class="pp-effect-entry">▣　Auto Color</div><div class="pp-effect-entry">▣　Auto Contrast</div><div class="pp-effect-entry">▣　Levels</div><div class="pp-effect-folder">▾　Blur &amp; Sharpen</div><div class="pp-effect-entry">▣　Gaussian Blur</div><div class="pp-effect-entry">▣　Sharpen</div><div class="pp-effect-folder">▾　Color Correction</div><div class="pp-effect-entry">▣　Lumetri Color</div><div class="pp-effect-folder">▸　Distort</div><div class="pp-effect-folder">▸　Keying</div><div class="pp-effect-category">▸　Audio Effects</div><div class="pp-effect-category">▸　Video Transitions</div></div><div class="pp-project-bottom">▤　Effects　·　Search &amp; apply</div></section>
+<div class="pp-bottom-splitter" aria-label="Effects 與 Timeline 左右分隔線"></div>
 <section class="pp-panel pp-timeline" data-pp-panel="timeline"><div class="pp-panel-tabs"><span class="pp-selected">Lesson</span><span class="pp-ellipses">≡</span></div><div class="pp-timeline-head"><b>00:00:17:09</b><span>↶　☷　♬　⚑　▾</span></div><div class="pp-timeline-editor"><div class="pp-track-ruler"><span>00:00</span><span>00:00:14:23</span><span>00:00:29:23</span><span>00:00:44:22</span><span>00:00:59:22</span><span>00:01:14:22</span></div><div class="pp-tracks">
 <div class="pp-track-row"><div class="pp-track-name">⌁　V3</div><div class="pp-track-content"></div></div>
 <div class="pp-track-row"><div class="pp-track-name">⌁　V2</div><div class="pp-track-content"></div></div>
@@ -1840,7 +1847,10 @@ function resetPremierePlayback(){
  const host=windowNodes.premiere;
  if(host){
   host.querySelector('.pp-fx-properties')?.style.removeProperty('flex-basis');
-  host.querySelector('.pp-fx-layout')?.classList.remove('pp-demo-resizing');
+  host.querySelector('.pp-fx-layout')?.classList.remove('pp-demo-resizing','pp-manual-resizing');
+  const lower=host.querySelector('.pp-bottom-left');
+  lower?.classList.remove('pp-demo-resizing','pp-manual-resizing');
+  lower?.style.removeProperty('grid-template-columns');
   const scale=host.querySelector('[data-pp-scale]');
   if(scale)scale.textContent='100.0';
   const meters=host.querySelectorAll('.pp-meter-level');
@@ -2059,36 +2069,67 @@ async function demoLayout(sceneId,id){if(sceneId==='daily')resetDailyForDemo();c
 async function showcaseDrag(app,id,deltaX,deltaY){let el=windowNodes[app],g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+95,y+14,550);if(!await delay(650,id))return false;$('#guideCursor').classList.add('dragging');const nx=clamp(x+deltaX,0,BASE_W-w),ny=clamp(y+deltaY,51,BOTTOM-h);cursorAt(nx+95,ny+14,950);g.splice(1,4,nx,ny,w,h);raise(el);applyGeometry(el,[nx,ny,w,h],true);if(!await delay(1150,id))return false;$('#guideCursor').classList.remove('dragging');return true}
 async function showcaseResize(app,id,dx,dy){const g=customLayouts[scene].find(a=>a[0]===app);if(!g)return false;let [_,x,y,w,h]=g;cursorAt(x+w-7,y+h-7,600);if(!await delay(710,id))return false;$('#guideCursor').classList.add('dragging');let nw=clamp(w+dx,165,BASE_W-x),nh=clamp(h+dy,105,BOTTOM-y);cursorAt(x+nw-7,y+nh-7,900);g.splice(1,4,x,y,nw,nh);applyGeometry(windowNodes[app],[x,y,nw,nh],true);if(!await delay(1080,id))return false;$('#guideCursor').classList.remove('dragging');return true}
 
+/* Scene 02 demo: resize two different vertical dividers to demonstrate
+   real ultrawide workspace adaptation, not merely move the pointer. */
 async function demoDragPremiereEffects(id){
  const host=windowNodes.premiere;
  const fx=host?.querySelector('.pp-fx-layout');
  const divider=fx?.querySelector('.pp-fx-splitter');
  const properties=fx?.querySelector('.pp-fx-properties');
- const scaleValue=fx?.querySelector('[data-pp-scale]');
- if(!divider||!properties)return false;
- const oldWidth=properties.getBoundingClientRect().width / ($('#desktop').getBoundingClientRect().width/BASE_W);
+ if(!fx||!divider||!properties)return false;
+ if(!await action(id,'上半部左右分隔','將 Effect Controls 與 Keyframes 間的垂直分隔線往右拖，擴大參數面板。'))return false;
+ const scale=$('#desktop').getBoundingClientRect().width/BASE_W;
+ const initial=properties.getBoundingClientRect().width/scale;
+ const target=Math.min(fx.clientWidth-140,Math.max(initial+95,fx.clientWidth*.55));
+ if(target<=initial+10)return true;
  const {x,y}=demoElementCoords(divider);
- cursorAt(x,y,620);
+ cursorAt(x,y,600);
  if(!await delay(750,id))return false;
  $('#guideCursor').classList.add('dragging');
  fx.classList.add('pp-demo-resizing');
- // Slightly drag the divider, expanding Motion/Opacity while narrowing keyframes.
- const delta=Math.min(48,Math.max(18,fx.clientWidth*.09));
- properties.style.flexBasis=(oldWidth+delta)+'px';
- if(scaleValue)scaleValue.textContent='104.0';
- cursorAt(x+delta,y,900);
  try{
-  if(!await delay(1300,id))return false;
-  properties.style.flexBasis=(oldWidth+10)+'px';
-  if(scaleValue)scaleValue.textContent='102.0';
-  cursorAt(x+10,y,770);
-  if(!await delay(1000,id))return false;
-  return await delay(400,id);
+  cursorAt(x+target-initial,y,1450);
+  properties.style.flexBasis=target+'px';
+  if(!await delay(1520,id))return false;
+  return await delay(420,id);
  }finally{
   $('#guideCursor').classList.remove('dragging');
   fx.classList.remove('pp-demo-resizing');
  }
 }
+async function demoDragPremiereTimeline(id){
+ const host=windowNodes.premiere;
+ const lower=host?.querySelector('.pp-bottom-left');
+ const divider=lower?.querySelector('.pp-bottom-splitter');
+ const project=lower?.querySelector('.pp-project');
+ if(!lower||!divider||!project)return false;
+ if(!await action(id,'下半部左右分隔','將 Effects 與 Timeline 間的垂直分隔線往左拖，擴大時間軸。'))return false;
+ if(getComputedStyle(divider).display==='none')return true;
+ const scale=$('#desktop').getBoundingClientRect().width/BASE_W;
+ const initial=project.getBoundingClientRect().width/scale;
+ const target=Math.max(125,Math.min(initial-65,lower.clientWidth*.19));
+ if(target>=initial-10)return true;
+ const columns=w=>w+'px 5px minmax(0,1fr) minmax(19px,5fr)';
+ // Convert the starting grid track to px, allowing an actual animated resize.
+ lower.style.gridTemplateColumns=columns(initial);
+ void lower.offsetWidth;
+ const {x,y}=demoElementCoords(divider);
+ cursorAt(x,y,600);
+ if(!await delay(750,id))return false;
+ $('#guideCursor').classList.add('dragging');
+ lower.classList.add('pp-demo-resizing');
+ try{
+  void lower.offsetWidth;
+  cursorAt(x+target-initial,y,1450);
+  lower.style.gridTemplateColumns=columns(target);
+  if(!await delay(1520,id))return false;
+  return await delay(420,id);
+ }finally{
+  $('#guideCursor').classList.remove('dragging');
+  lower.classList.remove('pp-demo-resizing');
+ }
+}
+
 async function demoPremiereToneCurve(id){
  const program=windowNodes.premiere?.querySelector('.pp-program');
  const node=program?.querySelector('[data-curve-point]');
@@ -2226,8 +2267,9 @@ async function runDailyAuto(id){
 async function runAuto(id){let first=true;while(mode==='auto'&&runId===id){for(const sn of ['daily','editing','coding','gaming']){if(runId!==id||mode!=='auto')return;if(!await demoLayout(sn,id))return;if(sn==='daily'){
 if(!await runDailyAuto(id))return;
 }else if(sn==='editing'){
-if(!await action(id,'02 / Premiere Pro','先拖曳 Effect Controls 分隔線，再讓 Program 預覽持續播放並在播放中調整色階曲線。'))return;
+if(!await action(id,'02 / Premiere Pro','先往右拖動上方分隔線，再往左拖動下方分隔線，接著播放影片並在播放中調整色階曲線。'))return;
 if(!await demoDragPremiereEffects(id))return;
+if(!await demoDragPremiereTimeline(id))return;
 if(!await demoPremierePlayback(id))return;
 if(!await demoPremiereToneCurve(id))return;
 if(!await delay(650,id))return;
