@@ -2109,7 +2109,12 @@ async function demoDragPremiereTimeline(id){
  const initial=project.getBoundingClientRect().width/scale;
  const target=Math.max(125,Math.min(initial-65,lower.clientWidth*.19));
  if(target>=initial-10)return true;
- const columns=w=>w+'px 5px minmax(0,1fr) minmax(19px,5fr)';
+ // Freeze the audio meter at its original narrow width. A 5fr track next to
+ // the timeline's 1fr track made the meter take 5/6 of all spare space.
+ const meter=lower.querySelector('.pp-meter');
+ const actualMeterWidth=meter?.getBoundingClientRect().width/scale||lower.clientWidth*.05;
+ const meterWidth=Math.max(19,Math.min(64,Math.round(actualMeterWidth)));
+ const columns=w=>w+'px 5px minmax(0,1fr) '+meterWidth+'px';
  // Convert the starting grid track to px, allowing an actual animated resize.
  lower.style.gridTemplateColumns=columns(initial);
  void lower.offsetWidth;
