@@ -2180,7 +2180,16 @@ async function startMutedDemoVideo(id){
  return await delay(1100,id);
 }
 async function runDailyAuto(id){
- if(!await action(id,'01 / Google 新聞','實際捲動最新標題，並點開一則新聞預覽。'))return false;
+ if(!await action(id,'YouTube 影片播放','先啟動真正的 YouTube 靜音播放器，再移至左側閱讀新聞，影片在背景持續播放。'))return false;
+ if(!await focusAction('video',id))return false;
+ const player=$('#youtubeFrame');
+ if(player){
+  const pos=demoElementCoords(player);
+  cursorAt(pos.x,pos.y,640);
+ }
+ if(!await startMutedDemoVideo(id))return false;
+
+ if(!await action(id,'01 / Google 新聞','影片持續播放中，移到左側捲動最新標題並開啟一則新聞預覽。'))return false;
  if(!await focusAction('news',id))return false;
  const feed=document.querySelector('.news-main');
  if(!await demoScroll(feed,230,id))return false;
@@ -2192,14 +2201,6 @@ async function runDailyAuto(id){
  if(!await demoTap(row,id,1500))return false;
  if(!await demoTap($('#newsArticle .news-article-close'),id,440))return false;
 
- if(!await action(id,'YouTube 影片播放','啟動真正的 YouTube 靜音播放器，並瀏覽更多示範推薦。'))return false;
- if(!await focusAction('video',id))return false;
- const player=$('#youtubeFrame');
- if(player){
-  const pos=demoElementCoords(player);
-  cursorAt(pos.x,pos.y,640);
- }
- if(!await startMutedDemoVideo(id))return false;
  if(!await action(id,'瀏覽推薦影片','推薦影片擴充為 12 筆，向下捲動右側推薦清單。'))return false;
  if(!await demoScroll(document.querySelector('.yt-next'),180,id))return false;
  if(!await demoScroll(document.querySelector('.yt-next'),185,id))return false;
