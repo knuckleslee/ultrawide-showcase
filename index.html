@@ -836,9 +836,9 @@
 
 /* Show a real index.html JavaScript excerpt, not JS pasted onto Python. */
 .coding-editor .real-code-lines{padding:10px 0 10px;width:max-content;min-width:100%;box-sizing:border-box}
-.coding-editor .source-code-line{height:22px;min-height:22px;display:flex;align-items:center;line-height:22px;white-space:pre;font:12px/22px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace;letter-spacing:0}
-.coding-editor .source-code-line .line-num{flex:0 0 54px;width:54px;box-sizing:border-box;text-align:right;padding:0 14px 0 5px;color:#69869e;font:11px/22px Consolas,monospace;user-select:none}
-.coding-editor .source-code-line .line-text{white-space:pre;color:#d1e3f1;min-width:0;padding-right:16px;tab-size:2;font:12px/22px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace}
+.coding-editor .source-code-line{height:21px;min-height:21px;display:flex;align-items:center;line-height:21px;white-space:pre;font:11px/21px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace;letter-spacing:0}
+.coding-editor .source-code-line .line-num{flex:0 0 54px;width:54px;box-sizing:border-box;text-align:right;padding:0 14px 0 5px;color:#69869e;font:10px/21px Consolas,monospace;user-select:none}
+.coding-editor .source-code-line .line-text{white-space:pre;color:#d1e3f1;min-width:0;padding-right:16px;tab-size:2;font:11px/21px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace}
 .coding-editor .source-code-line.demo-added{border-left:3px solid #4fb684;background:#194936}
 .coding-editor .source-code-line.demo-added .line-text{color:#baf0d0}
 .coding-editor .editor-scroll{scroll-padding-top:65px;scroll-padding-bottom:95px}
@@ -1611,10 +1611,10 @@ async function runCodingAuto(id){
  if(!await action(id,'XS → SM → MD → LG → XL','保持真實 README 文字可見，只有右上 GitHub 視窗中的文字會改變大小。'))return false;
  for(const mode of ['XS','SM','MD','LG','XL']){
   const button=document.querySelector('.git-size-button[data-font-mode="'+mode+'"]');
-  if(!await demoTap(button,id,900))return false;
-  // Enlarging the text must not push the README demonstration out of view.
+  if(!await demoTap(button,id,0))return false;
+  // Keep the README visible while holding each font size for three seconds.
   alignGitHubReadme('smooth');
-  if(!await delay(440,id))return false;
+  if(!await delay(3000,id))return false;
  }
  return await delay(650,id);
 }
