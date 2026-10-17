@@ -836,9 +836,9 @@
 
 /* Show a real index.html JavaScript excerpt, not JS pasted onto Python. */
 .coding-editor .real-code-lines{padding:10px 0 10px;width:max-content;min-width:100%;box-sizing:border-box}
-.coding-editor .source-code-line{height:21px;min-height:21px;display:flex;align-items:center;line-height:21px;white-space:pre;font:11px/21px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace;letter-spacing:0}
-.coding-editor .source-code-line .line-num{flex:0 0 54px;width:54px;box-sizing:border-box;text-align:right;padding:0 14px 0 5px;color:#69869e;font:10px/21px Consolas,monospace;user-select:none}
-.coding-editor .source-code-line .line-text{white-space:pre;color:#d1e3f1;min-width:0;padding-right:16px;tab-size:2;font:11px/21px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace}
+.coding-editor .source-code-line{height:18px;min-height:18px;display:flex;align-items:center;line-height:18px;white-space:pre;font:9px/18px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace;letter-spacing:0}
+.coding-editor .source-code-line .line-num{flex:0 0 54px;width:54px;box-sizing:border-box;text-align:right;padding:0 14px 0 5px;color:#69869e;font:9px/18px Consolas,monospace;user-select:none}
+.coding-editor .source-code-line .line-text{white-space:pre;color:#d1e3f1;min-width:0;padding-right:16px;tab-size:2;font:9px/18px 'Cascadia Code',Consolas,'Microsoft JhengHei',monospace}
 .coding-editor .source-code-line.demo-added{border-left:3px solid #4fb684;background:#194936}
 .coding-editor .source-code-line.demo-added .line-text{color:#baf0d0}
 .coding-editor .editor-scroll{scroll-padding-top:65px;scroll-padding-bottom:95px}
@@ -1721,13 +1721,19 @@ async function runGamingAuto(id){
  const discord=document.querySelector('.discord2-channel-scroll');
  if(!await demoScroll(discord,155,id))return false;
  if(!await demoScroll(discord,125,id))return false;
- if(!await action(id,'巴哈姆特哈啦區','接著捲動右側哈啦區，瀏覽更多遊戲討論。'))return false;
+ if(!await action(id,'巴哈姆特哈啦區','捲動更多遊戲討論文章，讓中央遊戲影片持續播放。'))return false;
  if(!await focusAction('bahamut',id))return false;
  const forum=document.querySelector('.baha2-scroll');
- if(!await demoScroll(forum,230,id))return false;
- if(!await demoScroll(forum,220,id))return false;
- resetGameVideo();
- return await delay(650,id);
+ if(!forum)return false;
+ const maxScroll=Math.max(0,forum.scrollHeight-forum.clientHeight);
+ const steps=7;
+ for(let step=1;step<=steps;step++){
+  const target=maxScroll*step/steps;
+  if(!await demoScroll(forum,Math.max(0,target-forum.scrollTop),id))return false;
+ }
+ // Do not stop the game video just because the forum has finished scrolling.
+ // It is cleaned up when the following scene starts.
+ return await delay(1600,id);
 }
 
 function scaleDesktop(){let vw=innerWidth,vh=innerHeight;let s=Math.min(vw/BASE_W,vh/BASE_H);$('#desktop').style.transform=`scale(${s})`;}
@@ -1779,7 +1785,7 @@ function updatePremierePlayback(){
  const host=windowNodes.premiere;
  if(!host)return;
  const elapsed=Math.max(0,premiereElapsedSeconds+(premierePlaybackTimer?(performance.now()-premiereStartedAt)/1000:0));
- const progress=Math.min(1,elapsed/10);
+ const progress=(elapsed%16)/16;
  const seconds=Math.floor(17+elapsed),frames=Math.floor(((17+elapsed)%1)*24);
  const mm=String(Math.floor(seconds/60)).padStart(2,'0');
  const ss=String(seconds%60).padStart(2,'0');
@@ -1961,7 +1967,25 @@ function setupPremiereInteractions(){
  });
  setupPremiereCurveInteractions();
 }
-function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
+/* Scene 04 demo-only topics: not live Bahamut content. */
+const BAHA_DEMO_TOPICS=[["心得","【心得】重玩音速小子世代的關卡設計","高速路線與隱藏捷徑的觀察","18 / 362","10-16 16:22"],["攻略","【攻略】各區域紅星環收集路線整理","整理容易漏掉的收集位置","26 / 821","10-16 15:47"],["討論","【討論】最喜歡哪一代的關卡音樂？","分享記憶中的經典配樂","42 / 1260","10-16 14:36"],["情報","【情報】系列遊戲近期活動彙整","整理玩家關注的活動話題","7 / 534","10-16 13:18"],["問題","【問題】手把按鍵配置有推薦方案嗎？","提升高速操作與跳躍手感","5 / 103","10-16 12:09"],["創作","【創作】自製刺蝟角色像素動態圖","分享練習中的逐格動畫作品","21 / 745","10-16 10:52"],["心得","【心得】經典二維與現代三維玩法比較","兩種遊玩節奏各有特色","31 / 903","10-16 09:28"],["攻略","【攻略】高速關卡如何穩定保持連擊","轉彎、跳板及空中動作練習","12 / 407","10-15 22:46"],["討論","【討論】如果新增合作模式會怎麼玩？","交換雙人合作的遊玩構想","16 / 589","10-15 21:14"],["情報","【情報】角色設定資料與舊版插圖整理","收集歷年美術設計參考","8 / 268","10-15 19:33"],["問題","【問題】PC 版畫面更新率怎麼設定？","全螢幕與同步選項的差別","10 / 336","10-15 18:01"],["心得","【心得】第一次挑戰全收集的紀錄","分享收集進度與遇到的難點","14 / 511","10-15 16:40"],["創作","【創作】自己畫的角色桌布分享串","不同螢幕比例的背景作品","24 / 937","10-15 13:25"],["攻略","【攻略】頭目戰的迴避時機與技巧","整理招式與安全區域","19 / 702","10-15 11:08"],["討論","【討論】你會選速度型還是探索型？","哪種遊玩節奏比較有趣","37 / 1208","10-14 23:16"],["情報","【情報】系列歷代作品時間線整理","依年代回顧各版本特色","9 / 482","10-14 20:43"],["心得","【心得】懷舊關卡設計的細節觀察","從配色特效到背景層次","15 / 650","10-14 17:32"],["攻略","【攻略】初學者的操作練習清單","由簡單動作練習高速控制","11 / 398","10-14 15:05"]];
+function populateBahaDemoThreads(windowEl){
+ const list=windowEl.querySelector('.baha2-threads');
+ if(!list)return;
+ const fragment=document.createDocumentFragment();
+ for(const [type,title,summary,count,date] of BAHA_DEMO_TOPICS){
+  const row=document.createElement('div');
+  row.className='baha2-thread';
+  row.innerHTML='<div class="baha2-type">'+escapeHTML(type)+'</div>'+
+   '<div class="baha2-threadmain"><div class="baha2-threadtitle">'+escapeHTML(title)+'</div>'+
+   '<div class="baha2-threadsub">'+escapeHTML(summary)+'</div></div>'+
+   '<div class="baha2-count">'+escapeHTML(count)+'</div>'+
+   '<div class="baha2-last">'+escapeHTML(date)+'<small>demo_player</small></div>';
+  fragment.append(row);
+ }
+ list.append(fragment);
+}
+function createWindows(){for(const [id,info] of Object.entries(META)){const el=document.createElement('article');el.className='window offscreen';el.dataset.id=id;el.innerHTML=`<div class="titlebar"><div class="app-ico" style="background:${info[2]}">${info[1]}</div><span class="window-title">${info[0]}</span><div class="win-controls"><span class="minimize" title="最小化">−</span><span class="maximize" title="最大化或還原">□</span><span class="close" title="關閉">×</span></div></div><div class="window-content">${apps[id]()}</div><div class="resize-grip"></div>`;$('#windows').append(el);windowNodes[id]=el;if(id==='bahamut')populateBahaDemoThreads(el);attachInteractions(el,id);if(id==='video'){for(const selector of ['.minimize','.close'])el.querySelector(selector).addEventListener('click',stopEmbeddedVideo)}}
 }
 function syncTaskbar(){const entries=S[scene],icons=$('#taskicons');icons.innerHTML='';for(const [id] of entries){const b=document.createElement('button');b.className='taskicon';b.title='顯示 '+META[id][0];b.style.background=META[id][2];b.textContent=META[id][1];b.addEventListener('click',()=>{if(mode!=='manual')return;const el=windowNodes[id];el.classList.remove('offscreen');raise(el);if(id==='video')syncEmbeddedVideo(scene);});icons.append(b)}$('#taskLabel').textContent={daily:'日常使用',editing:'影片剪輯',coding:'程式設計',gaming:'遊戲娛樂'}[scene]+' · 工作空間'}
 
@@ -2092,17 +2116,13 @@ async function demoPremiereToneCurve(id){
 }
 
 async function demoPremierePlayback(id){
- if(!await action(id,'模擬影片播放','按下 Premiere 播放鍵，鏡頭推近，吉他手會更明顯地擺動、點頭與撥弦；時間碼與播放頭同步前進。'))return false;
+ if(!await action(id,'模擬影片播放','按下 Premiere 播放鍵後持續播放，接著直接在播放中的畫面調整 Lumetri 色階曲線。'))return false;
  const play=windowNodes.premiere?.querySelector('.pp-demo-play');
  if(!play)return false;
  if(!await demoTap(play,id,400))return false;
- try{
-  if(!await delay(4300,id))return false;
-  if(!await demoTap(play,id,750))return false;
-  return true;
- }finally{
-  setPremierePlaying(false);
- }
+ // The Program preview continues to play through the tone-curve demonstration.
+ // setScene() stops and resets it when the tour leaves scene 02.
+ return await delay(2200,id);
 }
 
 /* Guided DOM interactions: cursor is visual, but each click/scroll updates the real mock UI. */
@@ -2205,7 +2225,7 @@ async function runDailyAuto(id){
 async function runAuto(id){let first=true;while(mode==='auto'&&runId===id){for(const sn of ['daily','editing','coding','gaming']){if(runId!==id||mode!=='auto')return;if(!await demoLayout(sn,id))return;if(sn==='daily'){
 if(!await runDailyAuto(id))return;
 }else if(sn==='editing'){
-if(!await action(id,'02 / Premiere Pro','簡化操作：先拖曳 Effect Controls 分隔線，再實際播放與暫停 Program 預覽。'))return;
+if(!await action(id,'02 / Premiere Pro','先拖曳 Effect Controls 分隔線，再讓 Program 預覽持續播放並在播放中調整色階曲線。'))return;
 if(!await demoDragPremiereEffects(id))return;
 if(!await demoPremierePlayback(id))return;
 if(!await demoPremiereToneCurve(id))return;
