@@ -749,9 +749,10 @@
 .git-heading{flex:none;padding:10px;display:flex;align-items:center;justify-content:space-between;background:#172838;color:#cdd7e4;font-size:11px;gap:6px;font-weight:800}
 .git-live-badge{color:#ffe4a5;background:#493f2e;font-size:9px;border-radius:4px;padding:2px 5px}
 .git-live-badge.live{background:#174636;color:#a9e9cb}
-.git-size-controls{flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:7px 10px;background:#1d2939}
+.git-size-controls{flex:none;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;padding:7px 10px;background:#1d2939}
 .git-size-button{border:1px solid #637288;color:#bfcee2;background:#2a3546;border-radius:5px;cursor:pointer;font:bold 10px Consolas,monospace;padding:5px 0}
 .git-size-button.active,.git-size-button:focus-visible{background:#3b78ad;color:white;border-color:#8fc8f5}
+.git-size-button:disabled{opacity:.38;cursor:default}
 .git-live-scroll{min-height:0;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain;flex:1;padding:8px 10px;font-size:var(--git-content-size);transition:font-size .3s}
 .git-repo-name{font-size:1.1em;font-weight:800;color:#dbedff;overflow-wrap:anywhere}
 .git-repo-description{color:#a6c2d5;margin:7px 0;font-size:.92em;line-height:1.4}
@@ -1115,7 +1116,7 @@ editor:()=>`<div class="editor coding-editor" data-editor-font="MD">
 <div class="vscode-status"><span>⑂ main　<small id="editorChangeCount">✓ 未修改</small></span><span>JavaScript　UTF-8　Spaces: 2</span></div>
 </div></div>`,
 terminal:()=>`<div class="terminal coding-terminal"><div><span class="dim">PS projects/ultrawide-showcase &gt;</span> git status</div><div>On branch main</div><div id="codingTerminalStatus">Working tree: demo preview</div><div><span class="dim"># Inserted code in this scene is simulated, not committed.</span></div><div><span class="dim"># Public GitHub source and metadata are loaded separately.</span></div></div>`,
-git:()=>`<div class="git live-github"><div class="git-heading"><span>⑂ GITHUB · LIVE REPOSITORY</span><span class="git-live-badge" id="gitLiveBadge">LOADING</span></div><div class="git-font-target">調整中央 VS Code 程式碼字級</div><div class="git-size-controls" role="group" aria-label="調整中央 VS Code 的程式碼字體大小"><button type="button" class="git-size-button" data-font-mode="XS">XS</button><button type="button" class="git-size-button" data-font-mode="SM">SM</button><button type="button" class="git-size-button active" data-font-mode="MD" aria-pressed="true">MD</button><button type="button" class="git-size-button" data-font-mode="LG">LG</button><button type="button" class="git-size-button" data-font-mode="XL">XL</button></div><div class="git-live-scroll" id="gitLiveScroll"><div class="git-repo-name" id="gitRepoName">knuckleslee / ultrawide-showcase</div><div class="git-repo-description" id="gitRepoDescription">從 GitHub API 載入實際公開資料…</div><div class="git-repo-stat"><span>⑂ <b id="gitDefaultBranch">main</b></span><span>★ <b id="gitStars">—</b></span><span>⑃ <b id="gitForks">—</b></span></div><div class="git-live-section">PROJECT FILES</div><div id="gitLiveFiles"><div class="git-file">▤　Loading repository files…</div></div><div class="git-live-section" id="gitReadmeHeading">README.md · ACTUAL CONTENT</div><div class="git-readme-excerpt" id="gitReadmeContent" aria-label="GitHub README 原始內容">Loading the project's actual README…</div><div class="git-live-section">REPOSITORY INFO</div><div class="git-repo-stat"><span>Updated</span><b id="gitUpdated">—</b></div></div><a class="repo-link github-external" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ Open GitHub website</a></div>`,
+git:()=>`<div class="git live-github"><div class="git-heading"><span>⑂ GITHUB · LIVE REPOSITORY</span><span class="git-live-badge" id="gitLiveBadge">LOADING</span></div><div class="git-font-target">調整中央 VS Code 程式碼字級</div><div class="git-size-controls" role="group" aria-label="調整中央 VS Code 的程式碼字體大小"><button type="button" class="git-size-button" data-font-step="-1" aria-label="縮小 VS Code 程式碼字級 1 像素" title="縮小 1px">−</button><button type="button" class="git-size-button" data-font-mode="XS">XS</button><button type="button" class="git-size-button" data-font-mode="SM">SM</button><button type="button" class="git-size-button active" data-font-mode="MD" aria-pressed="true">MD</button><button type="button" class="git-size-button" data-font-mode="LG">LG</button><button type="button" class="git-size-button" data-font-mode="XL">XL</button><button type="button" class="git-size-button" data-font-step="1" aria-label="放大 VS Code 程式碼字級 1 像素" title="放大 1px">+</button></div><div class="git-live-scroll" id="gitLiveScroll"><div class="git-repo-name" id="gitRepoName">knuckleslee / ultrawide-showcase</div><div class="git-repo-description" id="gitRepoDescription">從 GitHub API 載入實際公開資料…</div><div class="git-repo-stat"><span>⑂ <b id="gitDefaultBranch">main</b></span><span>★ <b id="gitStars">—</b></span><span>⑃ <b id="gitForks">—</b></span></div><div class="git-live-section">PROJECT FILES</div><div id="gitLiveFiles"><div class="git-file">▤　Loading repository files…</div></div><div class="git-live-section" id="gitReadmeHeading">README.md · ACTUAL CONTENT</div><div class="git-readme-excerpt" id="gitReadmeContent" aria-label="GitHub README 原始內容">Loading the project's actual README…</div><div class="git-live-section">REPOSITORY INFO</div><div class="git-repo-stat"><span>Updated</span><b id="gitUpdated">—</b></div></div><a class="repo-link github-external" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ Open GitHub website</a></div>`,
 discord:()=>`<div class="discord2">
 <div class="discord2-serverbar"><div class="discord2-home">◉</div><div class="discord2-separator"></div><div class="discord2-server selected">遊</div><div class="discord2-server blue">朋</div><div class="discord2-server green">＋</div><div class="discord2-server outline">⌕</div></div>
 <div class="discord2-channels">
@@ -1328,24 +1329,54 @@ const AGENT_EDITS=[
 ];
 let codingDemoSaved=null,codingRawSource='',codingSourceStartLine=1,codingViewLines=[],codingDemoCompleted=0;
 /* Repository controls adjust only central VS Code text; GitHub font stays fixed. */
-function setGitFontMode(mode){
- const allowed=['XS','SM','MD','LG','XL'];
- if(!allowed.includes(mode))return;
- const editor=windowNodes.editor?.querySelector('.coding-editor');
+const VSCODE_FONT_PRESETS=Object.freeze({XS:9,SM:10,MD:12,LG:15,XL:18});
+const VSCODE_FONT_MIN=6,VSCODE_FONT_MAX=30;
+function syncGitFontControls(mode,size){
  const panel=windowNodes.git?.querySelector('.live-github');
- if(!editor||!panel)return;
- editor.dataset.editorFont=mode;
- panel.querySelectorAll('.git-size-button').forEach(button=>{
+ if(!panel)return;
+ panel.querySelectorAll('.git-size-button[data-font-mode]').forEach(button=>{
   const active=button.dataset.fontMode===mode;
   button.classList.toggle('active',active);
   button.setAttribute('aria-pressed',String(active));
  });
+ panel.querySelectorAll('.git-size-button[data-font-step]').forEach(button=>{
+  button.disabled=button.dataset.fontStep==='-1'?size<=VSCODE_FONT_MIN:size>=VSCODE_FONT_MAX;
+ });
+}
+function setGitFontMode(mode){
+ if(!Object.hasOwn(VSCODE_FONT_PRESETS,mode))return;
+ const editor=windowNodes.editor?.querySelector('.coding-editor');
+ if(!editor)return;
+ editor.style.removeProperty('--vscode-code-size');
+ editor.dataset.editorFont=mode;
+ syncGitFontControls(mode,VSCODE_FONT_PRESETS[mode]);
+}
+function setGitFontSize(size){
+ const editor=windowNodes.editor?.querySelector('.coding-editor');
+ if(!editor||!Number.isFinite(size))return;
+ const next=Math.max(VSCODE_FONT_MIN,Math.min(VSCODE_FONT_MAX,Math.round(size)));
+ const preset=Object.keys(VSCODE_FONT_PRESETS).find(mode=>VSCODE_FONT_PRESETS[mode]===next);
+ if(preset){setGitFontMode(preset);return}
+ editor.style.setProperty('--vscode-code-size',next+'px');
+ editor.dataset.editorFont='CUSTOM';
+ syncGitFontControls(null,next);
+}
+function adjustGitFontSize(step){
+ const editor=windowNodes.editor?.querySelector('.coding-editor');
+ if(!editor)return;
+ const current=parseFloat(getComputedStyle(editor).getPropertyValue('--vscode-code-size'))||VSCODE_FONT_PRESETS.MD;
+ setGitFontSize(current+step);
 }
 function setupCodingInteractions(){
  const panel=windowNodes.git?.querySelector('.live-github');
- if(panel)panel.querySelectorAll('.git-size-button').forEach(button=>{
-  button.addEventListener('click',()=>setGitFontMode(button.dataset.fontMode));
- });
+ if(panel){
+  panel.querySelectorAll('.git-size-button[data-font-mode]').forEach(button=>{
+   button.addEventListener('click',()=>setGitFontMode(button.dataset.fontMode));
+  });
+  panel.querySelectorAll('.git-size-button[data-font-step]').forEach(button=>{
+   button.addEventListener('click',()=>adjustGitFontSize(Number(button.dataset.fontStep)));
+  });
+ }
  // Use the page's own real JavaScript until its full index.html is fetched.
  // This works even for local previews without any external network access.
  const embeddedScript=document.currentScript?.textContent ||
@@ -1509,14 +1540,17 @@ function codingScrollTo(selector,top){
  el.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
 function captureCodingState(){
- return {font:document.querySelector('.coding-editor')?.dataset.editorFont||'MD',
+ const editor=document.querySelector('.coding-editor');
+ return {font:editor?.dataset.editorFont||'MD',
+  fontSize:editor?parseFloat(getComputedStyle(editor).getPropertyValue('--vscode-code-size')):VSCODE_FONT_PRESETS.MD,
   agentScroll:document.getElementById('agentMessages')?.scrollTop||0,
   editorScroll:document.getElementById('codingScroll')?.scrollTop||0,
   githubScroll:document.getElementById('gitLiveScroll')?.scrollTop||0};
 }
 function restoreCodingState(snapshot){
  resetCodingDemo();
- setGitFontMode(snapshot?.font||'MD');
+ if(snapshot?.font==='CUSTOM')setGitFontSize(snapshot.fontSize);
+ else setGitFontMode(snapshot?.font||'MD');
  for(const [key,scroll] of [['agentMessages',snapshot?.agentScroll],['codingScroll',snapshot?.editorScroll],['gitLiveScroll',snapshot?.githubScroll]]){
   const el=document.getElementById(key);
   if(el){el.style.scrollBehavior='auto';el.scrollTop=scroll||0;requestAnimationFrame(()=>{if(el.isConnected)el.style.scrollBehavior=''})}
@@ -1644,7 +1678,7 @@ async function runCodingAuto(id){
   if(!await demoTap(button,id,0))return false;
   // Re-centre the same code line as the font size changes, not the GitHub README.
   if(anchorRow?.isConnected)scrollEditorRowIntoView(anchorRow,'smooth');
-  if(!await delay(3000,id))return false;
+  if(!await delay(2000,id))return false;
  }
  return await delay(650,id);
 }
