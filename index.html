@@ -1408,7 +1408,15 @@ function renderRealSource(source,{embedded=false}={}){
  const lines=source.split(/\r?\n/);
  const idx=lines.findIndex(line=>line.trim()==='function setGitFontMode(mode){');
  if(idx<0)return false;
- const first=Math.max(0,idx-1),last=Math.min(lines.length,idx+38);
+ // Include complete helper functions instead of an arbitrary 38-line slice.
+ // Otherwise the preview can start with a stray "}" and the browser smoke test
+ // rejects the rendered JavaScript excerpt after new helpers are inserted.
+ const blockStart=lines.findIndex((line,i)=>i<idx&&
+  line.trim()==='/* Repository controls adjust only central VS Code text; GitHub font stays fixed. */');
+ const blockEnd=lines.findIndex((line,i)=>i>idx&&
+  line.startsWith('/* Display real, contiguous source lines'));
+ const first=blockStart>=0?blockStart:Math.max(0,idx-1);
+ const last=blockEnd>idx?blockEnd:Math.min(lines.length,idx+75);
  codingRawSource=source;
  codingSourceStartLine=first+1;
  codingViewLines=lines.slice(first,last).map(text=>({text,added:false}));
