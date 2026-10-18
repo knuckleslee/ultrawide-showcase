@@ -376,14 +376,20 @@ def main() -> int:
       const sourceBefore=sourceLine?parseFloat(getComputedStyle(sourceLine).fontSize):0;
       const repoFontBefore=parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize);
       const repoTextBefore=parseFloat(getComputedStyle(document.querySelector('.git-readme-line')).fontSize);
-      setGitFontMode('XL');
-      const sourceXL=sourceLine?parseFloat(getComputedStyle(sourceLine).fontSize):0;
+      const fontSizes=['XS','SM','MD','LG','XL'].map(mode=>{
+        const button=document.querySelector('.git-size-button[data-font-mode="'+mode+'"]');
+        button?.click(); // Real click-handler exercise, not calling the state helper directly.
+        return sourceLine?parseFloat(getComputedStyle(sourceLine).fontSize):0;
+      });
+      const sourceXL=fontSizes[4];
       const repoFontAfter=parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize);
       const repoTextAfter=parseFloat(getComputedStyle(document.querySelector('.git-readme-line')).fontSize);
+      const fiveDistinctSizes=fontSizes.every((size,i)=>size>0&&(i===0||size>fontSizes[i-1]))
+        && fontSizes[0]<sourceBefore && fontSizes[4]>sourceBefore;
       const readmeInScroll=readme.children.length>=18 && !!document.getElementById('gitReadmeHeading');
       const isolatedFont=github.dataset.gitFont===undefined
         && document.querySelector('.coding-editor')?.dataset.editorFont==='XL'
-        && sourceXL>sourceBefore+2
+        && fiveDistinctSizes && sourceXL>sourceBefore+2
         && repoFontAfter===repoFontBefore && repoTextAfter===repoTextBefore
         && document.querySelector('.git-size-button[data-font-mode="XL"]')?.classList.contains('active');
       setGitFontMode('MD');
