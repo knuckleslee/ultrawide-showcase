@@ -40,6 +40,7 @@ class DesktopParser(HTMLParser):
         self.daily_recommendations = 0
         self.daily_contacts = 0
         self.daily_todos: list[str] = []
+        self.daily_todo_labels: list[str] = []
         self.daily_stories = 0
         self.calendar_controls: set[str] = set()
         self.news_reader_present = False
@@ -107,6 +108,7 @@ class DesktopParser(HTMLParser):
             self.daily_contacts += 1
         if "todo-check" in classes:
             self.daily_todos.append(data.get("aria-checked") or "")
+            self.daily_todo_labels.append(data.get("aria-label") or "")
         if "story" in classes and data.get("data-news-index") is not None:
             self.daily_stories += 1
         if "news-article" in classes and data.get("id") == "newsArticle":
@@ -195,6 +197,8 @@ def main() -> int:
         problems.append("Daily news requires 10+ clickable stories and an article reader")
     if parser.daily_todos != ["true", "true", "false", "false", "false"]:
         problems.append("Daily to-do checkboxes were not initialized correctly")
+    if len(parser.daily_todo_labels) < 3 or parser.daily_todo_labels[2] != "出門買螢幕":
+        problems.append("Daily third task must be 出門買螢幕")
     if parser.calendar_controls != {"cal-prev", "cal-next"} or parser.calendar_dates != 1:
         problems.append("Calendar pagination controls or generated day grid missing")
 
@@ -368,14 +372,21 @@ def main() -> int:
       const compactBanner=parseFloat(statusStyle.fontSize)<=11
         && (statusStyle.letterSpacing==='normal'||parseFloat(statusStyle.letterSpacing)===0)
         && source.offsetHeight<=27;
-      const editorFont=getComputedStyle(editor).fontSize;
-      alignGitHubReadme('instant');
+      const sourceLine=document.querySelector('#realCodeLines .source-code-line .line-text');
+      const sourceBefore=sourceLine?parseFloat(getComputedStyle(sourceLine).fontSize):0;
+      const repoFontBefore=parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize);
+      const repoTextBefore=parseFloat(getComputedStyle(document.querySelector('.git-readme-line')).fontSize);
       setGitFontMode('XL');
-      alignGitHubReadme('instant');
-      const readmeInScroll=github.dataset.gitFont==='XL'
-        && document.getElementById('gitLiveScroll').scrollTop>0
-        && readme.children.length>=18;
-      const isolatedFont=getComputedStyle(editor).fontSize===editorFont;
+      const sourceXL=sourceLine?parseFloat(getComputedStyle(sourceLine).fontSize):0;
+      const repoFontAfter=parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize);
+      const repoTextAfter=parseFloat(getComputedStyle(document.querySelector('.git-readme-line')).fontSize);
+      const readmeInScroll=readme.children.length>=18 && !!document.getElementById('gitReadmeHeading');
+      const isolatedFont=github.dataset.gitFont===undefined
+        && document.querySelector('.coding-editor')?.dataset.editorFont==='XL'
+        && sourceXL>sourceBefore+2
+        && repoFontAfter===repoFontBefore && repoTextAfter===repoTextBefore
+        && document.querySelector('.git-size-button[data-font-mode="XL"]')?.classList.contains('active');
+      setGitFontMode('MD');
       const agentLocalized=AGENT_PLAN.length===5
         && AGENT_PLAN.every(text=>/[\u4e00-\u9fff]/.test(text))
         && AGENT_EDITS.length===5
@@ -500,8 +511,8 @@ def main() -> int:
           && rows.every(row=>!row.textContent.includes('模擬人工編修'));
         const correctFile=document.querySelector('.repo-file-tab')?.textContent.includes('index.html')
           && before.includes('function setGitFontMode(mode){');
-        const refactored=after.some(line=>line.trim()==='applyGitHubFontSize(mode);')
-          && after.some(line=>line.includes("const GITHUB_FONT_SIZES = Object.freeze({"));
+        const refactored=after.some(line=>line.trim()==='applyVSCodeFontSize(mode);')
+          && after.some(line=>line.includes("const VSCODE_FONT_SIZES = Object.freeze({"));
         const passed=success&&codingDemoCompleted===5&&AGENT_EDITS.length===5
           && added.length===10&&sequential&&validSyntax&&noDetachedLabels
           && correctFile&&refactored;
@@ -689,10 +700,14 @@ def main() -> int:
       const probeStopped=probeButton?.getAttribute('aria-pressed')==='false'
          && !document.querySelector('.pp-program')?.classList.contains('pp-is-playing');
       const gitPanel=document.querySelector('.live-github');
-      const originalEditorSize=getComputedStyle(document.getElementById('codingScroll')).fontSize;
+      const currentLine=document.querySelector('#realCodeLines .source-code-line .line-text');
+      const originalCodeSize=parseFloat(getComputedStyle(currentLine).fontSize);
+      const repositorySize=parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize);
       setGitFontMode('XL');
-      const isolatedFonts=gitPanel?.dataset.gitFont==='XL'
-         && getComputedStyle(document.getElementById('codingScroll')).fontSize===originalEditorSize;
+      const isolatedFonts=document.querySelector('.coding-editor')?.dataset.editorFont==='XL'
+         && parseFloat(getComputedStyle(currentLine).fontSize)>originalCodeSize+2
+         && parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize)===repositorySize
+         && gitPanel?.dataset.gitFont===undefined;
       const renderedMonth=document.querySelector('.cal-month-label')?.textContent;
       const rightMonth=(new Date().getMonth()+1);
       const calendarCurrent=renderedMonth?.includes(String(rightMonth)+' 月');
