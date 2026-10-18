@@ -1100,7 +1100,7 @@ premiere:()=>`<div class="pp-shell">
 </aside></div><div class="pp-monitor-details"><span class="pp-timecode">00:00:17:09</span><span class="pp-scale">Fit ▾</span><span class="pp-metadata">Full ▾　 00:00:27:17</span></div><div class="pp-monitor-scrub"><div class="pp-scrub-rail"><i style="left:63%"></i></div></div><div class="pp-monitor-actions"><span>↶　✂　⌁　|◀　◀</span><button type="button" class="pp-demo-play" aria-label="模擬播放 Premiere 預覽" aria-pressed="false" title="模擬播放／暫停">▶</button><span>▶|　▱　▣　⊕</span><span class="pp-demo-indicator">PAUSED</span></div><div class="pp-program-output"><span>▦　Video Preview</span><span>1920 × 1080　·　23.976 fps</span><span>Full Quality　▾</span></div></section>
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
-aiagent:()=>`<div class="agent-shell"><div class="agent-head"><span class="agent-symbol">✧</span><div><b>AI AGENT</b><small>程式開發助理 · 情境示範</small></div><span class="agent-online">● 示範中</span></div><div class="agent-messages" id="agentMessages"><div class="agent-bubble agent-system"><b>UltraWide Studio</b><p>專案儲存庫：knuckleslee/ultrawide-showcase</p><small>這是事先編排的 AI 協作展示，並未實際呼叫模型。</small></div><div class="agent-welcome">請描述想加入的程式功能。</div><div class="agent-question" id="agentQuestion" hidden><small>你的提問 · 新增功能</small><p>請問如何修改 index.html，替 GitHub 視窗加入五種字體大小，且不影響其他視窗？</p></div><div class="agent-thinking" id="agentThinking" hidden><span class="agent-dots">● ● ●</span><b>正在分析…</b><small id="agentThinkDetail">檢查目前的程式設計工作區…</small></div><div class="agent-answer" id="agentAnswer" hidden><b>建議修改方案 · 四個步驟</b><div class="agent-steps" id="agentSteps"></div><div class="agent-finish">這是示範用的修改建議；實際套用前仍需人工檢查。</div></div></div><div class="agent-input"><span>＋</span><span id="agentPromptLine">請描述想新增的功能…</span><span>➤</span></div><div class="agent-bottom-bar" aria-hidden="true"><span>示範模式 · 指令輸入預覽</span><span>↵</span></div></div>`,
+aiagent:()=>`<div class="agent-shell"><div class="agent-head"><span class="agent-symbol">✧</span><div><b>AI AGENT</b><small>程式開發助理 · 情境示範</small></div><span class="agent-online">● 示範中</span></div><div class="agent-messages" id="agentMessages"><div class="agent-bubble agent-system"><b>UltraWide Studio</b><p>專案儲存庫：knuckleslee/ultrawide-showcase</p><small>這是事先編排的 AI 協作展示，並未實際呼叫模型。</small></div><div class="agent-welcome">請描述想加入的程式功能。</div><div class="agent-question" id="agentQuestion" hidden><small>你的提問 · 新增功能</small><p>請問如何修改 index.html，使用右側五個字級按鈕調整中央 VS Code 的程式碼字體，而不改動 GitHub Repository 視窗？</p></div><div class="agent-thinking" id="agentThinking" hidden><span class="agent-dots">● ● ●</span><b>正在分析…</b><small id="agentThinkDetail">檢查目前的程式設計工作區…</small></div><div class="agent-answer" id="agentAnswer" hidden><b>建議修改方案 · 四個步驟</b><div class="agent-steps" id="agentSteps"></div><div class="agent-finish">這是示範用的修改建議；實際套用前仍需人工檢查。</div></div></div><div class="agent-input"><span>＋</span><span id="agentPromptLine">請描述想新增的功能…</span><span>➤</span></div><div class="agent-bottom-bar" aria-hidden="true"><span>示範模式 · 指令輸入預覽</span><span>↵</span></div></div>`,
 editor:()=>`<div class="editor coding-editor" data-editor-font="MD">
 <div class="vscode-bar"><span class="selected">▤</span><span>⌕</span><span>⑂</span><span>⧉</span><span>⚙</span></div>
 <aside class="files-tree">▾ ultrawide-showcase
@@ -1311,20 +1311,20 @@ function setupDailyInteractions(){
    messages are explicitly scripted UI demonstrations, not real commits or AI calls. */
 const CODE_REPO='knuckleslee/ultrawide-showcase';
 const AGENT_PLAN=[
- '打開目前的 index.html，找到 GitHub 字級切換函式，確認修改位置。',
- '定義 XS、SM、MD、LG、XL 五種字級與對應的 CSS 尺寸。',
- '建立專門調整 GitHub 視窗字級的函式，先檢查輸入值與作用範圍。',
- '只調整 GitHub 內容區的 CSS 變數與字級狀態，不影響其他視窗。',
- '接回現有的字級切換邏輯，逐項確認排版與可讀性。'
+ '找出右上方字級按鈕與中央 VS Code 程式碼區之間的控制函式。',
+ '設定 XS、SM、MD、LG、XL 五種 VS Code 程式碼字級。',
+ '建立只針對中央 .coding-editor 生效的字級套用函式。',
+ '讓字級按鈕只調整 VS Code 程式碼，不改變右側 GitHub Repository 文字。',
+ '逐一點選五個字級，確認程式碼換行、捲動與其他視窗都正常。'
 ];
-// Five coherent changes to index.html's actual JavaScript excerpt.
-// These are visual, in-memory edits; no source files or GitHub commits are changed.
+// Five coherent in-memory edits to the actual index.html code excerpt.
+// They are for demonstration only and are NOT pushed to the repository.
 const AGENT_EDITS=[
- {title:'01／新增字級對照表',lines:["const GITHUB_FONT_SIZES = Object.freeze({"]},
+ {title:'01／新增 VS Code 字級對照表',lines:["const VSCODE_FONT_SIZES = Object.freeze({"]},
  {title:'02／定義五個字級',lines:["  XS: '9px', SM: '10px', MD: '12px', LG: '15px', XL: '18px'","});"]},
- {title:'03／建立套用函式',lines:["function applyGitHubFontSize(mode) {","  const panel = document.querySelector('.live-github');","  if (!panel || !(mode in GITHUB_FONT_SIZES)) return;"]},
- {title:'04／限定套用範圍',lines:["  panel.style.setProperty('--git-content-size', GITHUB_FONT_SIZES[mode]);","  panel.dataset.gitFont = mode;","}"]},
- {title:'05／接回原有功能',replaceLine:"  applyGitHubFontSize(mode);"}
+ {title:'03／建立編輯器字級函式',lines:["function applyVSCodeFontSize(mode) {","  const editor = document.querySelector('.coding-editor');","  if (!editor || !(mode in VSCODE_FONT_SIZES)) return;"]},
+ {title:'04／只調整 VS Code 程式碼',lines:["  editor.style.setProperty('--vscode-code-size', VSCODE_FONT_SIZES[mode]);","  editor.dataset.editorFont = mode;","}"]},
+ {title:'05／連接既有切換按鈕',replaceLine:"  applyVSCodeFontSize(mode);"}
 ];
 let codingDemoSaved=null,codingRawSource='',codingSourceStartLine=1,codingViewLines=[],codingDemoCompleted=0;
 /* Five controls remain on the repository window, but they adjust only
@@ -1510,7 +1510,7 @@ function codingScrollTo(selector,top){
  el.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
 function captureCodingState(){
- return {font:document.querySelector('.live-github')?.dataset.gitFont||'MD',
+ return {font:document.querySelector('.coding-editor')?.dataset.editorFont||'MD',
   agentScroll:document.getElementById('agentMessages')?.scrollTop||0,
   editorScroll:document.getElementById('codingScroll')?.scrollTop||0,
   githubScroll:document.getElementById('gitLiveScroll')?.scrollTop||0};
@@ -1571,7 +1571,7 @@ async function applyDemoCodeStep(step,id){
  }else if(step.replaceLine){
   // Refactor the existing handler rather than appending a disconnected snippet.
   const index=codingViewLines.findIndex(item=>!item.added&&
-    item.text.trim()==='panel.dataset.gitFont=mode;');
+    item.text.trim()==='editor.dataset.editorFont=mode;');
   if(index<0)return false;
   codingViewLines[index].text='';
   codingViewLines[index].added=true;
@@ -1589,7 +1589,7 @@ async function applyDemoCodeStep(step,id){
 async function runCodingAuto(id){
  resetCodingDemo();
  setGitFontMode('MD');
- const prompt='請問如何修改 index.html，替 GitHub 視窗加入五種字體大小，且不影響其他視窗？';
+ const prompt='請問如何修改 index.html，使用右側五個字級按鈕調整中央 VS Code 的程式碼字體，而不改動 GitHub Repository 視窗？';
  if(!await action(id,'03 / AI 協作程式設計','AI AGENT 收到功能需求後，先分析程式，再提出五步修改建議。'))return false;
  if(!await focusAction('aiagent',id))return false;
  const promptLabel=document.getElementById('agentPromptLine');
@@ -1605,7 +1605,7 @@ async function runCodingAuto(id){
  const thinking=document.getElementById('agentThinking');
  const progress=document.getElementById('agentThinkDetail');
  thinking.hidden=false;
- for(const note of ['正在檢查專案檔案與視窗配置…','正在確認 GitHub 字級設定不會影響其他視窗…','正在整理五個能逐一檢查的修改步驟…']){
+ for(const note of ['正在檢查專案檔案與視窗配置…','正在確認五種字級只會套用在 VS Code 程式碼區…','正在整理五個能逐一檢查的修改步驟…']){
   progress.textContent=note;
   codingScrollTo('#agentMessages',document.getElementById('agentMessages').scrollHeight);
   if(!await delay(850,id))return false;
@@ -1631,18 +1631,20 @@ async function runCodingAuto(id){
   if(!await applyDemoCodeStep(AGENT_EDITS[i],id))return false;
   if(!await delay(450,id))return false;
  }
- if(!await action(id,'GitHub 字級展示','先捲動到真實 README 的大量文字，再測試 GitHub 小視窗的五級字體大小。'))return false;
+ if(!await action(id,'VS Code 程式碼字級展示','先捲動中央 VS Code 的程式碼，再從右上方按鈕切換字級；Repository 內容大小保持不變。'))return false;
+ const codeViewport=document.getElementById('codingScroll');
+ const editorRows=[...document.querySelectorAll('#realCodeLines .source-code-line')];
+ const anchorRow=editorRows[Math.min(13,Math.max(0,editorRows.length-1))];
+ if(!await focusAction('editor',id))return false;
+ if(anchorRow)scrollEditorRowIntoView(anchorRow,'smooth');
+ if(!await delay(1050,id))return false;
+ if(!await action(id,'XS → SM → MD → LG → XL','點擊右上方五個按鈕，觀察中央 VS Code 程式碼字體依序放大。'))return false;
  if(!await focusAction('git',id))return false;
- const gitScroll=document.getElementById('gitLiveScroll');
- if(!await demoScroll(gitScroll,Math.max(150,gitReadmeDestination()-gitScroll.scrollTop),id))return false;
- alignGitHubReadme('smooth');
- if(!await delay(1100,id))return false;
- if(!await action(id,'XS → SM → MD → LG → XL','保持真實 README 文字可見，只有右上 GitHub 視窗中的文字會改變大小。'))return false;
  for(const mode of ['XS','SM','MD','LG','XL']){
   const button=document.querySelector('.git-size-button[data-font-mode="'+mode+'"]');
   if(!await demoTap(button,id,0))return false;
-  // Keep the README visible while holding each font size for three seconds.
-  alignGitHubReadme('smooth');
+  // Re-centre the same code line as the font size changes, not the GitHub README.
+  if(anchorRow?.isConnected)scrollEditorRowIntoView(anchorRow,'smooth');
   if(!await delay(3000,id))return false;
  }
  return await delay(650,id);
