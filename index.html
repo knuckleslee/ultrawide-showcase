@@ -745,7 +745,7 @@
 .editor-demo-note{font:10px Consolas,monospace;color:#90d9b0;padding:3px 8px;border-top:1px solid #3a6558}
 .coding-editor .vscode-status{display:flex;justify-content:space-between;align-items:center;gap:6px;height:23px;flex:none;background:#145a86;padding:0 9px;color:#e3f2ff;font-size:10px}
 .coding-terminal{white-space:normal;overflow-y:auto;scrollbar-width:thin}
-.live-github{display:flex;flex-direction:column;padding:0;background:#0e1825;overflow:hidden;min-height:0;--git-content-size:11px}
+.live-github{display:flex;flex-direction:column;padding:0;background:#0e1825;overflow:hidden;min-height:0;--git-content-size:12px}
 .git-heading{flex:none;padding:10px;display:flex;align-items:center;justify-content:space-between;background:#172838;color:#cdd7e4;font-size:11px;gap:6px;font-weight:800}
 .git-live-badge{color:#ffe4a5;background:#493f2e;font-size:9px;border-radius:4px;padding:2px 5px}
 .git-live-badge.live{background:#174636;color:#a9e9cb}
@@ -753,11 +753,6 @@
 .git-size-button{border:1px solid #637288;color:#bfcee2;background:#2a3546;border-radius:5px;cursor:pointer;font:bold 10px Consolas,monospace;padding:5px 0}
 .git-size-button.active,.git-size-button:focus-visible{background:#3b78ad;color:white;border-color:#8fc8f5}
 .git-live-scroll{min-height:0;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain;flex:1;padding:8px 10px;font-size:var(--git-content-size);transition:font-size .3s}
-.live-github[data-git-font="XS"]{--git-content-size:9px}
-.live-github[data-git-font="SM"]{--git-content-size:10px}
-.live-github[data-git-font="MD"]{--git-content-size:12px}
-.live-github[data-git-font="LG"]{--git-content-size:15px}
-.live-github[data-git-font="XL"]{--git-content-size:18px}
 .git-repo-name{font-size:1.1em;font-weight:800;color:#dbedff;overflow-wrap:anywhere}
 .git-repo-description{color:#a6c2d5;margin:7px 0;font-size:.92em;line-height:1.4}
 .git-repo-stat{display:flex;align-items:center;gap:13px;color:#9eb5cb;margin:8px 0;flex-wrap:wrap}
@@ -848,6 +843,30 @@
 .coding-editor .source-code-line.demo-added{border-left:3px solid #4fb684;background:#194936}
 .coding-editor .source-code-line.demo-added .line-text{color:#baf0d0}
 .coding-editor .editor-scroll{scroll-padding-top:65px;scroll-padding-bottom:95px}
+
+/* The five size buttons in GitHub control ONLY the VS Code source code, not the GitHub repository. */
+.coding-editor{--vscode-code-size:12px}
+.coding-editor[data-editor-font="XS"]{--vscode-code-size:9px}
+.coding-editor[data-editor-font="SM"]{--vscode-code-size:10px}
+.coding-editor[data-editor-font="MD"]{--vscode-code-size:12px}
+.coding-editor[data-editor-font="LG"]{--vscode-code-size:15px}
+.coding-editor[data-editor-font="XL"]{--vscode-code-size:18px}
+.coding-editor .source-code-line{
+  font-size:var(--vscode-code-size);
+  line-height:1.55;
+  min-height:1.55em;
+  height:auto;
+  align-items:baseline;
+}
+.coding-editor .source-code-line .line-num,
+.coding-editor .source-code-line .line-text{
+  font-size:var(--vscode-code-size);
+  line-height:1.55;
+}
+.coding-editor .source-code-line .line-num{flex-basis:54px}
+.coding-editor .editor-scroll{scrollbar-width:thin}
+.git-font-target{padding:7px 10px 1px;background:#1d2939;color:#a9d2e8;font:600 10px/1.2 'Segoe UI','Microsoft JhengHei',sans-serif}
+.git-live-scroll{font-size:12px}
 </style>
 </head>
 <body><div id="frame"><div id="desktop" class="manual"><div class="light-cloud a"></div><div class="light-cloud b"></div>
@@ -960,7 +979,7 @@ chat:()=>`<div class="desktop-messenger">
 </div>`,
 video:()=>`<div class="video-wrap"><div class="yt-browser"><span>‹　›　↻</span><span class="yt-address">🔒　youtube.com/watch?v=dQw4w9WgXcQ</span><span>☆　⋮</span></div><div class="yt-header"><span style="font-size:15px">☰</span><span class="yt-brand"><span class="yt-logo">▶</span>YouTube</span><span class="yt-search">⌕ 搜尋</span><span>🔔　◯</span></div><div class="yt-main"><div class="yt-view"><div class="yt-video"><iframe id="youtubeFrame" class="yt-real-iframe" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&amp;playsinline=1" data-embed-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&amp;playsinline=1" title="Rick Astley — Never Gonna Give You Up (YouTube)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div><div class="yt-title">Rick Astley — Never Gonna Give You Up</div><div class="yt-detail"><span>官方嵌入影片 · 可手動播放</span><a class="yt-external" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">在 YouTube 開啟 ↗</a></div></div><aside class="yt-next" aria-label="示範推薦影片"><strong>推薦影片（示意）</strong><div class="yt-suggestion" data-rec-index="0"><span class="yt-suggestion-image yt-thumb-1"><i>3:41</i></span><span class="yt-suggestion-copy"><b>80 年代流行歌曲精選</b><small>復古音樂頻道</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="1"><span class="yt-suggestion-image yt-thumb-2"><i>28:15</i></span><span class="yt-suggestion-copy"><b>經典舞曲完整播放清單</b><small>經典音樂庫</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="2"><span class="yt-suggestion-image yt-thumb-3"><i>12:04</i></span><span class="yt-suggestion-copy"><b>錄音室現場演出特輯</b><small>音樂創作日記</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="3"><span class="yt-suggestion-image yt-thumb-4"><i>9:35</i></span><span class="yt-suggestion-copy"><b>週末城市散步 4K</b><small>旅行影像筆記</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="4"><span class="yt-suggestion-image yt-thumb-5"><i>16:32</i></span><span class="yt-suggestion-copy"><b>經典 MV 幕後故事</b><small>影像收藏館</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="5"><span class="yt-suggestion-image yt-thumb-6"><i>7:46</i></span><span class="yt-suggestion-copy"><b>吉他與節奏練習</b><small>音樂教學室</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="6"><span class="yt-suggestion-image yt-thumb-1"><i>5:18</i></span><span class="yt-suggestion-copy"><b>復古合成器旋律</b><small>電子音樂研究</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="7"><span class="yt-suggestion-image yt-thumb-2"><i>11:29</i></span><span class="yt-suggestion-copy"><b>音樂錄影帶剪輯技巧</b><small>剪輯工作室</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="8"><span class="yt-suggestion-image yt-thumb-3"><i>8:12</i></span><span class="yt-suggestion-copy"><b>城市攝影構圖教學</b><small>影像創作日記</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="9"><span class="yt-suggestion-image yt-thumb-4"><i>14:03</i></span><span class="yt-suggestion-copy"><b>舞台燈光與現場演出</b><small>表演幕後</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="10"><span class="yt-suggestion-image yt-thumb-5"><i>45:19</i></span><span class="yt-suggestion-copy"><b>週末咖啡館歌單</b><small>日常聲音</small><small>示範推薦</small></span></div><div class="yt-suggestion" data-rec-index="11"><span class="yt-suggestion-image yt-thumb-6"><i>6:52</i></span><span class="yt-suggestion-copy"><b>拍攝一日生活紀錄</b><small>影像筆記</small><small>示範推薦</small></span></div></aside></div></div>`,
 calendar:()=>`<div class="calendar" data-shift="0"><div class="cal-header"><span class="cal-month-label">2026 年 10 月</span><div class="cal-buttons"><button type="button" class="cal-prev" aria-label="上個月">◀</button><button type="button" class="cal-next" aria-label="下個月">▶</button></div></div><div class="cal-days" aria-label="月份日曆"></div><div class="cal-foot">● 14:30　專案進度同步</div></div>`,
-notes:()=>`<div class="notes"><h3>今天的待辦 ✨</h3><div class="todo-list"><div class="todo-row done"><button type="button" class="todo-check" role="checkbox" aria-label="整理參考資料" aria-checked="true" data-todo="0">☑</button><span>整理參考資料</span></div><div class="todo-row done"><button type="button" class="todo-check" role="checkbox" aria-label="確認影片素材" aria-checked="true" data-todo="1">☑</button><span>確認影片素材</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="完成剪輯初版" aria-checked="false" data-todo="2">☐</button><span>完成剪輯初版</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="檢查網頁顯示" aria-checked="false" data-todo="3">☐</button><span>檢查網頁顯示</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="回覆專案訊息" aria-checked="false" data-todo="4">☐</button><span>回覆專案訊息</span></div></div><div class="todo-progress">已完成 <b id="todoProgress">2</b> / 5 項</div></div>`,
+notes:()=>`<div class="notes"><h3>今天的待辦 ✨</h3><div class="todo-list"><div class="todo-row done"><button type="button" class="todo-check" role="checkbox" aria-label="整理參考資料" aria-checked="true" data-todo="0">☑</button><span>整理參考資料</span></div><div class="todo-row done"><button type="button" class="todo-check" role="checkbox" aria-label="確認影片素材" aria-checked="true" data-todo="1">☑</button><span>確認影片素材</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="出門買螢幕" aria-checked="false" data-todo="2">☐</button><span>出門買螢幕</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="檢查網頁顯示" aria-checked="false" data-todo="3">☐</button><span>檢查網頁顯示</span></div><div class="todo-row"><button type="button" class="todo-check" role="checkbox" aria-label="回覆專案訊息" aria-checked="false" data-todo="4">☐</button><span>回覆專案訊息</span></div></div><div class="todo-progress">已完成 <b id="todoProgress">2</b> / 5 項</div></div>`,
 premiere:()=>`<div class="pp-shell">
 <div class="pp-menubar"><span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span><span class="pp-menu-right">☰　↗</span></div>
 <div class="pp-workspaces"><span class="pp-workspace-home">⌂</span><span>Assembly</span><span class="active">Editing</span><span>Color</span><span>Effects</span><span>Audio</span><span>Graphics</span><span>Captions</span><span>»</span></div>
@@ -1082,7 +1101,7 @@ premiere:()=>`<div class="pp-shell">
 </div><div class="pp-bottom-status">◈　Premiere Pro 風格展示 · Source / Program / Project / Timeline / Audio Meters</div>
 </div>`,
 aiagent:()=>`<div class="agent-shell"><div class="agent-head"><span class="agent-symbol">✧</span><div><b>AI AGENT</b><small>程式開發助理 · 情境示範</small></div><span class="agent-online">● 示範中</span></div><div class="agent-messages" id="agentMessages"><div class="agent-bubble agent-system"><b>UltraWide Studio</b><p>專案儲存庫：knuckleslee/ultrawide-showcase</p><small>這是事先編排的 AI 協作展示，並未實際呼叫模型。</small></div><div class="agent-welcome">請描述想加入的程式功能。</div><div class="agent-question" id="agentQuestion" hidden><small>你的提問 · 新增功能</small><p>請問如何修改 index.html，替 GitHub 視窗加入五種字體大小，且不影響其他視窗？</p></div><div class="agent-thinking" id="agentThinking" hidden><span class="agent-dots">● ● ●</span><b>正在分析…</b><small id="agentThinkDetail">檢查目前的程式設計工作區…</small></div><div class="agent-answer" id="agentAnswer" hidden><b>建議修改方案 · 四個步驟</b><div class="agent-steps" id="agentSteps"></div><div class="agent-finish">這是示範用的修改建議；實際套用前仍需人工檢查。</div></div></div><div class="agent-input"><span>＋</span><span id="agentPromptLine">請描述想新增的功能…</span><span>➤</span></div><div class="agent-bottom-bar" aria-hidden="true"><span>示範模式 · 指令輸入預覽</span><span>↵</span></div></div>`,
-editor:()=>`<div class="editor coding-editor">
+editor:()=>`<div class="editor coding-editor" data-editor-font="MD">
 <div class="vscode-bar"><span class="selected">▤</span><span>⌕</span><span>⑂</span><span>⧉</span><span>⚙</span></div>
 <aside class="files-tree">▾ ultrawide-showcase
 <br>　<span class="file-selected">◈ index.html</span><br>　▤ news.json
@@ -1096,7 +1115,7 @@ editor:()=>`<div class="editor coding-editor">
 <div class="vscode-status"><span>⑂ main　<small id="editorChangeCount">✓ 未修改</small></span><span>JavaScript　UTF-8　Spaces: 2</span></div>
 </div></div>`,
 terminal:()=>`<div class="terminal coding-terminal"><div><span class="dim">PS projects/ultrawide-showcase &gt;</span> git status</div><div>On branch main</div><div id="codingTerminalStatus">Working tree: demo preview</div><div><span class="dim"># Inserted code in this scene is simulated, not committed.</span></div><div><span class="dim"># Public GitHub source and metadata are loaded separately.</span></div></div>`,
-git:()=>`<div class="git live-github" data-git-font="MD"><div class="git-heading"><span>⑂ GITHUB · LIVE REPOSITORY</span><span class="git-live-badge" id="gitLiveBadge">LOADING</span></div><div class="git-size-controls" role="group" aria-label="GitHub 字級切換"><button type="button" class="git-size-button" data-font-mode="XS">XS</button><button type="button" class="git-size-button" data-font-mode="SM">SM</button><button type="button" class="git-size-button active" data-font-mode="MD" aria-pressed="true">MD</button><button type="button" class="git-size-button" data-font-mode="LG">LG</button><button type="button" class="git-size-button" data-font-mode="XL">XL</button></div><div class="git-live-scroll" id="gitLiveScroll"><div class="git-repo-name" id="gitRepoName">knuckleslee / ultrawide-showcase</div><div class="git-repo-description" id="gitRepoDescription">從 GitHub API 載入實際公開資料…</div><div class="git-repo-stat"><span>⑂ <b id="gitDefaultBranch">main</b></span><span>★ <b id="gitStars">—</b></span><span>⑃ <b id="gitForks">—</b></span></div><div class="git-live-section">PROJECT FILES</div><div id="gitLiveFiles"><div class="git-file">▤　Loading repository files…</div></div><div class="git-live-section" id="gitReadmeHeading">README.md · ACTUAL CONTENT</div><div class="git-readme-excerpt" id="gitReadmeContent" aria-label="GitHub README 原始內容">Loading the project's actual README…</div><div class="git-live-section">REPOSITORY INFO</div><div class="git-repo-stat"><span>Updated</span><b id="gitUpdated">—</b></div></div><a class="repo-link github-external" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ Open GitHub website</a></div>`,
+git:()=>`<div class="git live-github"><div class="git-heading"><span>⑂ GITHUB · LIVE REPOSITORY</span><span class="git-live-badge" id="gitLiveBadge">LOADING</span></div><div class="git-font-target">調整中央 VS Code 程式碼字級</div><div class="git-size-controls" role="group" aria-label="調整中央 VS Code 的程式碼字體大小"><button type="button" class="git-size-button" data-font-mode="XS">XS</button><button type="button" class="git-size-button" data-font-mode="SM">SM</button><button type="button" class="git-size-button active" data-font-mode="MD" aria-pressed="true">MD</button><button type="button" class="git-size-button" data-font-mode="LG">LG</button><button type="button" class="git-size-button" data-font-mode="XL">XL</button></div><div class="git-live-scroll" id="gitLiveScroll"><div class="git-repo-name" id="gitRepoName">knuckleslee / ultrawide-showcase</div><div class="git-repo-description" id="gitRepoDescription">從 GitHub API 載入實際公開資料…</div><div class="git-repo-stat"><span>⑂ <b id="gitDefaultBranch">main</b></span><span>★ <b id="gitStars">—</b></span><span>⑃ <b id="gitForks">—</b></span></div><div class="git-live-section">PROJECT FILES</div><div id="gitLiveFiles"><div class="git-file">▤　Loading repository files…</div></div><div class="git-live-section" id="gitReadmeHeading">README.md · ACTUAL CONTENT</div><div class="git-readme-excerpt" id="gitReadmeContent" aria-label="GitHub README 原始內容">Loading the project's actual README…</div><div class="git-live-section">REPOSITORY INFO</div><div class="git-repo-stat"><span>Updated</span><b id="gitUpdated">—</b></div></div><a class="repo-link github-external" href="https://github.com/knuckleslee/ultrawide-showcase" target="_blank" rel="noopener noreferrer">↗ Open GitHub website</a></div>`,
 discord:()=>`<div class="discord2">
 <div class="discord2-serverbar"><div class="discord2-home">◉</div><div class="discord2-separator"></div><div class="discord2-server selected">遊</div><div class="discord2-server blue">朋</div><div class="discord2-server green">＋</div><div class="discord2-server outline">⌕</div></div>
 <div class="discord2-channels">
@@ -1308,12 +1327,15 @@ const AGENT_EDITS=[
  {title:'05／接回原有功能',replaceLine:"  applyGitHubFontSize(mode);"}
 ];
 let codingDemoSaved=null,codingRawSource='',codingSourceStartLine=1,codingViewLines=[],codingDemoCompleted=0;
+/* Five controls remain on the repository window, but they adjust only
+   the central VS Code source text. Repository font size stays unchanged. */
 function setGitFontMode(mode){
  const allowed=['XS','SM','MD','LG','XL'];
  if(!allowed.includes(mode))return;
+ const editor=windowNodes.editor?.querySelector('.coding-editor');
  const panel=windowNodes.git?.querySelector('.live-github');
- if(!panel)return;
- panel.dataset.gitFont=mode;
+ if(!editor||!panel)return;
+ editor.dataset.editorFont=mode;
  panel.querySelectorAll('.git-size-button').forEach(button=>{
   const active=button.dataset.fontMode===mode;
   button.classList.toggle('active',active);
@@ -2251,7 +2273,7 @@ async function runDailyAuto(id){
  if(!await demoScroll(document.querySelector('.yt-next'),180,id))return false;
  if(!await demoScroll(document.querySelector('.yt-next'),185,id))return false;
 
- if(!await action(id,'完成今日待辦','勾選「完成剪輯初版」，已完成數量會立即更新。'))return false;
+ if(!await action(id,'完成今日待辦','勾選「出門買螢幕」，已完成數量會立即更新。'))return false;
  if(!await focusAction('notes',id))return false;
  if(!await demoTap(document.querySelector('.todo-check[data-todo="2"]'),id,1000))return false;
 
