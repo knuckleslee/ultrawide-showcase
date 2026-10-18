@@ -392,6 +392,24 @@ def main() -> int:
         && fiveDistinctSizes && sourceXL>sourceBefore+2
         && repoFontAfter===repoFontBefore && repoTextAfter===repoTextBefore
         && document.querySelector('.git-size-button[data-font-mode="XL"]')?.classList.contains('active');
+      const plus=document.querySelector('.git-size-button[data-font-step="1"]');
+      const minus=document.querySelector('.git-size-button[data-font-step="-1"]');
+      plus?.click();
+      const plusWorks=!!plus&&!!minus&&parseFloat(getComputedStyle(sourceLine).fontSize)===19
+        && document.querySelector('.coding-editor')?.dataset.editorFont==='CUSTOM'
+        && !document.querySelector('.git-size-button[data-font-mode="XL"]')?.classList.contains('active');
+      minus?.click();
+      const minusWorks=parseFloat(getComputedStyle(sourceLine).fontSize)===18
+        && document.querySelector('.git-size-button[data-font-mode="XL"]')?.classList.contains('active');
+      document.querySelector('.git-size-button[data-font-mode="XS"]')?.click();
+      minus?.click();
+      const belowXS=parseFloat(getComputedStyle(sourceLine).fontSize)===8;
+      setGitFontSize(6);
+      const minLimited=minus?.disabled===true;
+      setGitFontSize(30);
+      const maxLimited=plus?.disabled===true;
+      const manualFontSteps=plusWorks&&minusWorks&&belowXS&&minLimited&&maxLimited
+        && parseFloat(getComputedStyle(document.getElementById('gitLiveScroll')).fontSize)===repoFontBefore;
       setGitFontMode('MD');
       const agentLocalized=AGENT_PLAN.length===5
         && AGENT_PLAN.every(text=>/[\u4e00-\u9fff]/.test(text))
@@ -454,11 +472,11 @@ def main() -> int:
       const noEditorCaptions=!document.querySelector('#realCodeLines .editor-demo-note');
       const editorTypingRaised=editorJavaScript&&noWrongFileContent&&numberedRows&&noEditorCaptions;
       const success=clearance>=31 && bannerSeparate && compactBanner
-        && readmeInScroll && isolatedFont && agentLocalized
+        && readmeInScroll && isolatedFont && manualFontSteps && agentLocalized
         && meaningfulClicksOnly && editorTypingRaised;
       document.documentElement.setAttribute('data-coding-ui-check',
         success?'pass':'fail:'+JSON.stringify({clearance,bannerSeparate,
-         compactBanner,readmeInScroll,isolatedFont,agentLocalized,
+         compactBanner,readmeInScroll,isolatedFont,manualFontSteps,agentLocalized,
          meaningfulClicksOnly,editorTypingRaised,editorJavaScript,noWrongFileContent,numberedRows,noEditorCaptions,
          statusHeight:source.offsetHeight}));
     })();
@@ -486,6 +504,19 @@ def main() -> int:
                                 + (coding_parser.default_layout_check or "no response"))
     except subprocess.TimeoutExpired:
         problems.append("Coding UI probe timed out")
+
+    # Confirm automatic font demonstration keeps the original five presets
+    # and uses a two-second dwell, without ever targeting the new +/- controls.
+    page_source = (ROOT / "index.html").read_text(encoding="utf-8")
+    tour = page_source.split("for(const mode of ['XS','SM','MD','LG','XL']){", 1)
+    if len(tour) != 2:
+        problems.append("Automatic tour must use only XS/SM/MD/LG/XL")
+    else:
+        font_tour = tour[1].split("return await delay(650,id);", 1)[0]
+        if "if(!await delay(2000,id))return false;" not in font_tour:
+            problems.append("Automatic font tour must show each preset for 2 seconds")
+        if "data-font-step" in font_tour:
+            problems.append("Automatic tour must not use manual plus/minus controls")
 
     # Exercise all five real UI editing steps without waiting through the
     # presentation pacing. This checks continuous line numbers, valid JS,
