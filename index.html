@@ -1327,8 +1327,7 @@ const AGENT_EDITS=[
  {title:'05／連接既有切換按鈕',replaceLine:"  applyVSCodeFontSize(mode);"}
 ];
 let codingDemoSaved=null,codingRawSource='',codingSourceStartLine=1,codingViewLines=[],codingDemoCompleted=0;
-/* Five controls remain on the repository window, but they adjust only
-   the central VS Code source text. Repository font size stays unchanged. */
+/* Repository controls adjust only central VS Code text; GitHub font stays fixed. */
 function setGitFontMode(mode){
  const allowed=['XS','SM','MD','LG','XL'];
  if(!allowed.includes(mode))return;
