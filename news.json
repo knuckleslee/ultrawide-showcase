@@ -1,66 +1,18 @@
 {
   "source": "Google News RSS (Taiwan)",
-  "updated_at": "2026-11-01T06:15:22+00:00",
+  "updated_at": "2026-11-01T17:56:49+00:00",
   "items": [
     {
-      "title": "蔣萬安、沈伯洋辯論誰更勝一籌？媒體人點評他贏10分：2項論述比預期強大 | 張庭維 | 新聞 - 風傳媒",
-      "source": "風傳媒",
-      "time": "11/01 09:32",
-      "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5RaXVrLVZ4c1dzWWZnTWxXRm5MbE83YUJ0cmVBd3p6TVJDWVJOd3JIbXlqbUc0OGhWSk9IR2NicS10YTFFT3BnYzJDVnh4QQ?oc=5"
-    },
-    {
-      "title": "明晚東北季風再南下北台變天 吳德榮：煙花颱風打轉再迴轉 - UDN",
-      "source": "UDN",
-      "time": "11/01 07:16",
-      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5mNFhzTHJhTnVRYmJxbldaZ0M0d2Zyd0xpLUJJejZWaUotT2R0a1QzT2J4UTQ2S1J2U1lzempoS0pRQ0djUGRIQWRITDU4SXZC0gFWQVVfeXFMTlktRTB1MWFjZE0xdFljejZTQzBJY1BXay10UHRuWm5FQkhHUmRpVzBXTUR6TUtWdFJtejZPNW55TUVzQXowY1JWbzJzSkdoSTU5WkRCOWc?oc=5"
-    },
-    {
-      "title": "川普期中選舉後再攻伊朗？盧比歐：尚未決定 - Yahoo新聞",
+      "title": "台北市長辯論會「事實查核內容」公布 蔣萬安、沈伯洋說錯內容一次看 - Yahoo新聞",
       "source": "Yahoo新聞",
-      "time": "11/01 08:30",
-      "link": "https://news.google.com/rss/articles/CBMirgJBVV95cUxPbnJXdnRtdWlsOUt4cVZielQxMlljNmVVeU03M24tTFJWNi1FUTFwcTluUTRyNG9CY3NRN0trUFdvMDJ5eWF1NndaNzk5TjZqbWhSWW43d0dPbjRlWV9WTS1XX0Z3cG9CVUNVMkJrUUZ1cmpfOG9maTRmdkhmYk5vcGZEUW9KSl82OUhrY2lTNjg4akc4M1d0ekQ0UlNBT043UTJKN0gxZUFMQjhoWG9mbXhPd2xfTndCSXpaSnZOZWNqU2ZDY2ZzTWhZUVJ1WFFtcThHd0Y3aGJSLThPSlYxQjViZ29HNHJwWlhZazFwNlc5RHZjdGRmNHQ2dEhZQ3JleF9feW9uQzZOWExzdjczSVkxVEJ5V21xTU5adkxLdDdDdEszX3Zab2tjSnhnUQ?oc=5"
+      "time": "11/01 13:11",
+      "link": "https://news.google.com/rss/articles/CBMihANBVV95cUxQXzhNMzR3X2hRRVFXYXZhQmlPdWk2RmFFc21xQkt2cTB6VE82b1NkaVFqNEZYUTYtU2hEdWRkb1NGd0g1clFSVnk0MFFPaU92Y2lKbUotMmVwdTRub05YWFVUVEh6Zl9IczJLeUlwcE9qd0tKTWZRNDZET3pYckRiVXg2MXRrZXNOZ203cy0taWVqX3FXNHBsalAxbndjZzZxSE1SVElOQzQ3WHFfbE4wUThNejRaV0FJLVctUjRmZndwWG9yWGphalpkWTJfcDZ0dGxQQmcxaXdDbG92UV9qX2Y2VVdaamhkVmk1WTRYTVpQOG9rc01JdHNUSzdoZk41ZjI0X01ySENtUVNBakNLTDN6ZERoVXF3VkhGbzZIWi04VUJGQzh6VUFlekZmS0ttQWRTQXc2MkVHZWxKRWk5T3JtQW9VUUVNWndLUzM3aWlaUzhNeXVkMjNrM1QwMXVhbjhWUF8xa3JsMWoxTHlzc1ZYb1VqTGdNVU1RZGxEZmg5bEhU?oc=5"
     },
     {
-      "title": "台北市長誰贏面更大？小孟老師再抽「這張牌」喊：看得懂的就知道 - Yahoo新聞",
-      "source": "Yahoo新聞",
-      "time": "11/01 12:36",
-      "link": "https://news.google.com/rss/articles/CBMikANBVV95cUxNUnk1Z2hFaHlqMXE2QUk5eHNJNUdIU3JmczdybTY3VHlRYmVTQVlib3pXNkNPYmhaYVF3dl9FX0lMWmk4c3d5SldqQndoelptWE1PamRsRE5jMnlDM3lGWFJWb1NpY2ZLeVRqdTQ3SGlzaXVYMkhoNHR5S1JYYUlFal92cEVQOUVUdmhOcjBocDIzYVBxaWJEYzVvU2JyUVJ6Ui1uRzBabHphODVJWVRLVHRsQ1ZOSlpxQlpfTVNySUxlNVRTT1RGYU9IMU9nc3c3aHM4c0tZbnJjQkRqM0xtNTItUkZxa05EeGJyUkVjNHFLX2RBY3ZPSmF5ME93MHQ5eUt2RTE3ODF0Ulllc3AzZ0xPMHFVd01Pem5tVlo4LXBIV0dfNkVPMzYzTmF6NEZ0aTdOV3p2QVZXTm1JczltM21TYktqeGo1blRtYncyUWxkdXRoRHNWZUpuTzNCNHdjN0NMdlFRWnJfTjA4QVoydkVpdUpZc0U5QURVcHRObXNCTGhxQ2tyYThQOHNSVVo3?oc=5"
-    },
-    {
-      "title": "幕後》國民黨「全村的希望」落難！那一天，蔣萬安和盧秀燕促膝長談 | 晏明強 | VIP - 風傳媒",
-      "source": "風傳媒",
-      "time": "11/01 08:20",
-      "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBjRlhfQUl6X0t5aGc4dlhuVlp0dWhYRDlEbW0xOEZNTDlRUTBaeG5EUjBLT212WEZ5WG5RU0ZWNjFtQ2VXYTByQ3hNdFVWZw?oc=5"
-    },
-    {
-      "title": "蔣萬安現身同志遊行遭怒嗆！登《路透》國際版面 網嘆：丟臉丟到國際 - Yahoo新聞",
-      "source": "Yahoo新聞",
-      "time": "11/01 06:38",
-      "link": "https://news.google.com/rss/articles/CBMi1AJBVV95cUxQZ2ZrZ25CNmxPT3haSVF0X1ppNkpjUWRDb1FvNlpvQ1ptMXJhX0RwSV92T1NXWk1sSFpOSkNzbjNWakZyTlhabmxIcktkY3UyU3puWUhodU42ZWRMSGltbUFURkp6WmtWM2g2SmRMU0lReTN1ZVF5UWhGd3o3bTJtcXBuQ2w3S1F5LXNQbG02bG5CWkRTdVA3N3JZVW5nTVNaclhwcUtxV3I4bGtZTHg2cldDQldEVVpCVFhkaWV4aE50dmhlYVVXOVFOTnZiMWc2LUNMT21LOUV4azN0RExJbEpmU1RpNTBGYjRzVGdYRmtDSGlJY1JXbmNrYUhOZ2tDNEppMy1XOElNbHhUTUVySEpjQ2liRWo0TzV0N2FJbkoxWUJjdjBHdjFoVGNTdkJaUF94U2laY1hKUkNNT0lmMnI5cy1JNkF6aVoyM1REa2FfVjlf?oc=5"
-    },
-    {
-      "title": "死者親友轟寶林一毛沒賠！蔣萬安親自回應 - Yahoo新聞",
-      "source": "Yahoo新聞",
-      "time": "11/01 13:18",
-      "link": "https://news.google.com/rss/articles/CBMiogJBVV95cUxQNUdRTGZsTURnU2FDTXZacnpHSGQ3TlhMT0xBaVpGOUEyd24wU1hjTWZ6alpXY3Z1bk10ckFjM3B5cDVzUE5YRUJIcG5VSExUX0lRcHdFMWhPSHZ3a0Y5SFl4cmxSQU1XVlZ6b0lUaHZlcV9aQWVqWmZ6V1ZVU1NKVkdEUUw5RTNNck1YSjdHWGZCYmNIeWI3VWNPaTA5VDdZbi1fUHhJZjhEdHZHcmdmQ3hjalIxQk9xc2J3NUYwVi1iaGxQVEZMNUlmVEw4aHdoR2ZkS3BxVjg1WktyZTh0MmxOdl93N3NMWlFUX21fYWJ2NDZHdDhNd1pZZ2haUnFFYmdaMU1zZkcwQ09idFVzb3FKWHlUNGE3RENuWE1JamM3dw?oc=5"
-    },
-    {
-      "title": "台灣新北市長選戰：「政二代」蘇巧慧對決「專業副手」李四川，誰能拿下藍綠關鍵一城？ - BBC",
-      "source": "BBC",
-      "time": "10/30 17:59",
-      "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1YdGkxZDI0U0NHMkF6M2xNOXlFUFgtMFA5Y1EtTmNBRUpfMTV4ZHZ4VjRJOEkwUnJaZzd2NE9ya0FhWEljVUJZb0N2NVNvUFQ5Ymx1Vmo3MVpVbW82ZmIzbU5xTEhkRk3SAWxBVV95cUxOLTVMQUtJVUxKUFFLSWlLU2d0STVaenB0YVhRNk1LeGU2WXFKZmYzSTduVW5XQ3NUZVRFdE1OY0RhYlQzX09sTzFxeGUwS2NzNFJTOGZubTViRFo0YTdHQ1Z5aUUwbmtWUFl5bmU?oc=5"
-    },
-    {
-      "title": "大洋流前進中正萬華！鄭麗君送磁羅經 盼沈伯洋帶領市民航向正確方向 - 自由時報",
-      "source": "自由時報",
-      "time": "10/31 21:51",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFB4SHRFb3NKc2hXTDNvMzFKY0NSeEZwSmNEeEZiby1GeGZVUzlZQkRKSTk0ekFzb3dwQUFaNGduQXBnVmdKaHlsd3Z0UENZdURSdU1VXzdObFZyR041dlYyUUZtQVJlZWFwQlHSAW9BVV95cUxPenVqZnZvSHVOT2JJaHlzaHZ2eXg2ZWVfQ2dfNHFhQlVud3c2bnN6RGlZMElNY3NGRks2Y2pfT2JpbUdXYkpmS0ZVbmotN3pwN0dZbkxTWVJnUmdrbmtJdS1wSWY2X3d3dFBhSVB2WVk?oc=5"
-    },
-    {
-      "title": "時評》草帽下的沈演員- 中時社論- 言論 - 中時新聞網",
-      "source": "中時新聞網",
-      "time": "10/31 19:58",
-      "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5qREk2c2VSb29KVkhqVEFWcGl3SXdnZkVEeHl0YjA4Sk9mc1VlTG9wNnBPSUtyWFVPUE5ybHVrS0VHNUVJOFhZOEoxM1l0Mnp4N0RsUkF1QkgwNEJpYUxPVzNBV3Y2aE0?oc=5"
+      "title": "沈伯洋深藍票倉車掃飆破12萬在線！聶永真現身安森公園直呼人潮扯滿 - 三立新聞網SETN.com",
+      "source": "三立新聞網SETN.com",
+      "time": "11/01 20:44",
+      "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE1OTk5neUpPblhWUUpZMWxyaUl6N3duWXk5ZW93SnNuaDhkVlRrWlJBblVTLW9VSWpzNTJlMG5XZHlORzFLeFJJUNIBTEFVX3lxTFBGWFFvay1ZVERVazJFZWFrYmxjR2FWUmkyZlZfMG14RGNEallzUTdDRUtFV1U2LWhBLU5mOTlFZ1NvRGh5VFVVSlBjbUQ?oc=5"
     },
     {
       "title": "美期中選舉倒數2天！川普剩2年恐淪憤怒跛鴨 3奧步阻國會變天 - UDN",
@@ -69,10 +21,58 @@
       "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5EZE1sT2JlNE1mQTRyOHR1Y2JaeUVWM2Y5QVlMWFNPX0c0Vi12RnowSGcyeDNIZHhHdFdLN2tjdmVEUmRpTUFSSFBBZXJsSWVn0gFWQVVfeXFMT1BIellYaHdJT0ZhM3hRQTZtZ1RyRzUyNjdZbFM4YXpRekZ6U210RkhrejRPbGFWam9femc4UWVjZFVCQkRxV0RuVjdJOU15andTMEp3X0E?oc=5"
     },
     {
-      "title": "泰版N號房…12.7萬人「藏暗黑群」意淫女星！成員有導演、男星還有政客 - Yahoo新聞",
+      "title": "天氣／變天了低溫下探19度！兩波濕涼時間、降雨熱區曝光…溫差快10度衣服怎麼穿，10日預報先看 - 今周刊",
+      "source": "今周刊",
+      "time": "11/01 18:26",
+      "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNRU05QTF6eGdjb1NGejN5R0hOcGRIby1ib3dmVlFhUmJVN0tnM1VNRzZLVFprSl9fUjRKOEd6ZThORXJfOEQ2NU1aYVZWM1h3ZFQ4d3gyS0RNQ2NtUlhpa2NLbS0zTENjTTYtZTV4VEphQ0ZSZG9ZYkZ1b3ZTdGZqaQ?oc=5"
+    },
+    {
+      "title": "圖輯》同志大遊行湧17萬人！沈伯洋發彩虹飄帶 蔣萬安遭嗆聲快閃離場 - 自由時報",
+      "source": "自由時報",
+      "time": "10/31 20:11",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1OQnZEdVl3Z0dxaWlNODJ2Q0Z2RE1VWWtrZTNaX25KUERpODBqUld6RDE5MEdtdDdsUmtWWVFSa1dtdy1TQzVWOUtVVFEwVkpiU0c1WGplZ2pFTkNEN3pISXhIcEN0aW5tNmfSAW9BVV95cUxOaUFXR1J4LWlPMmhiNlNZcnhlNDFFZWlvTHRIZ1ctMlFVM0VwaVpuNTNlclhtWEgycmhVR091ejNHVkJOVXhVSjFUZzVYdDhkaTViVmVhT1labjU2U3hNelV1ZlVNSUlxcjVVZk53akE?oc=5"
+    },
+    {
+      "title": "先上下震再搖晃！東部海域規模5.6地震 氣象署：未來一周規模5餘震 - UDN",
+      "source": "UDN",
+      "time": "11/01 16:51",
+      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5yRFhRUkkzbzkwQ05ycHBoY3BpTjdwZ0g4c09nbWN3UHhCT09XOGtpaHVQYkpTMHZYNjdEWURZRGZtRy1Cc2dNMDgtYzZLbnJE0gFWQVVfeXFMTi1mWHpDOVVQZkZoUjRNU0FnNGJjcXkzVVZCTW8zc3FreU12S2pxaHpvSEJxZEw1cktXNW1tN2ZaVW9ORXNJeHRMalk4N3Yyc3VKZTVENEE?oc=5"
+    },
+    {
+      "title": "分進合擊拚陸戰...蔣萬安太太石舫亘士林掃市場 展現高人氣 - UDN",
+      "source": "UDN",
+      "time": "11/01 16:45",
+      "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5nTEtJMmZxRUM5NWZLd0gtTV8zdmxETGtYSnlNWDFfcDFIUEthTklYZHItRmhIU2YtNVRUUTJRSENJRDZrQ1FLaHViYmFIdDRkYk5J0gFYQVVfeXFMTllIZmZDVXlUNnpqRE4tRVJZNWhkTEhPNndwLS1UYlBEbTJSWVBkVWpLU1ptLURXQ18yZzc3ZHY4LXB1Rk9mOE5GbWVmOUFUNDlxTWg1elJScg?oc=5"
+    },
+    {
+      "title": "坦言川伯對手優秀又年輕 趙少康：「讓李四川做8年」下次再蘇巧慧 - 自由時報",
+      "source": "自由時報",
+      "time": "11/01 16:04",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1aakFNZFUtanloREU2NENmMnBXNndZWDN1M0M2UHhZSlh3WFVMQ3dsMDY5OWNTQ3AycWtpY0lEQ0k2ZU81QTJJYkJyNVJadzRoZkkwM214MnJWNXF4cFFRRTh6cHJtdHRUSFHSAW9BVV95cUxPRUQzZnlGUkN2M0ZiWVM5S3hteXF1eWNqcEwtdXBWUWk3VzU5Sm9nbUplMXhDUHQ4U3h1Y0xmLWVnZUplZE9ib2tQaXNCUG1RV1VKMEM4N25DOFhEN1Y0cEh6OHdKa09wdXhqOEhabmc?oc=5"
+    },
+    {
+      "title": "時論廣場》巴國禁航 賴政府沒轍（徐勉生） - 中時新聞網",
+      "source": "中時新聞網",
+      "time": "10/31 19:55",
+      "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5LUndwRHJNY0V4U01XdzVXam1FTDF3OW51YVlKbEZIaTAzaURuNGpKUmtYRXk5YU0zVDdEMWhmclVaNlJNWlhINy1XSTgtRmZaVkVzRXJHTVc5WE03NThnUVNMeHJBbkk?oc=5"
+    },
+    {
+      "title": "台中花毯節登場！19公尺高主花毯 三麗鷗7大花區、交通接駁一覽 - NOWnews今日新聞",
+      "source": "NOWnews今日新聞",
+      "time": "10/31 09:57",
+      "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE8xR1ZETG5hSHUxTnk0Ql83T2swcHhtZVc3Sl9tZnpKOEVzbEFBMW5ZN2NZUjFuLTBrdEhOTEFqbVJjb3ZyVXc5NE93bDfSAVJBVV95cUxPS0tLRWVZUUNiS3c5VnZEVHRibm91Q2RyMVhFUmZvQ0lVYlVCYTREb09CSS0wN1ZBMW9rU2xFbk1yM3ZNb1A5SHA4dlJJbGlTOVJR?oc=5"
+    },
+    {
+      "title": "川普期中選舉後再攻伊朗？盧比歐：尚未決定 - Yahoo新聞",
       "source": "Yahoo新聞",
-      "time": "11/01 10:00",
-      "link": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQUzZiWFdXUW9OY1pBelA1OUxnaGs2VWZ3TmVCSUJBcldUeEN4a2RTdUE4a3RlTG1zOGxLSmJ1LVc2QkVrNFB0QnFlUXhoSXdWZGtLZlZuUnplLWFsT2RoMEhSM3ZLdHV5Vm9EbWFJYTlOVnFpX3ozdDZRU08zS0RUVllmM1dfanVSN01BR3E1LXV1aGxSV3lGNHF2bFdXLVZ3YUV3X0thejk4NnhJREFkYkxFbUdWMDBIRVZvWXh5RFQxcGlTd19xWGtWS29RaFJZRXFnUkMxUjBLcWVPNEphUkEzWFlUeHVFYTF3ckJCLVYxY0RtVUhsdlhkbUNCRjFfVVFCcGJn?oc=5"
+      "time": "11/01 08:30",
+      "link": "https://news.google.com/rss/articles/CBMirgJBVV95cUxPbnJXdnRtdWlsOUt4cVZielQxMlljNmVVeU03M24tTFJWNi1FUTFwcTluUTRyNG9CY3NRN0trUFdvMDJ5eWF1NndaNzk5TjZqbWhSWW43d0dPbjRlWV9WTS1XX0Z3cG9CVUNVMkJrUUZ1cmpfOG9maTRmdkhmYk5vcGZEUW9KSl82OUhrY2lTNjg4akc4M1d0ekQ0UlNBT043UTJKN0gxZUFMQjhoWG9mbXhPd2xfTndCSXpaSnZOZWNqU2ZDY2ZzTWhZUVJ1WFFtcThHd0Y3aGJSLThPSlYxQjViZ29HNHJwWlhZazFwNlc5RHZjdGRmNHQ2dEhZQ3JleF9feW9uQzZOWExzdjczSVkxVEJ5V21xTU5adkxLdDdDdEszX3Zab2tjSnhnUQ?oc=5"
+    },
+    {
+      "title": "求愛遭拒萌生殺意！21歲男持電鋸闖校園狂砍女學生 右手幾乎斷掉 - Yahoo新聞",
+      "source": "Yahoo新聞",
+      "time": "11/01 18:11",
+      "link": "https://news.google.com/rss/articles/CBMinANBVV95cUxPX3h0dk8wcDlSeGtpbFF4OGs5c3ZnMGgwTGI3Mml1RmtMa2J6VjJmVGJDVkFlYTdzN3p6TW1ndUEyc3RCQmVnTmVRV2tPRG5NaEpZazA2VzEtanozMDNueFBpNjIwYVZSbGdsS01mMFAtX3BveVAydlBVRXBON0FSSXNQbnVsQ21NLWc0Wm5ZUFFDSmtQa1pqSmdUeFJlUlJfZFprbE1vaFY2Y29CZjBMUWJjbVNhUmpkc0d4U2JRZjZZY24yU2R0MDdUbkdSTFRneVo2YzdwSXlvaW96SDR4TmZnOTdYeG1LcE92Nmw4S1pCcHo4c2tsS3Eya2FTUzBWZlJyemVZX1V5RHpnWWxRTkU1QXk0RjZaZWJHMWFzNUJSZEVaSGpqZHVaZEtBWXQwbWRmSTFpa2xJMVZ0amluWXdBUU1EQ3hqVENfM09IV2FMRzRvWHJVOG5wcUdxeHUyZEdMOTJaTXktOWxvMFRoZGZ2U3F4RENMbkNtNzloelFNOFFFX3dZVjlXWGlZTkFfel9YUFZpYllHNFhE?oc=5"
     }
   ]
 }
