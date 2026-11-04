@@ -882,7 +882,7 @@
 <div id="taskbar"><div class="taskbar-left"><span class="winlogo"><b></b><b></b><b></b><b></b></span><span id="taskLabel">日常使用 · 工作空間</span></div><div id="taskicons" style="display:flex;gap:7px"></div><div class="taskbar-time" id="clock"></div></div>
 <div id="guideCursor" aria-hidden="true"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle class="halo" cx="35" cy="35" r="27" fill="#f7d76f" fill-opacity=".14" stroke="#ffdf78" stroke-opacity=".9" stroke-width="2.6"/><circle class="tip-pulse" cx="24" cy="14" r="14" fill="#fff4b2" fill-opacity=".65" stroke="#ffe383" stroke-width="2.4"/><path d="M24 14V61L35 50L48 72L57 67L43 46L61 44Z" fill="#fff" stroke="#07131c" stroke-width="4" stroke-linejoin="round"/></svg></div>
 <div id="toast" class="toast hidden"><strong id="toastTitle">新訊息</strong><span id="toastBody"></span></div>
-<div id="help" class="hidden"><strong>操作說明</strong><div style="margin-top:8px">拖曳標題列：移動視窗<br>拖曳右下角：調整視窗大小<br>雙擊標題列：最大化／還原<br>點擊工作列圖示：開啟或置頂視窗<br>自動整理：排列目前所有視窗<br>切換場景：保留各場景自己的自由版面</div><div style="margin-top:10px"><span class="key">1</span> <span class="key">2</span> <span class="key">3</span> <span class="key">4</span> 切換場景　<span class="key">Space</span> 暫停／繼續<br><span class="key">R</span> 重設　<span class="key">F</span> 全螢幕　<span class="key">H</span> 提示開關<br><span class="key">Esc</span> 離開全螢幕</div><div style="margin-top:10px;color:#97b6c8">所有應用程式內容僅用於多工展示，無須登入；新聞支援讀取即時 RSS。</div></div>
+<div id="help" class="hidden"><strong>操作說明</strong><div style="margin-top:8px">拖曳標題列：移動視窗<br>拖曳右下角：調整視窗大小<br>雙擊標題列：最大化／還原<br>點擊工作列圖示：開啟或置頂視窗<br>自動整理：排列目前所有視窗<br>切換場景：保留各場景自己的自由版面</div><div style="margin-top:10px"><span class="key">1</span> <span class="key">2</span> <span class="key">3</span> <span class="key">4</span> 切換場景　<span class="key">Space</span> 暫停／繼續　自動展示中點滑鼠即暫停<br><span class="key">R</span> 重設　<span class="key">F</span> 全螢幕　<span class="key">H</span> 提示開關<br><span class="key">Esc</span> 離開全螢幕</div><div style="margin-top:10px;color:#97b6c8">所有應用程式內容僅用於多工展示，無須登入；新聞支援讀取即時 RSS。</div></div>
 </div></div>
 <script>
 'use strict';
@@ -2373,6 +2373,10 @@ window.addEventListener('resize',scaleDesktop);document.addEventListener('fullsc
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true})}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;if(!showHints)hideSceneHint()}else if(k==='escape'){$('#help').classList.add('hidden')}});
+// 自動展示中有人點滑鼠就暫停（Space 或「自動展示」按鈕繼續）
+document.addEventListener('pointerdown',e=>{if(!e.isTrusted||mode!=='auto'||paused)return;if(e.target.closest&&e.target.closest('#autoMode,#freeMode'))return;togglePause()},true);
+// 點到 YouTube 等內嵌框架時事件不會傳到本頁：以焦點移入框架判斷，並把焦點拿回來讓 Space 仍可使用
+window.addEventListener('blur',()=>setTimeout(()=>{const a=document.activeElement;if(!a||a.tagName!=='IFRAME')return;if(mode==='auto'&&!paused)togglePause();a.blur();window.focus()},0));
 createWindows();setupGameInteractions();setupCodingInteractions();loadLiveCodingData();setupPremiereInteractions();setupDailyInteractions();watchPremiereMonitors();
 const pageParams=new URLSearchParams(location.search);
 const sceneParam=pageParams.get('scene');
