@@ -29,7 +29,7 @@
 @media (prefers-reduced-motion:reduce){#hint,#hint.is-visible{transition:opacity .15s ease,visibility 0s}}
 .hidden{display:none!important}.toast{position:absolute;z-index:26000;right:23px;bottom:52px;width:250px;padding:10px 13px;color:#dceaf7;background:#183248ed;border:1px solid #64d5c966;border-radius:8px;font-size:11px;box-shadow:0 9px 25px #0009;transition:opacity .4s,transform .4s}.toast strong{display:block;font-size:12px;margin-bottom:5px}.toast.out{opacity:0;transform:translateX(15px)}
 #help{position:absolute;z-index:35000;top:57px;right:24px;background:#11253af5;border:1px solid #618293;border-radius:10px;padding:14px 18px;width:326px;box-shadow:0 18px 45px #000a;color:#d9e7f2;font-size:12px;line-height:1.75}#help strong{font-size:14px}.key{background:#233e55;color:#d6fcfb;border:1px solid #4a6a85;padding:1px 5px;border-radius:4px;font:11px Consolas,monospace}
-#desktop.manual{cursor:default}#desktop.manual .titlebar,#desktop.manual .resize-grip{touch-action:none}#desktop.demo.cursor-idle,#desktop.demo.cursor-idle *{cursor:none!important}
+#desktop.manual{cursor:default}#desktop.manual .titlebar,#desktop.manual .resize-grip{touch-action:none}#desktop.demo{cursor:default}
 
 /* Real desktop app facsimile: windows remain simulated; no accounts or brand affiliation. */
 .window { border-radius:7px;border:1px solid #707b865e;box-shadow:0 11px 32px #0009,0 2px 4px #0008; }
@@ -2373,9 +2373,6 @@ window.addEventListener('resize',scaleDesktop);document.addEventListener('fullsc
 $('#autoMode').addEventListener('click',()=>setMode('auto'));$('#freeMode').addEventListener('click',()=>setMode('manual'));$('#arrangeBtn').addEventListener('click',arrange);$('#resetBtn').addEventListener('click',resetScene);$('#helpBtn').addEventListener('click',()=>$('#help').classList.toggle('hidden'));$('#fullscreenBtn').addEventListener('click',toggleFullscreen);
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>{if(mode==='auto')setMode('manual');setScene(b.dataset.scene,{animation:true})}));
 document.addEventListener('keydown',e=>{if(e.target instanceof HTMLInputElement)return;const k=e.key.toLowerCase();if(k===' '){e.preventDefault();togglePause()}else if(k==='1'||k==='2'||k==='3'||k==='4'){if(mode==='auto')setMode('manual');setScene(['daily','editing','coding','gaming'][Number(k)-1],{animation:true})}else if(k==='r'){resetScene()}else if(k==='f'){toggleFullscreen()}else if(k==='h'){showHints=!showHints;if(!showHints)hideSceneHint()}else if(k==='escape'){$('#help').classList.add('hidden')}});
-// 自動展示中：滑鼠一動就顯示真實游標，靜止 3 秒才隱藏，方便找到游標
-let cursorIdleTimer=0;function wakeCursor(){const d=$('#desktop');d.classList.remove('cursor-idle');clearTimeout(cursorIdleTimer);cursorIdleTimer=setTimeout(()=>d.classList.add('cursor-idle'),3000)}
-['pointermove','pointerdown','wheel'].forEach(t=>document.addEventListener(t,e=>{if(e.isTrusted)wakeCursor()},{capture:true,passive:true}));wakeCursor();
 // 自動展示中有人點滑鼠就暫停（Space 或「自動展示」按鈕繼續）
 document.addEventListener('pointerdown',e=>{if(!e.isTrusted||mode!=='auto'||paused)return;if(e.target.closest&&e.target.closest('#autoMode,#freeMode'))return;togglePause()},true);
 // 點到 YouTube 等內嵌框架時事件不會傳到本頁：以焦點移入框架判斷，並把焦點拿回來讓 Space 仍可使用
